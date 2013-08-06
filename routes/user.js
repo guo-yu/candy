@@ -49,6 +49,7 @@ exports.sync = function(req, res) {
             u.avatar = uu.avatar;
             u.save(function(err){
                 if (!err) {
+                    req.session.user = u;
                     res.json({
                         stat: 'ok',
                         user: u

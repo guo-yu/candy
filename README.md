@@ -13,7 +13,7 @@ $ npm install candy
 
 #### Sample code
 
-````
+````javascript
 var candy = require('candy').server;
 
 var myCandy = new candy.server({

@@ -6,9 +6,11 @@
 // 
 //
 // requires
-@import url('./base.css');
+// @import url('./base.css');
+// @import url('./960.css');
+
+@import url('./bootstrap.min.css');
 @import url('./font-awesome.min.css');
-@import url('./960.css');
 
 // main style
 @font-face {
@@ -20,6 +22,14 @@
 
 i {
     padding-right: 4px;
+}
+
+.fn-left {
+    float: left;
+}
+
+.fn-right {
+    float: right;
 }
 
 /* colors */
@@ -51,7 +61,6 @@ i {
     .name {
         display: block;
         font-size: 18px;
-        padding-top: 20px;
         margin-bottom: 0px;
         margin-left: 12px;
         margin-right: 12px;
@@ -79,6 +88,7 @@ i {
         box-shadow: inset 0px 0px 10px #ddd;
         width: 380px;
         min-height: 200px;
+        list-style-type: none;
         li {
             padding: 5px 3px;
             font-size: 12px;
@@ -133,23 +143,17 @@ header {
     background-color: #55C1BA;
     box-shadow: 0px 1px 3px #ddd;
     #ihd {
+        padding: 6px 0;
     }
     #logo {
-        margin-left: 10px;
         h1 {
-            margin-bottom: 0;
+            margin-top: 5px;
             a {
                 display: block;
                 font-family: 'Berkshire Swash', cursive;
-                height: 29px;
-                float: left;
                 color: #fff;
-                text-align: center;
-                padding: 10px 0;
-                padding-left: 0px;
                 font-size: 28px;
                 font-weight: normal;
-                line-height: 1.0;
                 text-shadow: 1px 1px 2px #999;
             }
         }

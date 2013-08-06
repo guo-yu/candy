@@ -25,8 +25,11 @@ $(document).ready(function($) {
     var check = setInterval(function() {
         var ds = fetch();
         if (ds.dom.length) {
-            syncer(ds, function(stat) {
-                console.log(stat);
+            syncer(ds, function(result) {
+                if (result.stat == 'ok') {
+                    alert('用户信息已更新!')
+                    // window.location.reload();
+                }
             });
             clearInterval(check);
         }
