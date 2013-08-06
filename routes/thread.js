@@ -6,7 +6,7 @@ exports.new = function(req,res,next) {
 
 exports.read = function(req,res,next) {
     thread.read(req.params.id,function(b){
-        res.render('thread',b)
+        res.render('thread/index',b)
     });
 }
 

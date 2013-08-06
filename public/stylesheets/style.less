@@ -141,10 +141,12 @@ a {
 
 /* Header */
 header {
-    // background-color: #55C1BA;
+    background-color: @key-color;
+    box-shadow: 0px 0px 10px #ddd;
     #ihd {
-        padding-top: 30px;
-        color: #444;
+        padding-top: 10px;
+        padding-bottom: 6px;
+        color: #fff;
     }
     #logo {
         h1 {
@@ -152,15 +154,15 @@ header {
             a {
                 display: block;
                 font-family: 'Berkshire Swash', cursive;
-                font-size: 42px;
+                font-size: 30px;
                 font-weight: normal;
-                text-shadow: 1px 1px 2px #999;
-                color: @key-color;
+                text-shadow: 1px 1px 2px #444;
+                color: #fff;
                 text-shadow: none;
                 span.desc {
                     font-size: 14px;
                     padding-left: 10px;
-                    color: #999;
+                    color: #fff;
                 }
             }
         }
@@ -304,7 +306,7 @@ header {
 }
 
 .banner {
-    background: #fff url('http://subtlepatterns.subtlepatterns.netdna-cdn.com/patterns/retina_dust.png') left top;
+    background: #fff url('/images/banner.png') left top;
     width: 100%;
     border-bottom: 1px solid #ddd;
     box-shadow: 0px 1px 5px #ddd;
@@ -399,6 +401,7 @@ header {
             padding: 0px 10px 18px;
             color: #999;
             border-bottom: 1px solid #ddd;
+            font-size: 12px;
             span {
                 padding:2px 5px 3px;
                 margin-right: 10px;
@@ -428,15 +431,6 @@ header {
         }
     }
     .ds-post {
-        background-color: #fff !important;
-        padding: 0px 15px !important;
-        border: 1px solid #ddd !important;
-        box-shadow: 0px 1px 4px #efefef;
-        font-size: 14px;
-        margin-bottom: -1px !important;
-        .ds-comment-body p {
-            line-height: 1.8 !important;
-        }
     }
     .ds-toolbar {
         border-top: 0 !important;
@@ -445,7 +439,7 @@ header {
         }
     }
     .ds-comments-info {
-        display: none !important;
+        // display: none !important;
     }
 }
 .lz-board {
@@ -453,7 +447,7 @@ header {
     padding-left: 1px;
     padding-right: 1px;
     border: 1px solid #ddd;
-    background: #fff url('../images/b.png') repeat-x left bottom;
+    background: #fff url('/images/b.png') repeat-x left bottom;
     box-shadow: 0px 3px 5px #ddd;
 }
 .index-board {
@@ -579,7 +573,7 @@ header {
 }
 /* cnt */
 #cnt {
-    margin-top: 10px;
+    margin-top: 20px;
 }
 .archive-title {
     font-size: 14px;
@@ -774,6 +768,7 @@ footer {
     margin-bottom: 10px;
     font-weight: normal;
     padding: 0px 10px;
+    margin-top: 5px;
 }
 .side-cnt {
     background-color: #fff;
@@ -790,68 +785,32 @@ footer {
     }
     a {
         color: #444;
+        font-size: 12px;
         &:hover {
             color:#999;
         }
     }
     ul,ol {
+        padding-left: 0px;
+        margin-left: 0px;
+        display: block;
         li {
             color: #999;
             margin-bottom: 1px;
-            width: 200px;
             overflow: hidden;
-            height: 19px;
             padding: 3px 9px;
+            padding-left: 12px;
+            &:hover {
+                i {
+                    color: #444;
+                }
+            };
             i {
                 color: #999;
+                padding-right: 8px;
             }
             &:hover {
                 background-color: #f5f5f5;
-            }
-        }
-    }
-    #loginform {
-        p {
-            padding: 0px 8px;
-            margin-bottom: 8px;
-            label {
-                display: inline-block;
-                width: 40px;
-                padding: 6px 10px;
-                text-align: left;
-                background-color: #f5f5f5;
-                color: #999;
-            }
-            .input {
-                width: 126px;
-                border: 0px;
-                .br(0);
-                padding: 5px;
-                margin-left: -4px;
-                border: 1px solid #f5f5f5;
-            }
-            input[type=submit] {
-                background-color: #f5f5f5;
-                display: block;
-                width: 100%;
-                padding: 6px 0;
-                text-align: center;
-                border: 0;
-                &:hover {
-                    background-color: #444;
-                    color: #fff;
-                }
-            }
-        }
-        .login-username {
-            
-        }
-        .login-remember {
-            padding: 0;
-            label {
-                background-color: #fff;
-                display: block;
-                width: 100%;
             }
         }
     }
@@ -893,11 +852,11 @@ footer {
     -o-text-shadow: @arguments;
 }
 .box() {
-    box-shadow: 0px 0px 10px #ddd;
+    box-shadow: 1px 1px 2px #ddd;
     border: 1px solid #ddd;
     background-color: #fff;
     padding: 20px;
-    .br();
+    margin-bottom: 20px;
 }
 
 /* duoshuo */
@@ -943,7 +902,7 @@ footer {
     a {
         display: block !important;
         margin-bottom: 12px !important;
-        margin-left: 8px !important;
+        margin-left: 14px !important;
         font-size: 14px;
     }
 }
@@ -992,4 +951,26 @@ footer {
     textarea {
         height: 200px;
     }
+}
+
+.search {
+    margin-top: 5px;
+    input {
+        height: 24px;
+        border-radius: 20px;
+        border-color: @key-color;
+        background-color: #f5f5f5;
+    }
+    a {
+        border-radius: 20px;
+        height: 24px;
+        line-height: 1;
+        font-size: 12px;
+    }
+}
+
+.comment-board {
+    background-color: #fff;
+    padding: 15px;
+    .box()
 }
