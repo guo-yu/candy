@@ -57,7 +57,7 @@ var Server = function(params) {
     app.get('/', index);
 
     // signin & signout
-    app.get('/signin', sign.in );
+    app.get('/signin', sign.in);
     app.get('/signout', sign.out);
 
     // board

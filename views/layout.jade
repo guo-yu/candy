@@ -9,45 +9,55 @@ html
         header
             #ihd.container.clearfix
                 .row
-                    .col-lg-2
+                    .col-lg-9
                       #logo.clearfix
-                        h1: a(href="/") #{site.name}
-                    .col-lg-10
-                      .slogan
-                        a.active-nav
-                            | #{site.desc}
-                            i.icon-circle-arrow-down
-                        a.help
-                            i.icon-question-sign
-                        a.share-btn
-                            i.icon-thumbs-up
-        .hot-board-wrap
-            .board-nav.row.clearfix
-                .share.grid_2
-                    .s1
-                        i.icon-cloud
-                        span.desc Share ideas on clouds
-                .nav-cnt.grid_10
-                    ul.nav-bar.clearfix
-                        span
-                            i.icon-chevron-right
-                            |板块整合
-                        li: a(href="#") 整合
-                        li: a(href="#") 整合
-                        li: a(href="#") 整合
-                        li: a(href="#") 整合
-                        li: a(href="#") 整合
+                        h1.clearfix
+                            a(href="/").col-lg-4 #{site.name}
+                                span.desc #{site.desc}
+                    .col-lg-3
+                        form#topSearch.search
+                          .input-group(ng-controller="ctrlers.search")
+                            input(type="text",ng-model="search.keyword").form-control
+                            .input-group-btn
+                                a.btn.btn-primary(href="#",ng-click="search()")
+                                    i.icon-search
     article#cnt
         #icnt.container.clearfix
           .row
             block content
             block sidebar
+                .col-lg-3
+                   - if (!user)
+                        #signin.clearfix.side-block
+                            h3 登录 #{site.name}
+                            .ds-login.clearfix
+                   - else 
+                        #mime.clearfix.side-block
+                            h3 欢迎回来
+                                | , #{user.nickname ? user.nickname : user.duoshuo.user_id}
+                                a.fn-right(href="#").signout 登出
+                                - if (user.avatar)
+                                    img(src="#{user.avatar}").avatar-mini.fn-right.img-thumbnail
+                            a(href="/mime").block-btn
+                                i.icon-home
+                                | 我的 #{site.name}
+                            a(href="/thread/new").block-btn
+                                i.icon-home
+                                |发帖子
+                            a(href="#").block-btn
+                                i.icon-star
+                                | 我的关注
     block footer
       footer
         #ft.clearfix
-            #ift.container.clearfix
-              .row
-                .copyright.col-lg-12 &copy; #{new Date().getFullYear()} [#{site.name}] #{site.desc} | powered by 
-                    a(href="https://github.com/turingou/tesla") #{sys.name} 
-                    | @ #{sys.version}
+            #ift.container.clearfix.copyright
+                .col-lg-8 &copy; #{new Date().getFullYear()} 『#{site.name}』 #{site.desc}
+                .powered.col-lg-4 Powered by 
+                    a(href="https://github.com/turingou/tesla",title="npm install candy").candy #{sys.name} 
+                    |@ #{sys.version}
+
+    script(src="/javascripts/lib/jquery-1.10.2.min.js")
+    script(src="/javascripts/lib/angular.min.js")
+    script(src="/javascripts/lib/angular-resource.min.js")
+    script(src="/javascripts/store.js")
     block js
