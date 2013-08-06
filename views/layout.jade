@@ -1,31 +1,34 @@
 doctype 5
 html
   head
+    meta(name="viewport",content="width=device-width, initial-scale=1.0")
     title #{site.name}
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     block header
         header
-            #ihd.container_12.fn-clear
-                #logo.grid_2
-                    h1 
-                     a(href="/") #{site.name}
-                .slogan.grid_10
-                    a.active-nav
-                        | #{site.desc}
-                        i.icon-circle-arrow-down
-                    a.help
-                        i.icon-question-sign
-                    a.share-btn
-                        i.icon-thumbs-up
+            #ihd.container.clearfix
+                .row
+                    .col-lg-2
+                      #logo.clearfix
+                        h1: a(href="/") #{site.name}
+                    .col-lg-10
+                      .slogan
+                        a.active-nav
+                            | #{site.desc}
+                            i.icon-circle-arrow-down
+                        a.help
+                            i.icon-question-sign
+                        a.share-btn
+                            i.icon-thumbs-up
         .hot-board-wrap
-            .board-nav.container_12.fn-clear
+            .board-nav.row.clearfix
                 .share.grid_2
                     .s1
                         i.icon-cloud
                         span.desc Share ideas on clouds
                 .nav-cnt.grid_10
-                    ul.nav-bar.fn-clear
+                    ul.nav-bar.clearfix
                         span
                             i.icon-chevron-right
                             |板块整合
@@ -35,14 +38,16 @@ html
                         li: a(href="#") 整合
                         li: a(href="#") 整合
     article#cnt
-        #icnt.container_12.fn-clear
+        #icnt.container.clearfix
+          .row
             block content
             block sidebar
     block footer
       footer
-        #ft.fn-clear.container_12
-            #ift.container_12.fn-clear
-                .copyright.grid_12 &copy; #{new Date().getFullYear()} [#{site.name}] #{site.desc} | powered by 
+        #ft.clearfix
+            #ift.container.clearfix
+              .row
+                .copyright.col-lg-12 &copy; #{new Date().getFullYear()} [#{site.name}] #{site.desc} | powered by 
                     a(href="https://github.com/turingou/tesla") #{sys.name} 
                     | @ #{sys.version}
     block js

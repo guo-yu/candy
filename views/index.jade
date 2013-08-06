@@ -1,9 +1,10 @@
 extends layout
 
 block content
-    .main-board.board.index-board.grid_9
+   .col-lg-9
+     .main-board.board.index-board
         - each board in boards
-            .single-board(style="background-image:url(/demo.png)").fn-clear
+            .single-board(style="background-image:url(/demo.png)").clearfix
                 .brief.fn-left
                     h3.name 
                         a(href="/board/#{board.url}") #{board.title}
@@ -15,10 +16,10 @@ block content
                             i.icon-comment
                             |345
                     .desc #{board.desc}
-                ul.threads.fn-clear.fn-right
+                ul.threads.clearfix.fn-right
                     - each thread,i in board.threads
                      - if (i <= 5)
-                        li.fn-clear.thread-title #{thread.title}
+                        li.clearfix.thread-title #{thread.title}
                             img.avatar.fn-left(src="/demo.png")
                             .meta.fn-right
                                 span.views
@@ -28,7 +29,7 @@ block content
                                     i.icon-comments
                                     | 123
         .pub-main.lz-board
-            .single-pub.fn-clear
+            .single-pub.clearfix
                 .avatar
                     img(src="http://tp4.sinaimg.cn/1644105187/180/5621090715/1")
                 h4.title
@@ -40,7 +41,7 @@ block content
                         | 深夜杂谈
                     i.icon-time
                     |2012-7-17
-            .board-meta.fn-clear
+            .board-meta.clearfix
                 span.views
                     i.icon-eye-open
                     | 23726
@@ -48,7 +49,7 @@ block content
                     i.icon-comment
                     | 136
         .pub-main.lz-board
-            .single-pub.fn-clear
+            .single-pub.clearfix
                 .avatar
                     img(src="http://tp4.sinaimg.cn/1644105187/180/5621090715/1")
                 h4.title
@@ -60,7 +61,7 @@ block content
                         | 深夜杂谈
                     i.icon-time
                     |2012-7-17
-            .board-meta.fn-clear
+            .board-meta.clearfix
                 span.views
                     i.icon-eye-open
                     | 23726
@@ -70,13 +71,13 @@ block content
         include comment.jade                    
 
 block sidebar
-    .grid_3
+    .col-lg-3
        - if (!user)
-            #signin.fn-clear.side-block
+            #signin.clearfix.side-block
                 h3 登录 #{site.name}
-                .ds-login.fn-clear
+                .ds-login.clearfix
        - else 
-            #mime.fn-clear.side-block
+            #mime.clearfix.side-block
                 h3 欢迎回来
                 .desc 多说用户@#{user.duoshuo.user_id}
                 a(href="/mime").block-btn
