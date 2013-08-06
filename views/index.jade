@@ -4,19 +4,21 @@ block content
    .col-lg-9
      .main-board.board.index-board
         - each board in boards
-            .single-board(style="background-image:url(/demo.png)").clearfix
-                .brief.fn-left
+            .single-board.clearfix
+                .col-lg-3
+                  .brief
                     h3.name 
                         a(href="/board/#{board.url}") #{board.title}
                         span.meta
-                            i.icon-star
+                            i.icon-star.first
                             |345
                             i.icon-user
                             |345
                             i.icon-comment
                             |345
                     .desc #{board.desc}
-                ul.threads.clearfix.fn-right
+                .col-lg-9
+                  ul.threads.clearfix
                     - each thread,i in board.threads
                      - if (i <= 5)
                         li.clearfix.thread-title #{thread.title}
@@ -28,61 +30,3 @@ block content
                                 span.comments
                                     i.icon-comments
                                     | 123
-        .pub-main.lz-board
-            .single-pub.clearfix
-                .avatar
-                    img(src="http://tp4.sinaimg.cn/1644105187/180/5621090715/1")
-                h4.title
-                    a(href="#") 论坛一定要繁琐复杂得什么功能都有？我只想要一个安
-                .author
-                    span.name Turing
-                    span.cat
-                        i.icon-chevron-right
-                        | 深夜杂谈
-                    i.icon-time
-                    |2012-7-17
-            .board-meta.clearfix
-                span.views
-                    i.icon-eye-open
-                    | 23726
-                span.num
-                    i.icon-comment
-                    | 136
-        .pub-main.lz-board
-            .single-pub.clearfix
-                .avatar
-                    img(src="http://tp4.sinaimg.cn/1644105187/180/5621090715/1")
-                h4.title
-                    a(href="#") 论坛一定要繁琐复杂得什么功能都有？我只想要一个安
-                .author
-                    span.name Turing
-                    span.cat
-                        i.icon-chevron-right
-                        | 深夜杂谈
-                    i.icon-time
-                    |2012-7-17
-            .board-meta.clearfix
-                span.views
-                    i.icon-eye-open
-                    | 23726
-                span.num
-                    i.icon-comment
-                    | 136
-        include comment.jade                    
-
-block sidebar
-    .col-lg-3
-       - if (!user)
-            #signin.clearfix.side-block
-                h3 登录 #{site.name}
-                .ds-login.clearfix
-       - else 
-            #mime.clearfix.side-block
-                h3 欢迎回来
-                .desc 多说用户@#{user.duoshuo.user_id}
-                a(href="/mime").block-btn
-                    i.icon-home
-                    | 我的 #{site.name}
-                a(href="/thread/new").block-btn
-                    i.icon-home
-                    |发帖子

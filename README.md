@@ -11,8 +11,6 @@ $ npm install candy
 
 ### Bite a litter
 
-#### Sample code
-
 ````javascript
 var candy = require('candy').server;
 

@@ -1,10 +1,18 @@
-extends layout
+extends ../layout
 
 block content
-    //- new thread
-    #thread(ng-controller="thread.new")
+    .col-lg-9
+      #thread(ng-controller="thread.new").thread
         #new.fn-clear
-            form(name="createThread")
-                input(type="text",ng-model="thread.title")
-                textarea(ng-model="thread.content")
-                a(href="javascript:void(0);") Submit
+            form(name="createThread").form-horizontal
+              .form-group
+                label.col-lg-2.control-label 帖子标题
+                .col-lg-10
+                    input(type="text",ng-model="thread.title").form-control
+              .form-group
+                label.col-lg-2.control-label 写点什么
+                .col-lg-10
+                    textarea(ng-model="thread.content").form-control
+              .form-group
+                .col-lg-offset-2.col-lg-10
+                  a(href="javascript:void(0);").btn.btn-success 写好了

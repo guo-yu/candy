@@ -1,7 +1,7 @@
 {
   "name": "candy",
-  "version": "0.0.1",
-  "description": "a board system based on duoshuo.com",
+  "version": "0.0.2",
+  "description": "a micro bbs system based on duoshuo.com apis",
   "main": "app.js",
   "scripts": {
     "start": "node server.js",
