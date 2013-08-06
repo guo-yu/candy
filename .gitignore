@@ -2,4 +2,5 @@
 *.DS_*
 node_*
 thumb
+psd
 public/stylesheets/*.css
