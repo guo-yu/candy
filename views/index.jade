@@ -1,0 +1,87 @@
+extends layout
+
+block content
+    .main-board.board.index-board.grid_9
+        - each board in boards
+            .single-board(style="background-image:url(/demo.png)").fn-clear
+                .brief.fn-left
+                    h3.name 
+                        a(href="/board/#{board.url}") #{board.title}
+                        span.meta
+                            i.icon-star
+                            |345
+                            i.icon-user
+                            |345
+                            i.icon-comment
+                            |345
+                    .desc #{board.desc}
+                ul.threads.fn-clear.fn-right
+                    - each thread,i in board.threads
+                     - if (i <= 5)
+                        li.fn-clear.thread-title #{thread.title}
+                            img.avatar.fn-left(src="/demo.png")
+                            .meta.fn-right
+                                span.views
+                                    i.icon-eye-open
+                                    | 123
+                                span.comments
+                                    i.icon-comments
+                                    | 123
+        .pub-main.lz-board
+            .single-pub.fn-clear
+                .avatar
+                    img(src="http://tp4.sinaimg.cn/1644105187/180/5621090715/1")
+                h4.title
+                    a(href="#") 论坛一定要繁琐复杂得什么功能都有？我只想要一个安
+                .author
+                    span.name Turing
+                    span.cat
+                        i.icon-chevron-right
+                        | 深夜杂谈
+                    i.icon-time
+                    |2012-7-17
+            .board-meta.fn-clear
+                span.views
+                    i.icon-eye-open
+                    | 23726
+                span.num
+                    i.icon-comment
+                    | 136
+        .pub-main.lz-board
+            .single-pub.fn-clear
+                .avatar
+                    img(src="http://tp4.sinaimg.cn/1644105187/180/5621090715/1")
+                h4.title
+                    a(href="#") 论坛一定要繁琐复杂得什么功能都有？我只想要一个安
+                .author
+                    span.name Turing
+                    span.cat
+                        i.icon-chevron-right
+                        | 深夜杂谈
+                    i.icon-time
+                    |2012-7-17
+            .board-meta.fn-clear
+                span.views
+                    i.icon-eye-open
+                    | 23726
+                span.num
+                    i.icon-comment
+                    | 136
+        include comment.jade                    
+
+block sidebar
+    .grid_3
+       - if (!user)
+            #signin.fn-clear.side-block
+                h3 登录 #{site.name}
+                .ds-login.fn-clear
+       - else 
+            #mime.fn-clear.side-block
+                h3 欢迎回来
+                .desc 多说用户@#{user.duoshuo.user_id}
+                a(href="/mime").block-btn
+                    i.icon-home
+                    | 我的 #{site.name}
+                a(href="/thread/new").block-btn
+                    i.icon-home
+                    |发帖子

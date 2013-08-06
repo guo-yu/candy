@@ -1,0 +1,10 @@
+extends layout
+
+block content
+    //- new thread
+    #thread(ng-controller="thread.new")
+        #new.fn-clear
+            form(name="createThread")
+                input(type="text",ng-model="thread.title")
+                textarea(ng-model="thread.content")
+                a(href="javascript:void(0);") Submit

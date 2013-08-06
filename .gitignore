@@ -1,0 +1,5 @@
+*.sublime*
+*.DS_*
+node_*
+thumb
+public/stylesheets/*.css

@@ -1,0 +1,32 @@
+doctype 5
+html
+  head
+    title #{site.name}
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    block header
+        header
+            #ihd.container_12.fn-clear
+                #logo.grid_2
+                    h1 
+                     a(href="/") #{site.name}
+                .slogan.grid_10
+                    a.active-nav
+                        | #{site.desc}
+                        i.icon-circle-arrow-down
+                    a.help
+                        i.icon-question-sign
+                    a.share-btn
+                        i.icon-thumbs-up
+    article#cnt
+        #icnt.container_12.fn-clear
+            block content
+    block footer
+      footer
+        #ft.fn-clear.container_12
+            #ift.container_12.fn-clear
+                .copyright.grid_12 &copy; #{new Date().getFullYear()} [#{site.name}] #{site.desc} | powered by 
+                    a(href="https://github.com/turingou/tesla") #{sys.name} 
+                    | @ #{sys.version}
+    block js
+        //- script(src=)

@@ -1,0 +1,38 @@
+{
+  "name": "candy",
+  "version": "0.0.1",
+  "description": "a board system based on duoshuo.com",
+  "main": "app.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "./node_modules/mocha/bin/mocha ./test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/turingou/candy.git"
+  },
+  "keywords": [
+    "candy",
+    "bbs",
+    "forum",
+    "duoshuo"
+  ],
+  "author": "turing",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/turingou/candy/issues"
+  },
+  "dependencies": {
+    "beer": "*",
+    "duoshuo":"*",
+    "express": "3.3.1",
+    "jade": "*",
+    "less-middleware": "*",
+    "connect-mongo":"*",
+    "mongoose": "*"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*"
+  }
+}
