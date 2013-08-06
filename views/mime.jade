@@ -1,0 +1,31 @@
+extends layout
+
+block content
+    //- single user
+    .user
+        img.avatar.fn-left(src="#{user.avatar}")
+        h4 #{user.duoshuo.user_id}
+    .ds-demo.fn-clear.fn-hide
+        .ds-thread
+block js
+    script(src="/javascripts/lib/jquery-1.10.2.min.js")
+    //- script(src="/javascripts/lib/angular.min.js")
+    //- script(src="/javascripts/lib/angular-resource.min.js")
+    //- script(src="/javascripts/store.js")
+    script.
+        var duoshuoQuery = {
+            short_name: "#{site.duoshuo.short_name}",
+            sso: { 
+               login: "#{href}/signin/",
+               logout: "#{href}/signout/"
+            }
+        };
+        (function() {
+            var ds = document.createElement('script');
+            ds.type = 'text/javascript';ds.async = true;
+            ds.src = 'http://static.duoshuo.com/embed.js';
+            ds.charset = 'UTF-8';
+            (document.getElementsByTagName('head')[0] 
+            || document.getElementsByTagName('body')[0]).appendChild(ds);
+        })();
+    script(src="/javascripts/mime.js")
