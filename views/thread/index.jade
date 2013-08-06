@@ -1,0 +1,33 @@
+extends ../layout
+
+block content
+    .col-lg-9
+      .board
+        .pub-main.lz-board
+            .single-pub.clearfix
+                .avatar
+                    |<img alt="" src="http://1.gravatar.com/avatar/f5116a397eaf2c11148ecd181c6512b5?s=50&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D50&amp;r=G" class="avatar avatar-50 photo" height="50" width="50">
+                h4.title Hello
+                .author
+                    span.name byron
+                    span.cat
+                        i.icon-chevron-right
+                        |<a href="http://handybbs.com/category/uncategorized/" title="查看 杂思闲谈 中的全部文章" rel="category tag">杂思闲谈</a>
+                    i.icon-time
+                    | 2013/07/19
+                .desc
+                    p 基于wordpress的呀，我还以为是重新开发的。
+                    p 基于wordpress的呀，我还以为是重新开发的。
+                    p 基于wordpress的呀，我还以为是重新开发的。
+        .board-meta
+            span.views
+                i.icon-eye-open
+                | 44
+            span.num
+                i.icon-comment
+                | 44
+            span.add-com-btn
+                i.icon-share-alt
+                | 44  
+        .comment-board
+            include ../comment.jade

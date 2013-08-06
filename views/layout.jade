@@ -10,9 +10,9 @@ html
             #ihd.container.clearfix
                 .row
                     .col-lg-9
-                      #logo.clearfix
+                      #logo.clearfix.fn-left
                         h1.clearfix
-                            a(href="/").col-lg-4 #{site.name}
+                            a(href="/") #{site.name}
                                 span.desc #{site.desc}
                     .col-lg-3
                         form#topSearch.search
@@ -21,6 +21,7 @@ html
                             .input-group-btn
                                 a.btn.btn-primary(href="#",ng-click="search()")
                                     i.icon-search
+    block banner
     article#cnt
         #icnt.container.clearfix
           .row
@@ -28,31 +29,45 @@ html
             block sidebar
                 .col-lg-3
                    - if (!user)
-                        #signin.clearfix.side-block
-                            h3 登录 #{site.name}
+                        #signin.clearfix.side-cnt
+                            h3.side-title 登录 #{site.name}
+                            .ds-login.clearfix
+                        #signin.clearfix.side-cnt
+                            h3.side-title 登录 #{site.name}
+                            .ds-login.clearfix
+                        #signin.clearfix.side-cnt
+                            h3.side-title 登录 #{site.name}
+                            .ds-login.clearfix
+                        #signin.clearfix.side-cnt
+                            h3.side-title 赞助商广告
                             .ds-login.clearfix
                    - else 
-                        #mime.clearfix.side-block
-                            h3 欢迎回来
+                        #mime.clearfix.side-cnt
+                            h3.side-title 欢迎回来
                                 | , #{user.nickname ? user.nickname : user.duoshuo.user_id}
-                                a.fn-right(href="#").signout 登出
-                                - if (user.avatar)
+                            - if (user.avatar)
+                                .avatar_container
                                     img(src="#{user.avatar}").avatar-mini.fn-right.img-thumbnail
-                            a(href="/mime").block-btn
-                                i.icon-home
-                                | 我的 #{site.name}
-                            a(href="/thread/new").block-btn
-                                i.icon-home
-                                |发帖子
-                            a(href="#").block-btn
-                                i.icon-star
-                                | 我的关注
+                            ul.clearfix
+                                li
+                                    i.icon-angle-right
+                                    a(href="/mime")
+                                        | 我的 #{site.name}
+                                li
+                                    i.icon-angle-right
+                                    a(href="/thread/new")
+                                        |发帖子
+                                li
+                                    i.icon-angle-right
+                                    a(href="#")
+                                        | 我的关注
+                                li
+                                    i.icon-angle-right
+                                    a(href="#").signout 登出
     block footer
       footer
         #ft.clearfix
-            #ift.container.clearfix.copyright
-                .col-lg-8 &copy; #{new Date().getFullYear()} 『#{site.name}』 #{site.desc}
-                .powered.col-lg-4 Powered by 
+            #ift.container.clearfix.copyright &copy; #{new Date().getFullYear()} 『#{site.name}』 #{site.desc} | Powered by 
                     a(href="https://github.com/turingou/tesla",title="npm install candy").candy #{sys.name} 
                     |@ #{sys.version}
 
