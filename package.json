@@ -1,6 +1,6 @@
 {
   "name": "candy",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "a micro bbs system based on duoshuo.com apis",
   "main": "app.js",
   "scripts": {
@@ -15,7 +15,8 @@
     "candy",
     "bbs",
     "forum",
-    "duoshuo"
+    "duoshuo",
+    "social"
   ],
   "author": "turing",
   "license": "MIT",
@@ -23,13 +24,14 @@
     "url": "https://github.com/turingou/candy/issues"
   },
   "dependencies": {
-    "beer": "*",
     "duoshuo":"*",
     "express": "3.3.1",
     "jade": "*",
     "less-middleware": "*",
     "connect-mongo":"*",
-    "mongoose": "*"
+    "mongoose": "*",
+    "async": "*",
+    "ifile": "*"
   },
   "devDependencies": {
     "mocha": "*",

@@ -1,6 +1,17 @@
 var model = require('../model'),
 	board = model.board;
 
+// list board
+exports.ls = function(cb){
+	board.find({}).exec(function(err,boards){
+		if (!err) {
+			cb(boards)
+		} else {
+			cb('error');
+		}
+	});
+}
+
 exports.read = function(id,cb){
 	board.findById(id).populate('threads').populate('bz').exec(function(err,board){
 		if (!err) {

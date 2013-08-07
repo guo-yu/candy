@@ -1,15 +1,17 @@
 // admin panel
-var config = require('../ctrlers/config');
+var admin = require('../ctrlers/admin');
 
 exports.page = function(req, res) {
-    res.render('admin/index');
+    admin.read(function(info){
+        res.render('admin/index',info);
+    })
 };
 
 exports.update = function(req, res) {
-    var setting = req.body.setting;
-    if (setting) {
-        config.update(setting._id, setting, function(stat) {
-            res.json(stat);
+    if (req.body.setting) {
+        admin.update(req.body.setting,function(site){
+            res.locals.App.app.locals.site = site;
+            res.json(site)
         });
     } else {
         res.json({

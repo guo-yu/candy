@@ -101,7 +101,7 @@ exports.checkMaster = function(req,res,next) {
                     }
                 })
             } else {
-                res.redirect('/');
+               next();
             }
         })
     } else {
