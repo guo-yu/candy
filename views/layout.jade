@@ -9,18 +9,11 @@ html
         header
             #ihd.container.clearfix
                 .row
-                    .col-lg-9
+                    .col-lg-12
                       #logo.clearfix.fn-left
                         h1.clearfix
                             a(href="/") #{site.name}
                                 span.desc #{site.desc}
-                    .col-lg-3
-                        form#topSearch.search
-                          .input-group(ng-controller="ctrlers.search")
-                            input(type="text",ng-model="search.keyword").form-control
-                            .input-group-btn
-                                a.btn.btn-primary(href="#",ng-click="search()")
-                                    i.icon-search
     block banner
     article#cnt
         #icnt.container.clearfix
@@ -28,26 +21,19 @@ html
             block content
             block sidebar
                 .col-lg-3
-                   - if (!user)
-                        #signin.clearfix.side-cnt
-                            h3.side-title 登录 #{site.name}
-                            .ds-login.clearfix
-                        #signin.clearfix.side-cnt
-                            h3.side-title 登录 #{site.name}
-                            .ds-login.clearfix
-                        #signin.clearfix.side-cnt
-                            h3.side-title 登录 #{site.name}
-                            .ds-login.clearfix
-                        #signin.clearfix.side-cnt
-                            h3.side-title 赞助商广告
-                            .ds-login.clearfix
-                   - else 
+                   form#topSearch.search
+                          .input-group(ng-controller="ctrlers.search")
+                            input(type="text",ng-model="search.keyword").form-control
+                            .input-group-btn
+                                a.btn.btn-primary(href="#",ng-click="search()")
+                                    i.icon-search
+                   - if (user)
                         #mime.clearfix.side-cnt
                             h3.side-title 欢迎回来
                                 | , #{user.nickname ? user.nickname : user.duoshuo.user_id}
                             - if (user.avatar)
                                 .avatar_container
-                                    img(src="#{user.avatar}").avatar-mini.fn-right.img-thumbnail
+                                    img(src="#{user.avatar}",alt="#{user.nickname ? user.nickname : user.duoshuo.user_id}",title="#{user.nickname ? user.nickname : user.duoshuo.user_id}").avatar-mini.fn-right
                             ul.clearfix
                                 li
                                     i.icon-angle-right
@@ -63,16 +49,39 @@ html
                                         | 我的关注
                                 li
                                     i.icon-angle-right
-                                    a(href="#").signout 登出
+                                    a(href="http://#{site.duoshuo.short_name}.duoshuo.com/logout/?sso=1&redirect_uri=#{href}/signout").signout 登出
+                   - else
+                        #signin.clearfix.side-cnt
+                            h3.side-title 登录 #{site.name}
+                            .ds-login.clearfix
     block footer
       footer
         #ft.clearfix
             #ift.container.clearfix.copyright &copy; #{new Date().getFullYear()} 『#{site.name}』 #{site.desc} | Powered by 
-                    a(href="https://github.com/turingou/tesla",title="npm install candy").candy #{sys.name} 
+                    a(href="https://github.com/turingou/candy",title="npm install candy").candy #{sys.name} 
                     |@ #{sys.version}
 
+    //- scripts
     script(src="/javascripts/lib/jquery-1.10.2.min.js")
     script(src="/javascripts/lib/angular.min.js")
     script(src="/javascripts/lib/angular-resource.min.js")
     script(src="/javascripts/store.js")
+    //- duoshuo configs
+    script.
+        var duoshuoQuery = {
+            short_name: "#{site.duoshuo.short_name}",
+            sso: { 
+               login: "#{href}/signin/",
+               logout: "#{href}/signout/"
+            }
+        };
+        (function() {
+            var ds = document.createElement('script');
+            ds.type = 'text/javascript';ds.async = true;
+            ds.src = 'http://static.duoshuo.com/embed.js';
+            ds.charset = 'UTF-8';
+            (document.getElementsByTagName('head')[0] 
+            || document.getElementsByTagName('body')[0]).appendChild(ds);
+        })();
+    //- custom js
     block js
