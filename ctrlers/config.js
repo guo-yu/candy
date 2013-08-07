@@ -1,12 +1,35 @@
 var model = require('../model'),
     config = model.config;
 
+var wash = function(baby) {
+    var baby = baby;
+    if (baby.hasOwnProperty('_id')) {
+        delete baby._id;
+    }
+    if (baby.hasOwnProperty('__v')) {
+        delete baby.__v;
+    }
+    return baby
+}
+
 // 写入配置
 exports.create = function(baby,cb){
     var baby = new config(baby);
     baby.save(function(err){
         if (!err) {
             cb(baby);
+        } else {
+            console.log(err);
+        }
+    })
+}
+
+// update 
+exports.update = function(id,baby,cb) {
+    var baby = wash(baby);
+    config.findByIdAndUpdate(id,baby,function(err,result){
+        if (!err) {
+            cb(result);
         } else {
             console.log(err);
         }

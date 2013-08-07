@@ -34,9 +34,7 @@ exports.remove = function(req, res, next) {
 }
 
 exports.mime = function(req, res) {
-    res.render('mime',{
-        user: req.session.user
-    })
+    res.render('mime')
 }
 
 // 同步用户信息

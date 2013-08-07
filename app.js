@@ -57,7 +57,7 @@ var Server = function(params) {
     app.get('/', sign.passport, index);
 
     // signin & signout
-    app.get('/signin', sign.in );
+    app.get('/signin', sign.in);
     app.get('/signout', sign.out);
 
     // board
@@ -74,17 +74,20 @@ var Server = function(params) {
     app.post('/thread/:id', thread.update);
 
     // user
-    app.get('/user/:id', user.read);
+    app.get('/user/:id', sign.passport , user.read);
     app.post('/user/new', user.create);
     app.post('/user/remove', user.remove);
     app.post('/user/sync', sign.check, user.sync);
     app.post('/user/:id', user.update);
 
     // mime
-    app.get('/mime', user.mime);
+    app.get('/mime', sign.passport, user.mime);
 
     // admin
-    app.get('/admin', sign.checkMaster, sign.checkAdmin, admin);
+    app.get('/admin', sign.checkMaster, sign.checkAdmin, admin.page);
+
+    // setting
+    app.post('/setting', admin.update);
 
     this.app = app;
     this.params = params;

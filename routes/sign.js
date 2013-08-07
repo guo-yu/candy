@@ -46,11 +46,11 @@ exports.in = function(req, res) {
             queryUser(result.user_id,function(u){
                 if (u) {
                     req.session.user = u;
-                    res.redirect('/');
+                    res.redirect('back');
                 } else {
                     createUser(result,function(baby){
                         req.session.user = baby;
-                        res.redirect('/');
+                        res.redirect('back');
                     });
                 }
             })
