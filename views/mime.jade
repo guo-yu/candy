@@ -1,12 +1,11 @@
 extends layout
 
 block content
-    .col-lg-9.clearfix
-        #mime.clearfix.mime
-            - if (user.nickname)
-                h3 #{user.nickname ? user.nickname : user.duoshuo.user_id}
-            - if (user.avatar)
-                img.avatar.fn-left(src="#{user.avatar}").fn-left
+    #mime.clearfix.mime
+        - if (user.nickname)
+            h3 #{user.nickname ? user.nickname : user.duoshuo.user_id}
+        - if (user.avatar)
+            img.avatar.fn-left(src="#{user.avatar}").fn-left
     .ds-demo.fn-clear.fn-hide
         .ds-thread
 block js

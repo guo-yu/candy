@@ -34,11 +34,11 @@ var Server = function(params) {
         uploadDir: path.join(__dirname, '/uploads')
     }));
     app.use(express.methodOverride());
-    app.use(express.cookieParser('tesla'));
+    app.use(express.cookieParser(params.database.name));
     app.use(express.session({
-        secret: 'tesla',
+        secret: params.database.name,
         store: new MongoStore({
-            db: 'tesla',
+            db: params.database.name,
             collection: 'sessions'
         })
     }));
@@ -54,21 +54,21 @@ var Server = function(params) {
     }
 
     // home
-    app.get('/', index);
+    app.get('/', sign.passport, index);
 
     // signin & signout
-    app.get('/signin', sign.in);
+    app.get('/signin', sign.in );
     app.get('/signout', sign.out);
 
     // board
-    app.get('/board/:id', board.read);
+    app.get('/board/:id', sign.passport, board.read);
     app.post('/board/:id', board.update);
     app.post('/board/new', board.create);
     app.post('/board/:id/remove', board.remove);
 
     // thread
     app.get('/thread/new', sign.check, thread.new);
-    app.get('/thread/:id',thread.read);
+    app.get('/thread/:id', sign.passport, thread.read);
     app.post('/thread/new', thread.create);
     app.post('/thread/remove', thread.remove);
     app.post('/thread/:id', thread.update);
@@ -77,14 +77,14 @@ var Server = function(params) {
     app.get('/user/:id', user.read);
     app.post('/user/new', user.create);
     app.post('/user/remove', user.remove);
-    app.post('/user/sync', sign.check , user.sync);
+    app.post('/user/sync', sign.check, user.sync);
     app.post('/user/:id', user.update);
 
     // mime
     app.get('/mime', user.mime);
 
     // admin
-    app.get('/admin', sign.checkAdmin , admin);
+    app.get('/admin', sign.checkMaster, sign.checkAdmin, admin);
 
     this.app = app;
     this.params = params;
@@ -137,7 +137,7 @@ Server.prototype.run = function(port) {
     } else {
         self.app.set('port', 3000);
     }
-    self.config(function(){
+    self.config(function() {
         http.createServer(self.app).listen(self.app.get('port'));
     });
 }
