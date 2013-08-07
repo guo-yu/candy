@@ -11,10 +11,6 @@ a micro bbs system based on duoshuo.com apis
 $ npm install candy
 ````
 
-### Mobile first
-
-![](http://ww3.sinaimg.cn/large/61ff0de3gw1e7edph6gnzj20ea0m0mz8.jpg)
-
 ### Bite a litter
 
 #### Start a candy server by defalut 
@@ -77,3 +73,12 @@ $ node candy.js // or forever start candy.js
 ### Candy demos
 
 - [Teslaer: tesla电动车中国爱好者社区](http://teslaer.com) (now building...)
+
+### Candy features
+
+#### Mobile first
+![](http://ww3.sinaimg.cn/large/61ff0de3gw1e7edph6gnzj20ea0m0mz8.jpg)
+
+#### Easy to install and config
+
+#### Comments on cloud
