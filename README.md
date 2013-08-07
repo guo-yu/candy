@@ -27,7 +27,7 @@ or by NPM
 
 ````
 $ npm install candy
-$ cd node_modules
+$ cd node_modules/candy
 $ vi server.js // edit configs
 $ node server.js
 ````
