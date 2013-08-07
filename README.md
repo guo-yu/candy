@@ -66,7 +66,7 @@ $ node candy.js // or forever start candy.js
 ### Pull Request Welcome !
 
 - fork this repo
-- feel free to add your feature or emoticons
+- feel free to add your feature
 - make sure your feature are fully tested!
 - send me a PR, and enjoy !
 

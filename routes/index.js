@@ -1,7 +1,6 @@
 // index page
 module.exports = function(req, res){
   res.render('index',{
-    user: req.session.user,
     boards: [{
         url: 'demo',
         title: 'demo board',

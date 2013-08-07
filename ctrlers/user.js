@@ -2,6 +2,28 @@ var model = require('../model'),
 	user = model.user,
 	duoshuo = require('duoshuo');
 
+// count users
+exports.count = function(cb){
+	user.count({},function(err,count){
+		if (!err) {
+			cb(count)
+		} else {
+			cb('error');
+		}
+	});
+}
+
+// 读取一个用户
+exports.query = function(id,cb){
+	user.findById(id).exec(function(err,user){
+		if (!err) {
+			cb(user)
+		} else {
+			cb('error')
+		}
+	});
+}
+
 // 读取一个用户
 exports.read = function(id,cb){
 	user.findById(id).populate('thread').exec(function(err,user){

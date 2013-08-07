@@ -1,15 +1,12 @@
 var thread = require('../ctrlers/thread');
 
 exports.new = function(req,res,next) {
-    res.render('thread/new',{
-        user: req.session.user
-    });
+    res.render('thread/new');
 }
 
 exports.read = function(req,res,next) {
     thread.read(req.params.id,function(b){
         res.render('thread/index',{
-            user: req.session.user,
             thread: b
         })
     });
