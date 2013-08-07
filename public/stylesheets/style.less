@@ -144,14 +144,17 @@ header {
     background-color: @key-color;
     box-shadow: 0px 0px 10px #ddd;
     #ihd {
-        padding-top: 10px;
-        padding-bottom: 6px;
         color: #fff;
     }
     #logo {
         h1 {
             margin-top: 0px;
+            margin-bottom: 0;
             a {
+                padding-top: 10px;
+                padding-bottom: 10px;
+                padding-left: 45px;
+                background: url('/images/logo.png') no-repeat left center;
                 display: block;
                 font-family: 'Berkshire Swash', cursive;
                 font-size: 30px;
@@ -819,7 +822,7 @@ footer {
         right: 6px;
         top: 6px;
         z-index: 9;
-        img {
+        img.avatar-mini {
             width: 25px;
             height: 25px;
             border: 1px solid #ddd;
@@ -890,8 +893,8 @@ footer {
         color: #999;
     }
     .avatar-mini {
-        width: 24px;
-        height: 24px;
+        width: 35px;
+        height: 35px;
         padding: 1px;
         margin-right: 6px;
         margin-top: -4px;
@@ -954,15 +957,12 @@ footer {
 }
 
 .search {
-    margin-top: 5px;
+    margin-bottom: 15px;
     input {
         height: 24px;
-        border-radius: 20px;
-        border-color: @key-color;
         background-color: #f5f5f5;
     }
     a {
-        border-radius: 20px;
         height: 24px;
         line-height: 1;
         font-size: 12px;

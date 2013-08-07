@@ -3,13 +3,14 @@
  */
 
 var mongoose = require('mongoose'),
-    db = mongoose.createConnection('localhost', 'tesla'),
+    db = mongoose.createConnection('localhost', 'candy'),
     Schema = mongoose.Schema;
 
 // configs
 var configModel = new mongoose.Schema({
     name: String,
     desc: String,
+    url: String,
     duoshuo: {
         short_name: String,
         secret: String

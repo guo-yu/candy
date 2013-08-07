@@ -2,7 +2,10 @@ var board = require('../ctrlers/board');
 
 exports.read = function(req,res,next) {
     board.read(req.params.id,function(b){
-        res.render('board',b)
+        res.render('board',{
+            user: req.session.user,
+            board: b
+        })
     });
 }
 
