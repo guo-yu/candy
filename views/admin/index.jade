@@ -2,6 +2,57 @@ extends ../layout
 
 block content
     #admin
-        h3 添加板块
-        h3 管理用户
-        h3 添加帖子
+        ul#adminTab.nav.nav-tabs
+            li
+                a(href="#home",data-toggle="tab")
+                    i.icon-dashboard
+                    |面板首页
+            li.dropdown
+                a(href="#board",data-toggle="tab")
+                    i.icon-hdd
+                    |板块管理
+            li
+                a(href="#user",data-toggle="tab")
+                    i.icon-user
+                    |用户管理
+                    span.badge.pull-right 123
+            li.active
+                a(href="#setting",data-toggle="tab")
+                    i.icon-gears
+                    |站点设置
+        .tab-content
+            #home.tab-pane
+                .dash #{site.name} 生于 #{site.created}
+            #board.tab-pane 
+            #user.tab-pane 123
+            #setting.tab-pane.active(ng-controller="candy.ctrlers.admin.setting")
+                form(name="updateSetting").form-horizontal
+                    .form-group
+                        label.col-lg-2.control-label 网站名称
+                        .col-lg-6
+                            input(type="text",ng-model="setting.name",ng-init="setting.name='#{site.name}'").form-control
+                    .form-group
+                        label.col-lg-2.control-label 网站描述
+                        .col-lg-6
+                            input(type="text",ng-model="setting.desc",ng-init="setting.desc='#{site.desc}'").form-control
+                    .form-group
+                        label.col-lg-2.control-label 网站地址
+                        .col-lg-6
+                            input(type="text",ng-model="setting.url",ng-init="setting.url='#{site.url}'").form-control
+                    .form-group
+                        label.col-lg-2.control-label 多说站名
+                        .col-lg-6
+                            input(type="text",ng-model="setting.duoshuo.short_name",ng-init="setting.duoshuo.short_name='#{site.duoshuo.short_name}'").form-control
+                    .form-group
+                        label.col-lg-2.control-label 多说 secret
+                        .col-lg-6
+                            input(type="text",ng-model="setting.duoshuo.secret",ng-init="setting.duoshuo.secret='#{site.duoshuo.secret}'").form-control
+                    input(type="hidden",ng-model="setting._id",ng-init="setting._id='#{site.id}'")
+                    .form-group
+                        .col-lg-offset-2.col-lg-10
+                          a(href="javascript:void(0);",ng-click="update()").btn.btn-success
+                            i.icon-ok
+                            |写好了
+
+block js
+    script(src="/javascripts/admin.js")

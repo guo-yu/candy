@@ -1,38 +1,34 @@
-form#topSearch.search
-        .input-group(ng-controller="ctrlers.search")
-            input(type="text",ng-model="search.keyword").form-control
-            .input-group-btn
-                a.btn.btn-primary(href="#",ng-click="search()")
-                    i.icon-search
-    - if (user)
-        #mime.clearfix.side-cnt
-            h3.side-title 欢迎回来
-                | , #{user.nickname ? user.nickname : user.duoshuo.user_id}
-            - if (user.avatar)
-                .avatar_container
-                    img(src="#{user.avatar}",alt="#{user.nickname ? user.nickname : user.duoshuo.user_id}",title="#{user.nickname ? user.nickname : user.duoshuo.user_id}").avatar-mini.fn-right
-            ul.clearfix
-                - if (user.type == 'admin')
-                    li
-                        i.icon-angle-right
-                        a(href="/admin")
-                            | #{site.name} 管理后台
+form#topSearch
+    include search.jade
+- if (user)
+    #mime.clearfix.side-cnt
+        h3.side-title 欢迎回来
+            | , #{user.nickname ? user.nickname : user.duoshuo.user_id}
+        - if (user.avatar)
+            .avatar_container
+                img(src="#{user.avatar}",alt="#{user.nickname ? user.nickname : user.duoshuo.user_id}",title="#{user.nickname ? user.nickname : user.duoshuo.user_id}").avatar-mini.fn-right
+        ul.clearfix
+            - if (user.type == 'admin')
                 li
                     i.icon-angle-right
-                    a(href="/mime")
-                        | 我的 #{site.name}
-                li
-                    i.icon-angle-right
-                    a(href="/thread/new")
-                        |发帖子
-                li
-                    i.icon-angle-right
-                    a(href="#")
-                        | 我的关注
-                li
-                    i.icon-angle-right
-                    a(href="http://#{site.duoshuo.short_name}.duoshuo.com/logout/?sso=1&redirect_uri=#{href}/signout").signout 登出
-    - else
-        #signin.clearfix.side-cnt
-            h3.side-title 登录 #{site.name}
-            .ds-login.clearfix
+                    a(href="/admin")
+                        | #{site.name} 管理后台
+            li
+                i.icon-angle-right
+                a(href="/mime")
+                    | 我的 #{site.name}
+            li
+                i.icon-angle-right
+                a(href="/thread/new")
+                    |发帖子
+            li
+                i.icon-angle-right
+                a(href="#")
+                    | 我的关注
+            li
+                i.icon-angle-right
+                a(href="http://#{site.duoshuo.short_name}.duoshuo.com/logout/?sso=1&redirect_uri=#{href}/signout").signout 登出
+- else
+    #signin.clearfix.side-cnt
+        h3.side-title 登录 #{site.name}
+        .ds-login.clearfix

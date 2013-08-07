@@ -1,0 +1,6 @@
+.search
+    .input-group(ng-controller="candy.ctrlers.search")
+        input(type="text",ng-model="search.keyword").form-control
+        .input-group-btn
+            a.btn.btn-primary(href="#",ng-click="search()")
+                i.icon-search

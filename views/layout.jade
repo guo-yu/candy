@@ -1,5 +1,5 @@
 doctype 5
-html
+html(ng-app="candy")
   head
     meta(name="viewport",content="width=device-width, initial-scale=1.0")
     title #{site.name}
@@ -30,10 +30,13 @@ html
                     a(href="https://github.com/turingou/candy",title="npm install candy").candy #{sys.name} 
                     |@ #{sys.version}
 
-    //- scripts
+    //- libs
     script(src="/javascripts/lib/jquery-1.10.2.min.js")
+    script(src="/javascripts/lib/bootstrap.min.js")
     script(src="/javascripts/lib/angular.min.js")
     script(src="/javascripts/lib/angular-resource.min.js")
+    //- angular app
+    script(src="/javascripts/candy.js")
     script(src="/javascripts/store.js")
     //- duoshuo configs
     script.
