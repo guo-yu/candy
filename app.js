@@ -13,10 +13,18 @@ var Server = function(params) {
     var express = require('express'),
         path = require('path'),
         MongoStore = require('connect-mongo')(express),
+        ifile = require('ifile'),
         self = this;
 
     var app = express(),
         MemStore = express.session.MemoryStore;
+
+    // static file config
+    ifile.options = {
+        gzip: true,
+        gzip_min_size: 1024,
+        gzip_file: ['js', 'css', 'less', 'html', 'xhtml', 'htm', 'xml', 'json', 'txt'], //gzip压缩的文件后缀名
+    }
 
     var board = require('./routes/board'),
         thread = require('./routes/thread'),
@@ -43,7 +51,7 @@ var Server = function(params) {
             collection: 'sessions'
         })
     }));
-    app.use(function(req,res,next){
+    app.use(function(req, res, next) {
         if (!res.locals.App) {
             res.locals.App = self;
         }
@@ -53,7 +61,13 @@ var Server = function(params) {
     app.use(require('less-middleware')({
         src: __dirname + '/public'
     }));
-    app.use(express.static(path.join(__dirname, 'public')));
+    app.use(ifile.connect([
+        ["/", "public", ['js', 'css', 'jpg', 'png', 'gif','woff','ttf','svg']],
+    ],function(req,res,is_static){
+        res.statusCode = 404;
+        res.send('404 Static file Not Found');
+    }));
+    // app.use(express.static(path.join(__dirname, 'public')));
 
     // development only
     if ('development' == app.get('env')) {
@@ -64,7 +78,7 @@ var Server = function(params) {
     app.get('/', sign.passport, index);
 
     // signin & signout
-    app.get('/signin', sign.in);
+    app.get('/signin', sign. in );
     app.get('/signout', sign.out);
 
     // board
@@ -81,7 +95,7 @@ var Server = function(params) {
     app.post('/thread/:id', thread.update);
 
     // user
-    app.get('/user/:id', sign.passport , user.read);
+    app.get('/user/:id', sign.passport, user.read);
     app.post('/user/new', user.create);
     app.post('/user/remove', user.remove);
     app.post('/user/sync', sign.check, user.sync);
