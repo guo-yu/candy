@@ -35,9 +35,9 @@ $ node server.js
 #### Start a candy server by `require`
 
 ````javascript
-var candy = require('candy').server;
+var Candy = require('candy');
 
-var myCandy = new candy.server({
+var myCandy = new Candy.server({
     name: 'My candy BBS', // site name
     url: 'http://abc.com', // site URL
     desc: 'some desc', // site description
