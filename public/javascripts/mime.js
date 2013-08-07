@@ -27,11 +27,13 @@ $(document).ready(function($) {
         if (ds.dom.length) {
             syncer(ds, function(result) {
                 if (result.stat == 'ok') {
-                    alert('用户信息已更新!')
-                    // window.location.reload();
+                    $('.syncing').text('数据已成功同步，请稍等...')
+                    setTimeout(function(){
+                        window.location.reload();                        
+                    },600);
                 }
             });
             clearInterval(check);
         }
-    }, 5000);
+    }, 1000);
 });
