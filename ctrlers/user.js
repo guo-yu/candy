@@ -2,6 +2,17 @@ var model = require('../model'),
 	user = model.user,
 	duoshuo = require('duoshuo');
 
+// list users
+exports.ls = function(cb){
+	user.find({}).exec(function(err,us){
+		if (!err) {
+			cb(us)
+		} else {
+			cb('error');
+		}
+	});
+}
+
 // count users
 exports.count = function(cb){
 	user.count({},function(err,count){

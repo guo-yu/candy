@@ -12,7 +12,8 @@ var Server = function(params) {
 
     var express = require('express'),
         path = require('path'),
-        MongoStore = require('connect-mongo')(express);
+        MongoStore = require('connect-mongo')(express),
+        self = this;
 
     var app = express(),
         MemStore = express.session.MemoryStore;
@@ -42,6 +43,12 @@ var Server = function(params) {
             collection: 'sessions'
         })
     }));
+    app.use(function(req,res,next){
+        if (!res.locals.App) {
+            res.locals.App = self;
+        }
+        next();
+    })
     app.use(app.router);
     app.use(require('less-middleware')({
         src: __dirname + '/public'

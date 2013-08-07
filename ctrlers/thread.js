@@ -1,6 +1,17 @@
 var model = require('../model'),
 	thread = model.thread;
 
+// list thread
+exports.ls = function(cb){
+	thread.find({}).exec(function(err,threads){
+		if (!err) {
+			cb(threads)
+		} else {
+			cb('error');
+		}
+	});
+}
+
 exports.read = function(id,cb){
 	thread.findById(id).populate('lz').populate('board').exec(function(err,thread){
 		if (!err) {
