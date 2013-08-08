@@ -3,7 +3,7 @@
 
 a micro bbs system based on duoshuo.com apis
 
-![demo](http://ww1.sinaimg.cn/large/61ff0de3gw1e7edq7tkiuj20vc0m0786.jpg)
+![screenshot](http://ww3.sinaimg.cn/large/61ff0de3jw1e7fov9mphrj20ur0olwin.jpg)
 
 ### How to install
 
@@ -79,9 +79,13 @@ $ node candy.js // or forever start candy.js
 
 ### Candy features
 
-#### Mobile first
-![](http://ww3.sinaimg.cn/large/61ff0de3gw1e7edph6gnzj20ea0m0mz8.jpg)
+- mobile first
+- easy to install and config
+- comments on the cloud
+- follow tags/boards supported
+- sexy and friendly user-interface
 
-#### Easy to install and config
+### Screenshots
 
-#### Comments on cloud
+#### Admin panel
+![](http://ww4.sinaimg.cn/large/61ff0de3jw1e7fos2mr2wj20ur0oln18.jpg)
