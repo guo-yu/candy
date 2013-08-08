@@ -12,6 +12,21 @@ exports.ls = function(cb){
 	});
 }
 
+// read by url
+exports.readByUrl = function(url,cb){
+	board.findOne({
+		url: url
+	}).populate('threads').populate('bz').exec(function(err,board){
+		if (!err) {
+			cb(board)
+		} else {
+			console.log(err)
+			cb('error')
+		}
+	});
+}
+
+// read by id
 exports.read = function(id,cb){
 	board.findById(id).populate('threads').populate('bz').exec(function(err,board){
 		if (!err) {

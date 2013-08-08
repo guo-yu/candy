@@ -72,12 +72,13 @@ var boardModel = new mongoose.Schema({
 
 // 帖子模型
 var threadModel = new mongoose.Schema({
+    name: String,
+    content: String,
+    views: Number,
     tid: {
         type: Number,
         unique: true
     },
-    name: String,
-    content: String,
     pubdate: {
         type: Date,
         default: new Date()

@@ -1,9 +1,8 @@
 var board = require('../ctrlers/board');
 
 exports.read = function(req,res,next) {
-    board.read(req.params.id,function(b){
+    board.readByUrl(req.params.url,function(b){
         res.render('board',{
-            user: req.session.user,
             board: b
         })
     });
