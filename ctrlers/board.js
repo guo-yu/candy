@@ -32,9 +32,9 @@ exports.create = function(baby,cb) {
 				body: baby
 			});
 		} else {
-			console.log(err)
 			cb({
-				stat: 'err'
+				stat: 'error',
+				error: err
 			})
 		}
 	})

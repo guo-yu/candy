@@ -67,7 +67,6 @@ var Server = function(params) {
         res.statusCode = 404;
         res.send('404 Static file Not Found');
     }));
-    // app.use(express.static(path.join(__dirname, 'public')));
 
     // development only
     if ('development' == app.get('env')) {
@@ -78,13 +77,13 @@ var Server = function(params) {
     app.get('/', sign.passport, index);
 
     // signin & signout
-    app.get('/signin', sign. in );
+    app.get('/signin', sign.in );
     app.get('/signout', sign.out);
 
     // board
     app.get('/board/:id', sign.passport, board.read);
-    app.post('/board/:id', board.update);
     app.post('/board/new', board.create);
+    app.post('/board/:id', board.update);
     app.post('/board/:id/remove', board.remove);
 
     // thread

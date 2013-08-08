@@ -19,11 +19,9 @@ exports.update = function(req,res,next) {
 }
 
 exports.create = function(req,res,next) {
+    console.log(req.body);
     board.create(req.body.board,function(baby){
-        res.json({
-            stat: 'ok',
-            board: baby
-        })
+        res.json(baby)
     })
 }
 

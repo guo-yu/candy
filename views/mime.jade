@@ -3,7 +3,8 @@ extends layout
 block content
     #mime.clearfix.mime
         - if (!user.nickname)
-            h3.syncing 正在同步您的数据，请勿关闭本页面...
+            h3.syncing
+                i.icon-spinner.icon-spin.icon-large 正在同步您的数据，请勿关闭本页面...
         - if (user.nickname)
             h3 #{user.nickname ? user.nickname : user.duoshuo.user_id}
         - if (user.avatar)
