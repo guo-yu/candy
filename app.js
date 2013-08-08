@@ -62,7 +62,7 @@ var Server = function(params) {
         src: __dirname + '/public'
     }));
     app.use(ifile.connect([
-        ["/", "public", ['js', 'css', 'jpg', 'png', 'gif','woff','ttf','svg']],
+        ["/", "public", ['js', 'css', 'jpg', 'png', 'gif','woff','ttf','svg','ico']],
     ],function(req,res,is_static){
         res.statusCode = 404;
         res.send('404 Static file Not Found');
