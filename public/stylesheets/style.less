@@ -1030,6 +1030,30 @@ form.form-horizontal {
         margin-top: -1px;
         background-color: #fff;
     }
+    #home {
+        .label {
+            .bs();
+            min-width: 80px;
+            font-size: 26px;
+            padding: 10px 20px;
+            .br(40px) !important;
+            display: block;
+        }
+        .dash-item {
+            border-bottom: 1px solid #ddd;
+            padding: 13px 15px;
+            .desc {
+                h3 {
+                    font-size: 16px;
+                    margin-top: 5px;
+                    margin-bottom: 5px;
+                    font-weight: bold;
+                    color: #444;
+                }
+                color: #999;
+            }
+        }
+    }
     #user {
         .user {
             .br(0);
@@ -1048,6 +1072,14 @@ form.form-horizontal {
         }
     }
     #board {
+        .accordion-group {
+            box-shadow: inset 0px 0px 20px #f5f5f5;
+            .br(0);
+            margin-bottom: -1px;
+            &:hover {
+                box-shadow: inset 0px 0px 10px #f5f5f5;
+            };
+        }
         .form-group {
             border: 0;
         }
@@ -1056,11 +1088,14 @@ form.form-horizontal {
             margin: 0;
         }
         .accordion-heading {
-            background-color: #f5f5f5;
+            .br(0);
             margin-bottom: 0;
             a {
 
             }
+        }
+        .list-group-item {
+            background-color: transparent;
         }
         .board {
             .br(0);
@@ -1154,4 +1189,13 @@ form.form-horizontal {
     .c12 {
         background-color: #D35400;
     }
+}
+
+img.avatar-micro {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ddd;
+    padding: 1px;
+    margin: 0px 4px;
+    .thumbnail();
 }

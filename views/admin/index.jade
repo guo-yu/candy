@@ -3,46 +3,68 @@ extends ../layout
 block content
     #admin
         ul#adminTab.nav.nav-tabs
-            li
+            li.active
                 a(href="#home",data-toggle="tab")
                     i.icon-dashboard
-                    |面板首页
-            li.active
+                    |#{site.name} 概览
+            li
                 a(href="#board",data-toggle="tab")
                     i.icon-hdd
-                    |板块管理
+                    |节点
                     span.badge.pull-right #{boards.length}
             li
                 a(href="#user",data-toggle="tab")
                     i.icon-user
-                    |用户管理
+                    |用户
                     span.badge.pull-right #{users.length}
             li
                 a(href="#setting",data-toggle="tab")
                     i.icon-gears
-                    |站点设置
+                    |设置
         .tab-content
-            #home.tab-pane
-                .dash #{config.name} 生于 #{config.created}
-            #board.tab-pane.active(ng-controller="candy.ctrlers.admin.board")
+            #home.tab-pane.active
+                .dash.clearfix
+                    .dash-item.col-lg-12
+                        i.icon-rocket.col-lg-2.label.label-success
+                        .desc.col-lg-10 
+                            h3.uptime #{config.name} 已运行 1 天
+                            .birthday #{config.name} 生于 #{new Date(config.created).getFullYear() + '年' + (new Date(config.created).getMonth() + 1) + '月' + new Date(config.created).getDate() + '日'}，创始人是 #{users[0].nickname ? users[0].nickname : users[0].duoshuo.user_id}
+                                - if (users[0].avatar)
+                                    img(src="#{users[0].avatar}").avatar-micro
+                    .dash-item.col-lg-12
+                        i.icon-group.col-lg-2.label.label-info
+                        .desc.col-lg-10 
+                            h3.uptime 总用户数量 #{users.length} 人
+                            .info 今日新增用户 1 人。管理员 1 人，版主 1 人
+                    .dash-item.col-lg-12
+                        i.icon-code-fork.col-lg-2.label.label-warning
+                        .desc.col-lg-10 
+                            h3.uptime 总讨论节点数量 #{boards.length} 个
+                            .info 今日新增讨论节点 3 个
+                    .dash-item.col-lg-12
+                        i.icon-comments-alt.col-lg-2.label.label-danger
+                        .desc.col-lg-10 
+                            h3.uptime 总话题量 35 帖
+                            .info 今日新增话题 35 帖
+            #board.tab-pane(ng-controller="candy.ctrlers.admin.board")
                 #board-dash.accordion
                     .accordion-group
                         .accordion-heading
                             a.accordion-toggle(href="#addBoard",data-parent="#board-dash",data-toggle="collapse") 
                                 i.icon-plus-sign
-                                |添加板块
+                                |添加节点
                         form#addBoard(name="addBoard").form-horizontal.accordion-body.collapse
                             .accordion-inner
                                 .form-group
-                                    label.col-lg-2.control-label 板块名称
+                                    label.col-lg-2.control-label 节点名称
                                     .col-lg-6
                                         input(type="text",ng-model="board.new.name").form-control
                                 .form-group
-                                    label.col-lg-2.control-label 板块URL
+                                    label.col-lg-2.control-label 节点URL
                                     .col-lg-6
                                         input(type="text",ng-model="board.new.url").form-control
                                 .form-group
-                                    label.col-lg-2.control-label 板块描述
+                                    label.col-lg-2.control-label 节点描述
                                     .col-lg-6
                                         textarea(ng-model="board.new.desc").form-control
                                 .form-group
@@ -55,7 +77,7 @@ block content
                         .accordion-heading
                             a.accordion-toggle(href="#board-list",data-parent="#board-dash",data-toggle="collapse") 
                                 i.icon-th-list
-                                |板块列表
+                                |节点列表
                         #board-list.board-list.clearfix.accordion-body.collapse.in
                             .accordion-inner
                                 - if (boards && boards.length > 0)
@@ -75,7 +97,7 @@ block content
                                 - else 
                                     h3.no 
                                         i.icon-ban-circle
-                                        |目前还没有任何板块
+                                        |目前还没有任何节点
             #user.tab-pane(ng-controller="candy.ctrlers.admin.user")
                 .list-group
                     - if (users)
@@ -95,19 +117,19 @@ block content
             #setting.tab-pane(ng-controller="candy.ctrlers.admin.setting")
                 form(name="updateSetting").form-horizontal
                     .form-group
-                        label.col-lg-2.control-label 网站名称
+                        label.col-lg-2.control-label 站名
                         .col-lg-6
                             input(type="text",ng-model="setting.name",ng-init="setting.name='#{config.name}'").form-control
                     .form-group
-                        label.col-lg-2.control-label 网站描述
+                        label.col-lg-2.control-label 描述
                         .col-lg-6
-                            input(type="text",ng-model="setting.desc",ng-init="setting.desc='#{config.desc}'").form-control
+                            textarea(ng-model="setting.desc",ng-init="setting.desc='#{config.desc}'").form-control
                     .form-group
-                        label.col-lg-2.control-label 网站地址
+                        label.col-lg-2.control-label 地址
                         .col-lg-6
                             input(type="text",ng-model="setting.url",ng-init="setting.url='#{config.url}'").form-control
                     .form-group
-                        label.col-lg-2.control-label 多说站名
+                        label.col-lg-2.control-label 多说 站名
                         .col-lg-6
                             input(type="text",ng-model="setting.duoshuo.short_name",ng-init="setting.duoshuo.short_name='#{config.duoshuo.short_name}'").form-control
                     .form-group
