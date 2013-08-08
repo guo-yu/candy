@@ -19,8 +19,7 @@ exports.update = function(req,res,next) {
 }
 
 exports.create = function(req,res,next) {
-    console.log(req.body);
-    board.create(req.body.board,function(baby){
+    board.create(res.locals.user._id,req.body.board,function(baby){
         res.json(baby)
     })
 }

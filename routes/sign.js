@@ -75,6 +75,16 @@ exports.check = function(req, res, next) {
     });
 }
 
+// check cb(json)
+exports.checkJSON = function(req, res, next) {
+    passport(req, res, next, function() {
+        res.json({
+            stat: 'fail',
+            msg: 'login required'
+        });
+    });
+}
+
 // set passport
 exports.passport = function(req, res, next) {
     passport(req, res, next, function() {
