@@ -14,11 +14,11 @@
 
 // main style
 @font-face {
-  font-family: 'Berkshire Swash';
+  font-family: 'Indie Flower';
   font-style: normal;
   font-weight: 400;
-  src: local('Berkshire Swash'), local('BerkshireSwash-Regular'), url(../font/logo.woff) format('woff');
-};
+  src: local('Indie Flower'), local('IndieFlower'), url(http://themes.googleusercontent.com/static/fonts/indieflower/v4/10JVD_humAd5zP2yrFqw6qRDOzjiPcYnFooOUGCOsRk.woff) format('woff');
+}
 
 i {
     padding-right: 4px;
@@ -39,12 +39,12 @@ i {
 /* colors */
 @main-color : #444;
 @bg-color : #fff;
-@key-color: #55C1BA;
+@key-color: #3498DB;
 @hover-color: @key-color - #444;
 
 /* background-images */
 .bg {
-    background: @bg-color url('../images/bg.png');
+    background: @bg-color url('../images/wallpaper/brickwall.png');
 }
 
 .single-board {
@@ -141,8 +141,8 @@ a {
 
 /* Header */
 header {
-    background-color: @key-color;
-    box-shadow: 0px 0px 10px #ddd;
+    background-color: @key-color;    
+    box-shadow: 0px 0px 5px #999;
     #ihd {
         color: #fff;
     }
@@ -151,19 +151,20 @@ header {
             margin-top: 0px;
             margin-bottom: 0;
             a {
-                padding-top: 10px;
-                padding-bottom: 10px;
-                padding-left: 45px;
+                padding-top: 12px;
+                padding-bottom: 12px;
+                padding-left: 32px;
                 background: url('/images/logo.png') no-repeat left center;
                 display: block;
-                font-family: 'Berkshire Swash', cursive;
-                font-size: 30px;
+                font-family: 'Indie Flower', "Helvetica Neue",Helvetica,Arial,sans-serif;
+                font-size: 20px;
                 font-weight: normal;
                 text-shadow: 1px 1px 2px #444;
                 color: #fff;
                 text-shadow: none;
+                letter-spacing: 2px;
                 span.desc {
-                    font-size: 14px;
+                    font-size: 12px;
                     padding-left: 10px;
                     color: #fff;
                 }
@@ -961,6 +962,8 @@ footer {
     input {
         height: 24px;
         background-color: #f5f5f5;
+        box-shadow: inset 0px 0px 5px #ddd;
+        padding: 4px;
     }
     a {
         height: 24px;
@@ -1107,4 +1110,48 @@ form.form-horizontal {
     font-size: 16px;
     margin-left: -15px;
     margin-right: -15px;
+}
+
+.bar {
+    div {
+        height: 6px;
+        width: 8.33333333333%;
+        float: left;
+    }
+    .c1 {
+        background-color: #2ECC71;
+    }
+    .c2 {
+        background-color: #9B59B6;
+    }
+    .c3 {
+        background-color: #E67E22;
+    }
+    .c4 {
+        background-color: #F39C12;
+    }
+    .c5 {
+        background-color: #E74C3C;
+    }
+    .c6 {
+        background-color: #95A5A6;
+    }
+    .c7 {
+        background-color: #2C3E50;
+    }
+    .c8 {
+        background-color: #8E44AD;
+    }
+    .c9 {
+        background-color: #27AE60;
+    }
+    .c10 {
+        background-color: #16A085;
+    }
+    .c11 {
+        background-color: #1ABC9C;
+    }
+    .c12 {
+        background-color: #D35400;
+    }
 }
