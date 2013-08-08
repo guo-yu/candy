@@ -1,45 +1,47 @@
 extends ../layout
 
+block banner
+    .banner.clearfix
+        .inner.clearfix.container
+           .row
+                .col-lg-9
+                    h2.title 
+                        i.icon-asterisk
+                        |#{board.name}
+                        span.desc #{board.desc}
+                .col-lg-3
+                    a.btn.btn-success.post(href="/thread/new?bid=#{board.id}&bname=#{board.name}").pull-right
+                        i.icon-plus
+                        | 发帖
+
 block content
     .main-board.board.index-board
-        .pub-main.lz-board
-            .single-pub.clearfix
-                .avatar
-                    img(src="http://tp4.sinaimg.cn/1644105187/180/5621090715/1")
-                h4.title
-                    a(href="/thread/123") 论坛一定要繁琐复杂得什么功能都有？我只想要一个安
-                .author
-                    span.name Turing
-                    span.cat
-                        i.icon-chevron-right
-                        | 深夜杂谈
-                        i.icon-star.star
-                    i.icon-time
-                    |2012-7-17
-            .board-meta.clearfix
-                span.views
-                    i.icon-eye-open
-                    | 23726
-                span.num
-                    i.icon-comment
-                    | 136
-        .pub-main.lz-board
-            .single-pub.clearfix
-                .avatar
-                    img(src="http://tp4.sinaimg.cn/1644105187/180/5621090715/1")
-                h4.title
-                    a(href="/thread/234") 论坛一定要繁琐复杂得什么功能都有？我只想要一个安
-                .author
-                    span.name Turing
-                    span.cat
-                        i.icon-chevron-right
-                        | 深夜杂谈
-                    i.icon-time
-                    |2012-7-17
-            .board-meta.clearfix
-                span.views
-                    i.icon-eye-open
-                    | 23726
-                span.num
-                    i.icon-comment
-                    | 136
+        - if (board.threads && board.threads.length > 0)
+            - each thread in board.threads
+                .pub-main.lz-board
+                    .single-pub.clearfix
+                        .avatar
+                            img(src="http://tp4.sinaimg.cn/1644105187/180/5621090715/1")
+                        h4.title
+                            a(href="/thread/#{thread.id}") #{thread.name}
+                        .author
+                            span.name #{thread.lz}
+                            span.cat
+                                i.icon-chevron-right
+                                | #{board.name}
+                                i.icon-star.star
+                            i.icon-time
+                            |#{new Date(thread.pubdate).getFullYear()}
+                    .board-meta.clearfix
+                        span.views
+                            i.icon-eye-open
+                            | 23726
+                        span.num
+                            i.icon-comment
+                            | 136
+        - else 
+            h4.no
+                i.icon-ban-circle
+                | 这个讨论区还没有人来过，想 
+                a(href="/thread/new?bid=#{board.id}&bname=#{board.name}") 说点什么 
+                | 吗？

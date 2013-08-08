@@ -317,29 +317,26 @@ header {
     .inner {
         padding: 10px 0;
         .title {
-            font-size: 18px;
-            font-weight: normal;
+            font-size: 16px;
+            font-weight: bold;
             color: #444;
-            margin-top: 20px;
+            margin-top: 16px;
             margin-bottom: 15px;
             text-shadow: 1px 1px 1px #ddd;
         }
         .desc {
-            font-size: 14px;
+            font-size: 12px;
             color: #999;
             text-shadow: 1px 1px 1px #efefef;
-            p {
-                line-height: 1.2;
-                margin-bottom: 10px;
-            }
+            font-weight: normal;
+            padding-left: 6px;
         }
     }
-    .social {
-        .side-cnt {
-            ul {
-                margin-bottom: 0;
-            }
-        }
+    .post {
+        font-size: 12px;
+        margin-top: 10px;
+        .br(20px) !important;
+        .bs();
     }
 }
 /* Content */
@@ -931,16 +928,9 @@ footer {
     }
 }
 
-.thread {
-    .box();
-    margin-bottom: 20px;
-    textarea {
-        height: 200px;
-    }
-}
-
 .search {
     margin-bottom: 15px;
+    margin-top: 15px;
     input {
         height: 24px;
         background-color: #f5f5f5;
@@ -1180,4 +1170,33 @@ img.avatar-micro {
     padding: 1px;
     margin: 0px 4px;
     .thumbnail();
+}
+
+.thread {
+    form {
+        margin: 0;
+        padding: 0;
+    }
+    .form-group {
+        border: 0 !important;
+        padding: 0px 0px 18px !important;
+        background-color: transparent !important;
+    }
+    .editor {
+        .editor-toolbar {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 0px 10px;
+            margin-bottom: -2px;
+            .br();
+        }
+        .CodeMirror {
+            background-color: #fff;
+            box-shadow: inset 0px 0px 3px #ddd;
+            border: 1px solid #ddd;
+            padding: 10px;
+            .br();
+        }
+        
+    }
 }

@@ -1,7 +1,13 @@
 var thread = require('../ctrlers/thread');
 
 exports.new = function(req,res,next) {
-    res.render('thread/new');
+    // 需要添加识别默认板块的逻辑
+    res.render('thread/new',{
+        board: {
+            id: req.query.bid ? req.query.bid : 'morenid',
+            name: req.query.bname ? req.query.bname : '默认板块'
+        }
+    });
 }
 
 exports.read = function(req,res,next) {

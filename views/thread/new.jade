@@ -1,17 +1,37 @@
 extends ../layout
 
+block banner
+  .banner.clearfix
+        .inner.clearfix.container
+           .row
+              .col-lg-12
+                  h2.title 
+                      i.icon-plus-sign 
+                      | 在 「#{board.name}」 新建话题
+                      //- span.desc 请遵循社区互助原则发言
+
 block content
-    #thread(ng-controller="thread.new").thread
+    #thread(ng-controller="candy.ctrlers.thread.new").thread
         #new.fn-clear
             form(name="createThread").form-horizontal
               .form-group
-                label.col-lg-2.control-label 帖子标题
-                .col-lg-10
+                label.col-lg-1.control-label 标题
+                .col-lg-11
                     input(type="text",ng-model="thread.title").form-control
               .form-group
-                label.col-lg-2.control-label 写点什么
-                .col-lg-10
+                label.col-lg-1.control-label 内容
+                .col-lg-11.editor
                     textarea(ng-model="thread.content").form-control
               .form-group
-                .col-lg-offset-2.col-lg-10
-                  a(href="javascript:void(0);").btn.btn-success 写好了
+                .col-lg-offset-1.col-lg-11
+                  a(href="javascript:void(0);").btn.btn-success
+                    i.icon-ok 
+                    | 写好了
+
+block js
+    //- editor
+    link(href="http://lab.lepture.com/editor/css/editor.css",rel="stylesheet")
+    script(src="http://lab.lepture.com/editor/js/editor.js")
+    script.
+      var editor = new Editor();
+      editor.render();

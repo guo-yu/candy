@@ -81,7 +81,7 @@ var Server = function(params) {
     app.get('/signout', sign.out);
 
     // board
-    app.get('/board/:id', sign.passport, board.read);
+    app.get('/board/:url', sign.passport, board.read);
     app.post('/board/new', sign.checkJSON, board.create);
     app.post('/board/:id', board.update);
     app.post('/board/:id/remove', sign.checkJSON, board.remove);
