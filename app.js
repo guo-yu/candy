@@ -82,14 +82,14 @@ var Server = function(params) {
 
     // board
     app.get('/board/:id', sign.passport, board.read);
-    app.post('/board/new', board.create);
+    app.post('/board/new', sign.checkJSON, board.create);
     app.post('/board/:id', board.update);
-    app.post('/board/:id/remove', board.remove);
+    app.post('/board/:id/remove', sign.checkJSON, board.remove);
 
     // thread
     app.get('/thread/new', sign.check, thread.new);
     app.get('/thread/:id', sign.passport, thread.read);
-    app.post('/thread/new', thread.create);
+    app.post('/thread/new', sign.checkJSON, thread.create);
     app.post('/thread/remove', thread.remove);
     app.post('/thread/:id', thread.update);
 

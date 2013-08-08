@@ -1059,10 +1059,41 @@ form.form-horizontal {
 
             }
         }
+        .board {
+            .br(0);
+            border:0;
+            padding: 10px 0;
+            border-bottom: 1px dashed #ddd;
+            margin-bottom: 0px;
+            margin-left: -15px;
+            margin-right: -15px;
+            font-size: 14px;
+            i {
+                font-size: 16px;
+                padding: 0px 4px;
+            }
+            span.name {
+                padding-right: 10px;
+            }
+            span.threads {
+                font-size: 14px;
+            }
+            span.desc {
+                color: #999;
+                font-size: 14px;
+            }
+            img {
+                width: 24px;
+                height: 24px;
+                margin-left: 5px;
+                .thumbnail()
+            }
+        }
     }
 }
 
 .thumbnail() {
+    border: 1px solid #ddd;
     padding: 1px;
     background-color: #fff;
     margin-right: 8px;

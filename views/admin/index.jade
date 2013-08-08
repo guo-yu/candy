@@ -62,11 +62,16 @@ block content
                                     .list-group
                                         - each board in boards
                                             .list-group-item.board.clearfix(data-id="#{board.id}")
-                                                span.name 
+                                                span.name.col-lg-3
                                                     a(href="/board/#{board.url}") #{board.name}
-                                                span.desc #{board.desc}
-                                                span.bz #{board.bz}
-                                                span.threads #{board.threads.length}
+                                                span.threads.col-lg-2 #{board.threads.length == 0 ? '暂无帖子': board.threads.length + '帖子'}
+                                                span.desc.col-lg-6 #{board.desc}
+                                                span.bz.col-lg-1
+                                                    - each u in board.bz
+                                                        - if (u.avatar)
+                                                            img(src="#{u.avatar}",title="#{u.nickname ? u.nickname: u.duoshuo.user_id}")
+                                                        - else
+                                                            | #{u.nickname ? u.nickname: u.duoshuo.user_id}
                                 - else 
                                     h3.no 
                                         i.icon-ban-circle

@@ -3,7 +3,7 @@ var model = require('../model'),
 
 // list board
 exports.ls = function(cb){
-	board.find({}).exec(function(err,boards){
+	board.find({}).populate('bz').exec(function(err,boards){
 		if (!err) {
 			cb(boards)
 		} else {
@@ -23,8 +23,9 @@ exports.read = function(id,cb){
 	});
 }
 
-exports.create = function(baby,cb) {
+exports.create = function(bzid,baby,cb) {
 	var baby = new board(baby);
+	baby.bz.push(bzid);
 	baby.save(function(err){
 		if (!err) {
 			cb({

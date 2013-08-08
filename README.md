@@ -41,6 +41,9 @@ var myCandy = new Candy.server({
     name: 'My candy BBS', // site name
     url: 'http://abc.com', // site URL
     desc: 'some desc', // site description
+    database: {
+        name: 'mycandyDB' // database name
+    },
     duoshuo: { 
         short_name: 'xxx', // your duoshuo.com [short_name]
         secret: 'xxx' // your duoshuo.com [secret]
