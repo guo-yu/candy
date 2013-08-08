@@ -10,7 +10,7 @@ block content
             li
                 a(href="#board",data-toggle="tab")
                     i.icon-hdd
-                    |节点
+                    |讨论节点
                     span.badge.pull-right #{boards.length}
             li
                 a(href="#user",data-toggle="tab")
@@ -52,7 +52,7 @@ block content
                         .accordion-heading
                             a.accordion-toggle(href="#addBoard",data-parent="#board-dash",data-toggle="collapse") 
                                 i.icon-plus-sign
-                                |添加节点
+                                |添加讨论节点
                         form#addBoard(name="addBoard").form-horizontal.accordion-body.collapse
                             .accordion-inner
                                 .form-group
@@ -77,7 +77,7 @@ block content
                         .accordion-heading
                             a.accordion-toggle(href="#board-list",data-parent="#board-dash",data-toggle="collapse") 
                                 i.icon-th-list
-                                |节点列表
+                                |讨论节点列表
                         #board-list.board-list.clearfix.accordion-body.collapse.in
                             .accordion-inner
                                 - if (boards && boards.length > 0)
@@ -97,7 +97,7 @@ block content
                                 - else 
                                     h3.no 
                                         i.icon-ban-circle
-                                        |目前还没有任何节点
+                                        |目前还没有任何讨论节点
             #user.tab-pane(ng-controller="candy.ctrlers.admin.user")
                 .list-group
                     - if (users)

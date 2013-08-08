@@ -1,45 +1,18 @@
 // index page
-module.exports = function(req, res){
-  res.render('index',{
-    boards: [{
-        url: 'demo',
-        title: 'demo board',
-        desc: 'sqwsqwsqwsqwsqwsqwsqws',
-        banner: 'http://abc.com/123',
-        threads: [{
-            title: 'sqwsqwsqwssqws sqwsqwsqw',
-            content: 'sqwsqwsqwssqws sqwsqwsqw sqsqws sqwsqws sqwsqws'
-        },{
-            title: '123',
-            content: 'sqwsqwsqwssqws sqwsqwsqw sqsqws sqwsqws sqwsqws'
-        },{
-            title: '123',
-            content: 'sqwsqwsqwssqws sqwsqwsqw sqsqws sqwsqws sqwsqws'
-        },{
-            title: '123',
-            content: 'sqwsqwsqwssqws sqwsqwsqw sqsqws sqwsqws sqwsqws'
-        },{
-            title: '123',
-            content: 'sqwsqwsqwssqws sqwsqwsqw sqsqws sqwsqws sqwsqws'
-        },{
-            title: '123',
-            content: 'sqwsqwsqwssqws sqwsqwsqw sqsqws sqwsqws sqwsqws'
-        },{
-            title: '123',
-            content: 'sqwsqwsqwssqws sqwsqwsqw sqsqws sqwsqws sqwsqws'
-        },{
-            title: '123',
-            content: 'sqwsqwsqwssqws sqwsqwsqw sqsqws sqwsqws sqwsqws'
-        },{
-            title: '123',
-            content: 'sqwsqwsqwssqws sqwsqwsqw sqsqws sqwsqws sqwsqws'
-        },{
-            title: '123',
-            content: 'sqwsqwsqwssqws sqwsqwsqw sqsqws sqwsqws sqwsqws'
-        },{
-            title: '123',
-            content: 'sqwsqwsqwssqws sqwsqwsqw sqsqws sqwsqws sqwsqws'
-        }]
-    }]
-  });
+var board = require('../ctrlers/board'),
+    async = require('async');
+
+module.exports = function(req, res) {
+    async.waterfall([
+        function(callback) {
+            board.ls(function(boards) {
+                callback(null, boards);
+            })
+        },
+        function(boards, callback) {
+            res.render('index', {
+                boards: boards
+            })
+        }
+    ]);
 };
