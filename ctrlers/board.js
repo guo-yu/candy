@@ -3,7 +3,7 @@ var model = require('../model'),
 
 // list board
 exports.ls = function(cb){
-	board.find({}).populate('bz').exec(function(err,boards){
+	board.find({}).populate('bz').populate('threads').exec(function(err,boards){
 		if (!err) {
 			cb(boards)
 		} else {

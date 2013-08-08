@@ -66,17 +66,6 @@ $ node candy.js // or forever start candy.js
     - write a thread and try to post it
     - explore and enjoy ~
 
-### Pull Request Welcome !
-
-- fork this repo
-- feel free to add your feature
-- make sure your feature are fully tested!
-- send me a PR, and enjoy !
-
-### Candy demos
-
-- [Teslaer: tesla电动车中国爱好者社区](http://teslaer.com) (now building...)
-
 ### Candy features
 
 - mobile first
@@ -85,7 +74,18 @@ $ node candy.js // or forever start candy.js
 - follow tags/boards supported
 - sexy and friendly user-interface
 
+### Candy demos
+
+- [Teslaer: tesla电动车中国爱好者社区](http://teslaer.com) (now building...)
+
 ### Screenshots
 
 #### Admin panel
 ![](http://ww4.sinaimg.cn/large/61ff0de3jw1e7fos2mr2wj20ur0oln18.jpg)
+
+### Pull Request Welcome !
+
+- fork this repo
+- feel free to add your feature
+- make sure your feature are fully tested!
+- send me a PR, and enjoy !
