@@ -53,7 +53,7 @@ var userModel = new mongoose.Schema({
 
 // 板块模型
 var boardModel = new mongoose.Schema({
-    title: String,
+    name: String,
     desc: String,
     banner: String,
     url: {
@@ -76,7 +76,7 @@ var threadModel = new mongoose.Schema({
         type: Number,
         unique: true
     },
-    title: String,
+    name: String,
     content: String,
     pubdate: {
         type: Date,

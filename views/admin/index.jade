@@ -7,12 +7,12 @@ block content
                 a(href="#home",data-toggle="tab")
                     i.icon-dashboard
                     |面板首页
-            li.dropdown
+            li.active
                 a(href="#board",data-toggle="tab")
                     i.icon-hdd
                     |板块管理
                     span.badge.pull-right #{boards.length}
-            li.active
+            li
                 a(href="#user",data-toggle="tab")
                     i.icon-user
                     |用户管理
@@ -24,8 +24,54 @@ block content
         .tab-content
             #home.tab-pane
                 .dash #{config.name} 生于 #{config.created}
-            #board.tab-pane 
-            #user.tab-pane.active
+            #board.tab-pane.active(ng-controller="candy.ctrlers.admin.board")
+                #board-dash.accordion
+                    .accordion-group
+                        .accordion-heading
+                            a.accordion-toggle(href="#addBoard",data-parent="#board-dash",data-toggle="collapse") 
+                                i.icon-plus-sign
+                                |添加板块
+                        form#addBoard(name="addBoard").form-horizontal.accordion-body.collapse
+                            .accordion-inner
+                                .form-group
+                                    label.col-lg-2.control-label 板块名称
+                                    .col-lg-6
+                                        input(type="text",ng-model="board.new.name").form-control
+                                .form-group
+                                    label.col-lg-2.control-label 板块URL
+                                    .col-lg-6
+                                        input(type="text",ng-model="board.new.url").form-control
+                                .form-group
+                                    label.col-lg-2.control-label 板块描述
+                                    .col-lg-6
+                                        textarea(ng-model="board.new.desc").form-control
+                                .form-group
+                                    .col-lg-offset-2.col-lg-10
+                                      a(href="javascript:void(0);",ng-click="add()").btn.btn-success
+                                        i(ng-class="btns.new.icon")
+                                        |{{btns.new.text}}
+
+                    .accordion-group
+                        .accordion-heading
+                            a.accordion-toggle(href="#board-list",data-parent="#board-dash",data-toggle="collapse") 
+                                i.icon-th-list
+                                |板块列表
+                        #board-list.board-list.clearfix.accordion-body.collapse.in
+                            .accordion-inner
+                                - if (boards && boards.length > 0)
+                                    .list-group
+                                        - each board in boards
+                                            .list-group-item.board.clearfix(data-id="#{board.id}")
+                                                span.name 
+                                                    a(href="/board/#{board.url}") #{board.name}
+                                                span.desc #{board.desc}
+                                                span.bz #{board.bz}
+                                                span.threads #{board.threads.length}
+                                - else 
+                                    h3.no 
+                                        i.icon-ban-circle
+                                        |目前还没有任何板块
+            #user.tab-pane(ng-controller="candy.ctrlers.admin.user")
                 .list-group
                     - if (users)
                         - each user in users
