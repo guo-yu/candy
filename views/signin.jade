@@ -1,6 +1,6 @@
 - if (user)
     #mime.clearfix.side-cnt
-        h3.side-title 欢迎回来
+        h3.title 欢迎回来
             | , #{user.nickname ? user.nickname : user.duoshuo.user_id}
         - if (user.avatar)
             .avatar_container
@@ -28,5 +28,5 @@
                 a(href="http://#{site.duoshuo.short_name}.duoshuo.com/logout/?sso=1&redirect_uri=#{href}/signout").signout 登出
 - else
     #signin.clearfix.side-cnt
-        h3.side-title 登录 #{site.name}
+        h3.title 登录 #{site.name}
         .ds-login.clearfix

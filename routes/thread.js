@@ -1,13 +1,21 @@
-var thread = require('../ctrlers/thread');
+var thread = require('../ctrlers/thread'),
+    board = require('../ctrlers/board');
 
 exports.new = function(req,res,next) {
     // 需要添加识别默认板块的逻辑
-    res.render('thread/new',{
-        board: {
-            id: req.query.bid ? req.query.bid : 'morenid',
-            name: req.query.bname ? req.query.bname : '默认板块'
-        }
-    });
+    if (req.query.bid) {
+        board.brief(req.query.bid,function(b){
+            res.render('thread/new',{
+                board: b
+            });
+        })
+    } else {
+        board.default(function(b){
+            res.render('thread/new',{
+                board: b
+            });
+        })
+    }
 }
 
 exports.read = function(req,res,next) {
