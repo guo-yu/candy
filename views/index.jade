@@ -2,31 +2,59 @@ extends layout
 
 block content
      .main-board.board.index-board
-        - each board in boards
-            .single-board.clearfix
-                .col-lg-3
-                  .brief
-                    h3.name 
-                        a(href="/board/#{board.url}") #{board.name}
-                        span.meta
-                            i.icon-star.first
-                            |345
-                            i.icon-user
-                            |345
+        - if (threads.length > 0)
+            - each thread in threads
+                .pub-main.lz-board
+                    .single-pub.clearfix
+                        .avatar
+                            img(src="#{thread.lz.avatar}")
+                        h4.title
+                            a(href="/thread/#{thread.id}") #{thread.name}
+                        .author
+                            span.name #{thread.lz}
+                            span.cat
+                                i.icon-chevron-right
+                                | #{board.name}
+                                i.icon-star.star
+                            i.icon-time
+                            |#{new Date(thread.pubdate).getFullYear()}
+                    .board-meta.clearfix
+                        span.views
+                            i.icon-eye-open
+                            | 23726
+                        span.num
                             i.icon-comment
-                            |345
-                    .desc #{board.desc}
-                .col-lg-9
-                  ul.threads.clearfix
-                    - if (thread)
-                    - each thread,i in board.threads
-                     - if (i <= 5)
-                        li.clearfix.thread-title #{thread.title}
-                            img.avatar.fn-left(src="/demo.png")
-                            .meta.fn-right
-                                span.views
-                                    i.icon-eye-open
-                                    | 123
-                                span.comments
-                                    i.icon-comments
-                                    | 123
+                            | 136
+        - else
+            h4.no
+                i.icon-ban-circle
+                | #{site.name} 还没有人来过，想 
+                a(href="/thread/new") 说点什么 
+                | 吗？
+            //- .single-board.clearfix
+            //-     .col-lg-3
+            //-       .brief
+            //-         h3.name 
+            //-             a(href="/board/#{board.url}") #{board.name}
+            //-             span.meta
+            //-                 i.icon-star.first
+            //-                 |345
+            //-                 i.icon-user
+            //-                 |345
+            //-                 i.icon-comment
+            //-                 |345
+            //-         .desc #{board.desc}
+            //-     .col-lg-9
+            //-       ul.threads.clearfix
+            //-         - if (thread)
+            //-         - each thread,i in board.threads
+            //-          - if (i <= 5)
+            //-             li.clearfix.thread-title #{thread.title}
+            //-                 img.avatar.fn-left(src="/demo.png")
+            //-                 .meta.fn-right
+            //-                     span.views
+            //-                         i.icon-eye-open
+            //-                         | 123
+            //-                     span.comments
+            //-                         i.icon-comments
+            //-                         | 123
