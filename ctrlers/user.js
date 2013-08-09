@@ -25,17 +25,6 @@ exports.count = function(cb){
 }
 
 // 读取一个用户
-exports.query = function(id,cb){
-	user.findById(id).exec(function(err,user){
-		if (!err) {
-			cb(user)
-		} else {
-			cb('error')
-		}
-	});
-}
-
-// 读取一个用户
 exports.read = function(id,cb){
 	user.findById(id).populate('thread').exec(function(err,user){
 		if (!err) {

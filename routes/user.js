@@ -34,7 +34,15 @@ exports.remove = function(req, res, next) {
 }
 
 exports.mime = function(req, res) {
-    res.render('mime')
+    if (req.params.id) {
+        user.queryById(req.params.id,function(u){
+            res.render('mime',{
+                uu: u
+            })
+        })
+    } else {
+        res.render('404');
+    }
 }
 
 // 同步用户信息
