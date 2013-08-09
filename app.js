@@ -100,8 +100,8 @@ var Server = function(params) {
     app.post('/user/sync', sign.check, user.sync);
     app.post('/user/:id', user.update);
 
-    // mime
-    app.get('/mime', sign.passport, user.mime);
+    // user center
+    app.get('/member/:id', sign.passport, user.mime);
 
     // admin
     app.get('/admin', sign.checkMaster, sign.checkAdmin, admin.page);

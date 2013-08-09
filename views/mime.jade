@@ -1,32 +1,51 @@
 extends layout
 
+block banner
+    - if (uu.nickname)
+        .banner.clearfix
+            .inner.clearfix.container
+               .row
+                    .col-lg-12
+                        - if (uu.avatar)
+                            img.avatar-mid.fn-left(src="#{uu.avatar}").fn-left
+                        h2.title #{uu.nickname}
+                            span.desc 
+                                - if (uu.url)
+                                    a(href="#{uu.url}",target="_blank") #{uu.url}
+
 block content
-    #mime.clearfix.mime
-        - if (!user.nickname)
-            h3.syncing
-                i.icon-spinner.icon-spin.icon-large 正在同步您的数据，请勿关闭本页面...
-        - if (user.nickname)
-            h3 #{user.nickname ? user.nickname : user.duoshuo.user_id}
-        - if (user.avatar)
-            img.avatar.fn-left(src="#{user.avatar}").fn-left
-    .ds-demo.fn-clear.fn-hide
-        .ds-thread
+    - if (user)
+        - if (user._id == uu._id)
+            #sync.clearfix.mime
+                - if (!user.nickname)
+                    h3.syncing
+                        i.icon-spinner.icon-spin.icon-large
+                        | 正在同步您的数据，请勿关闭本页面...
+                - else
+                    h3 我最近发布的主题
+            .ds-demo.fn-clear.fn-hide
+                .ds-thread
+        - else
+            .mime
+                h3 #{uu.nickname} 最近发布的主题
 block js
-    - if (!user.nickname)
-        script.
-            var duoshuoQuery = {
-                short_name: "#{site.duoshuo.short_name}",
-                sso: { 
-                   login: "#{href}/signin/",
-                   logout: "#{href}/signout/"
-                }
-            };
-            (function() {
-                var ds = document.createElement('script');
-                ds.type = 'text/javascript';ds.async = true;
-                ds.src = 'http://static.duoshuo.com/embed.js';
-                ds.charset = 'UTF-8';
-                (document.getElementsByTagName('head')[0] 
-                || document.getElementsByTagName('body')[0]).appendChild(ds);
-            })();
-        script(src="/javascripts/mime.js")
+    - if (user)
+        - if (user._id == uu._id)
+            - if (!user.nickname)
+                script.
+                    var duoshuoQuery = {
+                        short_name: "#{site.duoshuo.short_name}",
+                        sso: { 
+                           login: "#{href}/signin/",
+                           logout: "#{href}/signout/"
+                        }
+                    };
+                    (function() {
+                        var ds = document.createElement('script');
+                        ds.type = 'text/javascript';ds.async = true;
+                        ds.src = 'http://static.duoshuo.com/embed.js';
+                        ds.charset = 'UTF-8';
+                        (document.getElementsByTagName('head')[0] 
+                        || document.getElementsByTagName('body')[0]).appendChild(ds);
+                    })();
+                script(src="/javascripts/mime.js")
