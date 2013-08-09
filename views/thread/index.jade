@@ -11,7 +11,7 @@ block content
                     span.name #{thread.lz.nickname ? thread.lz.nickname : thread.lz.duoshuo.user_id}
                     span.cat
                         i.icon-chevron-right
-                        a(href="/board/#{thread.board._id}",title="#{thread.board.name}") #{thread.board.name}
+                        a(href="/board/#{thread.board.url}",title="#{thread.board.name}") #{thread.board.name}
                     i.icon-time
                     | #{thread.pubdate}
                 .desc #{thread.content}

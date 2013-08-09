@@ -14,7 +14,7 @@ candy.ctrlers['thread'] = {
                         thread: $scope.thread
                     }, function(result) {
                         if (result.stat == 'ok') {
-                            alert('话题新建成功')
+                            alert('话题新建成功');
                             window.location = './' + result.thread._id;
                         }
                     })
