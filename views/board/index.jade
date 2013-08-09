@@ -16,26 +16,23 @@ block banner
 
 block content
     .main-board.board.index-board
-        - if (board.threads && board.threads.length > 0)
-            - each thread in board.threads
+        - if (threads && threads.length > 0)
+            - each thread in threads
                 .pub-main.lz-board
                     .single-pub.clearfix
                         .avatar
-                            img(src="http://tp4.sinaimg.cn/1644105187/180/5621090715/1")
+                            - if (thread.lz.avatar)
+                                img(src="#{thread.lz.avatar}")
                         h4.title
                             a(href="/thread/#{thread.id}") #{thread.name}
                         .author
-                            span.name #{thread.lz}
-                            span.cat
-                                i.icon-chevron-right
-                                | #{board.name}
-                                i.icon-star.star
+                            span.name #{thread.lz.nickname ? thread.lz.nickname : thread.lz.duoshuo.user_id}
                             i.icon-time
-                            |#{new Date(thread.pubdate).getFullYear()}
+                            | #{thread.pubdate}
                     .board-meta.clearfix
                         span.views
                             i.icon-eye-open
-                            | 23726
+                            | #{thread.views}
                         span.num
                             i.icon-comment
                             | 136

@@ -8,17 +8,17 @@ var board = require('../ctrlers/board'),
 var wash = function(boards, params, callback) {
     var threads = [];
     var fetchThreads = function(b, cb) {
-        console.log(b);
         thread.lsByBoardId(b, {
             limit: params.limit
         }, function(ts) {
-            threads.push(ts);
+            if (ts && ts.length > 0) {
+                threads = threads.concat(ts);
+            }
             cb();
         })
     };
     async.each(boards, fetchThreads, function(err) {
         if (!err) {
-            console.log(threads);
             callback(threads);
         }
     });
@@ -28,7 +28,7 @@ module.exports = function(req, res) {
     async.waterfall([
         function(callback) {
             board.lsId({
-                limit: 3
+                limit: 10
             }, function(boards) {
                 callback(null, boards);
             })
