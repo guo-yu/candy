@@ -3,7 +3,7 @@
 
 a micro bbs system based on duoshuo.com apis
 
-![screenshot](http://ww3.sinaimg.cn/large/61ff0de3jw1e7fov9mphrj20ur0olwin.jpg)
+![screenshot](http://ww2.sinaimg.cn/large/61ff0de3gw1e7gysyptnkj20wf0nj0wu.jpg)
 
 ### How to install
 
@@ -79,6 +79,9 @@ $ node candy.js // or forever start candy.js
 - [Teslaer: tesla电动车中国爱好者社区](http://teslaer.com) (now building...)
 
 ### Screenshots
+
+#### Home screen
+![](http://ww2.sinaimg.cn/large/61ff0de3gw1e7gyt8g45pj20wf0njwid.jpg)
 
 #### Admin panel
 ![](http://ww4.sinaimg.cn/large/61ff0de3jw1e7fos2mr2wj20ur0oln18.jpg)
