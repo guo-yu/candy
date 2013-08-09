@@ -29,8 +29,11 @@ block content
                     .dash-item.col-lg-12
                         i.icon-rocket.col-lg-2.label.label-success
                         .desc.col-lg-10 
-                            h3.uptime #{config.name} 已运行 1 天
-                            .birthday #{config.name} 生于 #{new Date(config.created).getFullYear() + '年' + (new Date(config.created).getMonth() + 1) + '月' + new Date(config.created).getDate() + '日'}，创始人是 #{users[0].nickname ? users[0].nickname : users[0].duoshuo.user_id}
+                            h3.uptime #{config.name} 已建立 
+                                != moment(config.created).fromNow(true)
+                            .birthday #{config.name} 生于 
+                                != moment(config.created).format('LLLL')
+                                |，创始人是 #{users[0].nickname ? users[0].nickname : users[0].duoshuo.user_id}
                                 - if (users[0].avatar)
                                     img(src="#{users[0].avatar}").avatar-micro
                     .dash-item.col-lg-12
