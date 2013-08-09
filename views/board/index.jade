@@ -30,7 +30,7 @@ block content
                             span.name 
                                 a(href="/member/#{thread.lz.id}") #{thread.lz.nickname ? thread.lz.nickname : thread.lz.duoshuo.user_id}
                             i.icon-time
-                            | #{thread.pubdate}
+                            != moment(thread.pubdate).fromNow()
                     .board-meta.clearfix
                         span.views
                             i.icon-eye-open

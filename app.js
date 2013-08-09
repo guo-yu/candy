@@ -31,7 +31,9 @@ var Server = function(params) {
         user = require('./routes/user'),
         index = require('./routes/index'),
         sign = require('./routes/sign'),
-        admin = require('./routes/admin');
+        admin = require('./routes/admin'),
+        cn = require('./lib/zh-cn'),
+        moment = require('moment');
 
     // all environments
     app.set('views', __dirname + '/views');
@@ -72,6 +74,13 @@ var Server = function(params) {
     if ('development' == app.get('env')) {
         app.use(express.errorHandler());
     }
+
+    moment.lang('zh-cn',cn);
+    
+    app.get('*', function(req,res,next){
+        res.locals.moment = moment;
+        next();
+    });
 
     // home
     app.get('/', sign.passport, index);

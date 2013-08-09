@@ -386,6 +386,9 @@ header .user-nav a {
 .board .pub-main .single-pub ol {
   padding-left: 20px;
 }
+.board .pub-main .single-pub pre {
+  margin: 10px 0 14px;
+}
 .board .pub-main .title {
   font-size: 18px;
   font-weight: normal;

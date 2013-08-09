@@ -19,7 +19,7 @@ block content
                                 i.icon-chevron-right
                                 a(href="/board/#{thread.board.url}") #{thread.board.name}
                             i.icon-time
-                            | #{thread.pubdate}
+                            != moment(thread.pubdate).fromNow()
                     .board-meta.clearfix
                         span.views
                             i.icon-eye-open

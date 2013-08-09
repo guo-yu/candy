@@ -16,7 +16,7 @@ block content
                         i.icon-chevron-right
                         a(href="/board/#{thread.board.url}") #{thread.board.name}
                     i.icon-time
-                    | #{thread.pubdate}
+                    != moment(thread.pubdate).fromNow()
                 .desc!= marked(thread.content)
         .board-meta
             span.views
