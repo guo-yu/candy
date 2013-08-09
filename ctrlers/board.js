@@ -12,6 +12,17 @@ exports.ls = function(cb){
 	});
 }
 
+// list board
+exports.lsId = function(params,cb){
+	board.find({}).select('_id').limit(params.limit).exec(function(err,boards){
+		if (!err) {
+			cb(boards)
+		} else {
+			cb('error');
+		}
+	});
+}
+
 // read by url
 exports.readByUrl = function(url,cb){
 	board.findOne({

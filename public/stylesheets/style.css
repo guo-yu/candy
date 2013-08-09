@@ -1237,3 +1237,9 @@ h3.syncing {
   line-height: 1;
   margin: 0;
 }
+.not-found h3 {
+  font-size: 40px;
+}
+.not-found span {
+  font-size: 14px;
+}
