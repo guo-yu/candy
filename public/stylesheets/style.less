@@ -344,6 +344,7 @@ header {
 .board {
     .pub-main {
         color: #444;
+        overflow: hidden;
         .avatar {
             float: left;
             margin: 5px 15px 5px 5px;
@@ -365,6 +366,37 @@ header {
         .single-pub {
             background-color: #fff;
             padding: 15px 10px;
+            h1 {
+                font-size: 24px;
+            }
+            h2 {
+                font-size: 20px;
+            }
+            h3 {
+                font-size: 18px;
+                font-weight: bold;
+                padding-bottom: 10px;
+                margin-bottom: 10px;
+                border-bottom: 1px solid #ddd;
+            }
+            h4,h5 {
+                color: #444;
+                font-size: 16px;
+            }
+            img {
+                display:inline-block;
+                height:auto;
+                max-width:100%
+            }
+            code {
+                font-size: 12px;
+            }
+            p {
+                line-height: 1.8;
+            }
+            ol {
+                padding-left: 20px;
+            }
         }
         .title {
             font-size: 18px;
@@ -385,6 +417,9 @@ header {
             color: #999;
             border-bottom: 1px solid #ddd;
             font-size: 12px;
+            a {
+                color : #999;
+            }
             span {
                 padding:2px 5px 3px;
                 margin-right: 10px;

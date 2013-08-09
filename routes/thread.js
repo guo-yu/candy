@@ -1,5 +1,6 @@
 var thread = require('../ctrlers/thread'),
-    board = require('../ctrlers/board');
+    board = require('../ctrlers/board'),
+    marked = require('marked');
 
 exports.new = function(req, res, next) {
     // 需要添加识别默认板块的逻辑
@@ -22,7 +23,8 @@ exports.read = function(req, res, next) {
     thread.read(req.params.id, function(b) {
         if (b) {
             res.render('thread/index', {
-                thread: b
+                thread: b,
+                marked: marked
             })
         } else {
             res.render('404')

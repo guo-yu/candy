@@ -327,6 +327,7 @@ header .user-nav a {
 /* Content */
 .board .pub-main {
   color: #444;
+  overflow: hidden;
 }
 .board .pub-main .avatar {
   float: left;
@@ -353,6 +354,38 @@ header .user-nav a {
   background-color: #fff;
   padding: 15px 10px;
 }
+.board .pub-main .single-pub h1 {
+  font-size: 24px;
+}
+.board .pub-main .single-pub h2 {
+  font-size: 20px;
+}
+.board .pub-main .single-pub h3 {
+  font-size: 18px;
+  font-weight: bold;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+.board .pub-main .single-pub h4,
+.board .pub-main .single-pub h5 {
+  color: #444;
+  font-size: 16px;
+}
+.board .pub-main .single-pub img {
+  display: inline-block;
+  height: auto;
+  max-width: 100%;
+}
+.board .pub-main .single-pub code {
+  font-size: 12px;
+}
+.board .pub-main .single-pub p {
+  line-height: 1.8;
+}
+.board .pub-main .single-pub ol {
+  padding-left: 20px;
+}
 .board .pub-main .title {
   font-size: 18px;
   font-weight: normal;
@@ -372,6 +405,9 @@ header .user-nav a {
   color: #999;
   border-bottom: 1px solid #ddd;
   font-size: 12px;
+}
+.board .pub-main .author a {
+  color: #999;
 }
 .board .pub-main .author span {
   padding: 2px 5px 3px;
