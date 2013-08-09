@@ -31,7 +31,8 @@
     "connect-mongo":"*",
     "mongoose": "*",
     "async": "*",
-    "ifile": "*"
+    "ifile": "*",
+    "underscore" : "*"
   },
   "devDependencies": {
     "mocha": "*",
