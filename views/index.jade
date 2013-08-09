@@ -11,10 +11,10 @@ block content
                         h4.title
                             a(href="/thread/#{thread.id}") #{thread.name}
                         .author
-                            span.name #{thread.lz}
+                            span.name #{thread.lz.nickname ? thread.lz.nickname : thread.lz.duoshuo.user_id}
                             span.cat
                                 i.icon-chevron-right
-                                | #{thread.board.name}
+                                a(href="/board/#{thread.board.url}") #{thread.board.name}
                             i.icon-time
                             |#{thread.pubdate}
                     .board-meta.clearfix

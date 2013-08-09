@@ -1,5 +1,6 @@
 var model = require('../model'),
-	board = model.board;
+	board = model.board,
+	thread = require('./thread');
 
 // list board
 exports.ls = function(cb){
@@ -27,9 +28,16 @@ exports.lsId = function(params,cb){
 exports.readByUrl = function(url,cb){
 	board.findOne({
 		url: url
-	}).populate('threads').populate('bz').exec(function(err,board){
+	}).populate('bz').exec(function(err,board){
 		if (!err) {
-			cb(board)
+			thread.lsByBoardId(board._id,{
+				limit: 20
+			},function(ts){
+				cb({
+					board: board,
+					threads: ts
+				});
+			})
 		} else {
 			console.log(err)
 			cb('error')
