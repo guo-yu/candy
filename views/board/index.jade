@@ -20,13 +20,15 @@ block content
             - each thread in threads
                 .pub-main.lz-board
                     .single-pub.clearfix
-                        .avatar
-                            - if (thread.lz.avatar)
-                                img(src="#{thread.lz.avatar}")
+                        - if (thread.lz.avatar)
+                            .avatar
+                                a(href="/member/#{thread.lz.id}")
+                                    img(src="#{thread.lz.avatar}")
                         h4.title
                             a(href="/thread/#{thread.id}") #{thread.name}
                         .author
-                            span.name #{thread.lz.nickname ? thread.lz.nickname : thread.lz.duoshuo.user_id}
+                            span.name 
+                                a(href="/member/#{thread.lz.id}") #{thread.lz.nickname ? thread.lz.nickname : thread.lz.duoshuo.user_id}
                             i.icon-time
                             | #{thread.pubdate}
                     .board-meta.clearfix

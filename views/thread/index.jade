@@ -4,17 +4,20 @@ block content
       .board
         .pub-main.lz-board
             .single-pub.clearfix
-                .avatar
-                    img(src="#{thread.lz.avatar}").avatar
+                - if (thread.lz.avatar)
+                    .avatar
+                        a(href="/member/#{thread.lz.id}")
+                            img(src="#{thread.lz.avatar}")
                 h4.title #{thread.name}
                 .author
-                    span.name #{thread.lz.nickname ? thread.lz.nickname : thread.lz.duoshuo.user_id}
+                    span.name 
+                        a(href="/member/#{thread.lz.id}") #{thread.lz.nickname ? thread.lz.nickname : thread.lz.duoshuo.user_id}
                     span.cat
                         i.icon-chevron-right
-                        a(href="/board/#{thread.board.url}",title="#{thread.board.name}") #{thread.board.name}
+                        a(href="/board/#{thread.board.url}") #{thread.board.name}
                     i.icon-time
                     | #{thread.pubdate}
-                .desc #{thread.content}
+                .desc!= marked(thread.content)
         .board-meta
             span.views
                 i.icon-eye-open

@@ -33,7 +33,8 @@
     "async": "*",
     "ifile": "*",
     "underscore" : "*",
-    "moment": "*"
+    "moment": "*",
+    "marked": "*"
   },
   "devDependencies": {
     "mocha": "*",
