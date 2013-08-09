@@ -50,7 +50,7 @@ exports.in = function(req, res) {
                 } else {
                     createUser(result, function(baby) {
                         req.session.user = baby;
-                        res.redirect('/mime');
+                        res.redirect('/member/' + req.session.user._id);
                     });
                 }
             })

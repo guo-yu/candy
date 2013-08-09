@@ -10,7 +10,7 @@ block banner
                         |#{board.name}
                         span.desc #{board.desc}
                 .col-lg-3
-                    a.btn.btn-success.post(href="/thread/new?bid=#{board.id}&bname=#{board.name}").pull-right
+                    a.btn.btn-success.post(href="/thread/new?bid=#{board.id}").pull-right
                         i.icon-plus
                         | 发帖
 
@@ -43,5 +43,5 @@ block content
             h4.no
                 i.icon-ban-circle
                 | 这个讨论区还没有人来过，想 
-                a(href="/thread/new?bid=#{board.id}&bname=#{board.name}") 说点什么 
+                a(href="/thread/new?bid=#{board.id}") 说点什么 
                 | 吗？

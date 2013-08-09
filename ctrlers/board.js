@@ -26,6 +26,30 @@ exports.readByUrl = function(url,cb){
 	});
 }
 
+// read default
+exports.default = function(cb){
+	board.findOne({}).exec(function(err,board){
+		if (!err) {
+			cb(board)
+		} else {
+			console.log(err)
+			cb('error')
+		}
+	});
+}
+
+// read breif
+exports.brief = function(id,cb){
+	board.findById(id).exec(function(err,board){
+		if (!err) {
+			cb(board)
+		} else {
+			console.log(err)
+			cb('error')
+		}
+	});
+}
+
 // read by id
 exports.read = function(id,cb){
 	board.findById(id).populate('threads').populate('bz').exec(function(err,board){
