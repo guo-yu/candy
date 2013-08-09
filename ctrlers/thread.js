@@ -1,9 +1,12 @@
 var model = require('../model'),
-	thread = model.thread;
+	thread = model.thread,
+	board = require('./board'),
+	user = require('./user'),
+	async = require('async');
 
 // list thread
-exports.ls = function(cb){
-	thread.find({}).exec(function(err,threads){
+exports.ls = function(cb) {
+	thread.find({}).exec(function(err, threads) {
 		if (!err) {
 			cb(threads)
 		} else {
@@ -12,8 +15,21 @@ exports.ls = function(cb){
 	});
 }
 
-exports.read = function(id,cb){
-	thread.findById(id).populate('lz').populate('board').exec(function(err,thread){
+// list thread by board id
+exports.lsByBoardId = function(bid,params,cb) {
+	thread.find({
+		board: bid
+	}).limit(params.limit).populate('lz').populate('board').exec(function(err, threads) {
+		if (!err) {
+			cb(threads)
+		} else {
+			cb('error');
+		}
+	});
+}
+
+exports.read = function(id, cb) {
+	thread.findById(id).populate('lz').populate('board').exec(function(err, thread) {
 		if (!err) {
 			cb(thread)
 		} else {
@@ -22,19 +38,47 @@ exports.read = function(id,cb){
 	});
 }
 
-exports.create = function(baby,cb) {
+exports.create = function(baby, cb) {
 	var baby = new thread(baby);
-	baby.save(function(err){
-		if (!err) {
-			cb(baby);
-		} else {
-			console.log(err)
+	async.waterfall([
+		function(callback) {
+			baby.save(function(err) {
+				if (!err) {
+					callback(null, baby);
+				} else {
+					console.log(err)
+				}
+			});
+		},
+		function(baby, callback) {
+			board.brief(baby.board,function(b){
+				b.threads.push(baby._id);
+				b.save(function(err){
+					if (!err) {
+						callback(null, baby)
+					} else {
+						console.log(err)
+					}
+				})
+			})
+		},
+		function(baby, callback) {
+			user.queryById(baby.lz,function(u){
+				u.threads.push(baby._id);
+				u.save(function(err){
+					if (!err) {
+						cb(baby);
+					} else {
+						console.log(err);
+					}
+				})
+			})
 		}
-	})
+	]);
 }
 
-exports.update = function(id,body,cb) {
-	thread.findByIdAndUpdate(id,body,function(err){
+exports.update = function(id, body, cb) {
+	thread.findByIdAndUpdate(id, body, function(err) {
 		if (!err) {
 			cb(body);
 		}
@@ -43,7 +87,7 @@ exports.update = function(id,body,cb) {
 
 // 删除之后要删除在相应board的索引？
 exports.remove = function(id) {
-	thread.findById(id).exec(function(err,t){
+	thread.findById(id).exec(function(err, t) {
 		if (!err) {
 			t.remove();
 			t.save();

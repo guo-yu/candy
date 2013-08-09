@@ -14,23 +14,22 @@ block content
                             span.name #{thread.lz}
                             span.cat
                                 i.icon-chevron-right
-                                | #{board.name}
-                                i.icon-star.star
+                                | #{thread.board.name}
                             i.icon-time
-                            |#{new Date(thread.pubdate).getFullYear()}
+                            |#{thread.pubdate}
                     .board-meta.clearfix
                         span.views
                             i.icon-eye-open
-                            | 23726
+                            | #{thread.views}
                         span.num
                             i.icon-comment
                             | 136
         - else
             h4.no
-                i.icon-ban-circle
-                | #{site.name} 还没有人来过，想 
-                a(href="/thread/new") 说点什么 
-                | 吗？
+                i.icon-star
+                | #{site.name} 好像是个刚创建的论坛， 想成为 
+                a(href="/thread/new") 第一个发言 
+                | 的人吗？
             //- .single-board.clearfix
             //-     .col-lg-3
             //-       .brief

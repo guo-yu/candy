@@ -17,21 +17,21 @@ block content
               .form-group
                 label.col-lg-1.control-label 标题
                 .col-lg-11
-                    input(type="text",ng-model="thread.title").form-control
+                    input(type="text",ng-model="thread.name").form-control
               .form-group
                 label.col-lg-1.control-label 内容
                 .col-lg-11.editor
-                    textarea(ng-model="thread.content").form-control
+                    textarea.form-control
+              input(type="hidden",ng-model="thread.board",ng-init="thread.board='#{board._id}'")
+              input(type="hidden",ng-model="thread.lz",ng-init="thread.lz='#{user._id}'")
               .form-group
                 .col-lg-offset-1.col-lg-11
-                  a(href="javascript:void(0);").btn.btn-success
+                  a(href="javascript:void(0);",ng-click="create()").btn.btn-success
                     i.icon-ok 
                     | 写好了
 
 block js
     //- editor
-    link(href="http://lab.lepture.com/editor/css/editor.css",rel="stylesheet")
-    script(src="http://lab.lepture.com/editor/js/editor.js")
-    script.
-      var editor = new Editor();
-      editor.render();
+    link(href="/stylesheets/editor/editor.css",rel="stylesheet")
+    script(src="/javascripts/lib/editor.js")
+    script(src="/javascripts/thread.js")

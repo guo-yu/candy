@@ -5,21 +5,20 @@ block content
         .pub-main.lz-board
             .single-pub.clearfix
                 .avatar
-                    |<img alt="" src="http://1.gravatar.com/avatar/f5116a397eaf2c11148ecd181c6512b5?s=50&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D50&amp;r=G" class="avatar avatar-50 photo" height="50" width="50">
-                h4.title Candy 极简化论坛的新尝试
+                    img(src="#{thread.lz.avatar}").avatar
+                h4.title #{thread.name}
                 .author
-                    span.name byron
+                    span.name #{thread.lz.nickname ? thread.lz.nickname : thread.lz.duoshuo.user_id}
                     span.cat
                         i.icon-chevron-right
-                        |<a href="http://handybbs.com/category/uncategorized/" title="查看 杂思闲谈 中的全部文章" rel="category tag">Candy</a>
+                        a(href="/board/#{thread.board._id}",title="#{thread.board.name}") #{thread.board.name}
                     i.icon-time
-                    | 2013/07/19
-                .desc
-                    p 这是创业史上最美好的时期，改变世界从未如此简单：一个好的idea，三两个靠谱的兄弟，四五个月的鏖战，一个APP说不定就征服了世界；这是创业史上最艰难的时期，成本的降低让APP呈现爆炸趋势，可用户的时间和注意力有限。如何在众多APP中脱颖而出？
+                    | #{thread.pubdate}
+                .desc #{thread.content}
         .board-meta
             span.views
                 i.icon-eye-open
-                | 29816 浏览
+                | #{thread.views}
             span.num
                 i.icon-comment
                 | 128 跟帖

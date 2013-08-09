@@ -32,7 +32,8 @@
     "mongoose": "*",
     "async": "*",
     "ifile": "*",
-    "underscore" : "*"
+    "underscore" : "*",
+    "moment": "*"
   },
   "devDependencies": {
     "mocha": "*",

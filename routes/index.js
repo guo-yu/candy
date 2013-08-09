@@ -1,39 +1,46 @@
 // index page
 var board = require('../ctrlers/board'),
+    thread = require('../ctrlers/thread'),
     async = require('async'),
     _ = require('underscore');
 
-var wash = function(count,boards) {
-    var threads = [],
-        count = {
-            boards: count.boards ? count.boards: 3,
-            threads: count.threads ? count.threads: 3
-        }
-    _.each(boards,function(b,bindex){
-        if (bindex <= count.boards) {
-            if (b.threads.length > 0) {
-                _.each(b.threads,function(t,tindex){
-                    if (tindex <= count.threads) {
-                        threads.push(t);
-                    }
-                })
-            }
+// borads are id list
+var wash = function(boards, params, callback) {
+    var threads = [];
+    var fetchThreads = function(b, cb) {
+        console.log(b);
+        thread.lsByBoardId(b, {
+            limit: params.limit
+        }, function(ts) {
+            threads.push(ts);
+            cb();
+        })
+    };
+    async.each(boards, fetchThreads, function(err) {
+        if (!err) {
+            console.log(threads);
+            callback(threads);
         }
     });
-    return threads;
 }
 
 module.exports = function(req, res) {
     async.waterfall([
         function(callback) {
-            board.ls(function(boards) {
+            board.lsId({
+                limit: 3
+            }, function(boards) {
                 callback(null, boards);
             })
         },
         function(boards, callback) {
-            callback(null, boards, wash(boards));
+            wash(boards, {
+                limit: 5
+            }, function(threads) {
+                callback(null, boards, threads)
+            });
         },
-        function(boards,threads, callback) {
+        function(boards, threads, callback) {
             res.render('index', {
                 boards: boards,
                 threads: threads

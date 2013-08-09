@@ -7,7 +7,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 // configs
-var configModel = new mongoose.Schema({
+var configModel = new Schema({
     name: String,
     desc: String,
     url: String,
@@ -23,7 +23,7 @@ var configModel = new mongoose.Schema({
 
 // 用户模型
 // 如果要同步的话，如何抓取到用户在多说的『我的站点』发布的评论和帖子？实际上帖子是在这里的，评论我是拿不到的。
-var userModel = new mongoose.Schema({
+var userModel = new Schema({
     nickname: String,
     email: String,
     avatar: String,
@@ -52,7 +52,7 @@ var userModel = new mongoose.Schema({
 });
 
 // 板块模型
-var boardModel = new mongoose.Schema({
+var boardModel = new Schema({
     name: String,
     desc: String,
     banner: String,
@@ -71,13 +71,16 @@ var boardModel = new mongoose.Schema({
 })
 
 // 帖子模型
-var threadModel = new mongoose.Schema({
+var threadModel = new Schema({
     name: String,
     content: String,
-    views: Number,
     tid: {
         type: Number,
         unique: true
+    },
+    views: {
+        type: Number,
+        default: 0
     },
     pubdate: {
         type: Date,
