@@ -1,7 +1,7 @@
 extends layout
 
 block content
-     .main-board.board.index-board
+     .main-board.index-board.board
         - if (threads.length > 0)
             - each thread in threads
                 .pub-main.lz-board
@@ -21,12 +21,13 @@ block content
                             i.icon-time
                             != moment(thread.pubdate).fromNow()
                     .board-meta.clearfix
-                        span.views
+                        .views
                             i.icon-eye-open
                             | #{thread.views}
-                        span.num
-                            i.icon-comment
-                            | 136
+                        .num
+                            a(href="/thread/#{thread.id}#comments")
+                                i.icon-comment
+                                | 136
         - else
             h4.no
                 i.icon-star

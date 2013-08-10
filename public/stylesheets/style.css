@@ -480,20 +480,21 @@ header .user-nav a {
 .index-board .board-meta {
   position: absolute;
   right: 10px;
-  top: 10px;
+  top: 25px;
   z-index: 999;
   width: 180px;
 }
-.index-board .board-meta span {
+.index-board .board-meta div {
   display: block;
   float: right;
   margin-right: 10px;
   text-align: center;
   color: #999;
-  width: 40px;
+  width: 50px;
   overflow: hidden;
+  font-size: 12px;
 }
-.index-board .board-meta span i {
+.index-board .board-meta div i {
   display: block;
   margin-bottom: 8px;
   text-align: center;
@@ -502,13 +503,19 @@ header .user-nav a {
   padding: 0;
   color: #ddd;
 }
-.board-meta {
+.index-board .board-meta div a {
+  color: #999;
+}
+.index-board .board-meta div a:hover {
+  color: #000;
+}
+.single-thread .board-meta {
   text-align: center;
   padding: 10px 0;
   font-size: 12px;
   text-shadow: 1px 1px 1px #fff;
 }
-.board-meta span {
+.single-thread .board-meta span {
   color: #999;
   border-radius: 4px;
   -moz-border-radius: 4px;
@@ -518,14 +525,15 @@ header .user-nav a {
   text-shadow: 1px 1px 1px #fff;
   margin-right: 10px;
 }
-.board-meta span a {
+.single-thread .board-meta span a {
   color: #999;
 }
-.board-meta span a:hover {
+.single-thread .board-meta span a:hover {
   color: #000;
 }
-.board-meta span i {
-  padding-right: 5px;
+.single-thread .board-meta i {
+  color: #999;
+  padding-right: 3px;
 }
 .signin {
   background-color: #fff;
@@ -1313,4 +1321,45 @@ h3.syncing {
 }
 .not-found span {
   font-size: 14px;
+}
+.ds-recent-visitors {
+  padding: 5px 10px;
+}
+.ds-recent-visitors img {
+  border: 1px solid #ddd;
+  padding: 1px;
+  background-color: #fff;
+  margin-right: 8px;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -o-border-radius: 3px;
+  box-shadow: 1px 1px 4px #efefef;
+  -moz-box-shadow: 1px 1px 4px #efefef;
+  -webkit-box-shadow: 1px 1px 4px #efefef;
+  margin-right: 0px;
+}
+.ds-recent-comments {
+  margin-left: 10px !important;
+  margin-bottom: 0 !important;
+  margin-right: 10px !important;
+}
+.ds-recent-comments li {
+  border: 0 !important;
+}
+.ds-recent-comments li img {
+  border: 1px solid #ddd;
+  padding: 1px;
+  background-color: #fff;
+  margin-right: 8px;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -o-border-radius: 3px;
+  box-shadow: 1px 1px 4px #efefef;
+  -moz-box-shadow: 1px 1px 4px #efefef;
+  -webkit-box-shadow: 1px 1px 4px #efefef;
+}
+.ds-recent-comments li:hover {
+  background-color: #fff !important;
 }

@@ -1,7 +1,7 @@
 extends ../layout
 
 block content
-      .board
+      .board.single-thread
         .pub-main.lz-board
             .single-pub.clearfix
                 - if (thread.lz.avatar)
@@ -19,14 +19,16 @@ block content
                     != moment(thread.pubdate).fromNow()
                 .desc!= marked(thread.content)
         .board-meta
-            span.views
-                i.icon-eye-open
-                | #{thread.views} 阅读
-            //- span.num
-            //-     i.icon-comment
-            //-     | 128 跟帖
-            //- span.add-com-btn
-            //-     i.icon-share-alt
-            //-     | 128 分享
+            i.icon-eye-open
+            span.views #{thread.views} 阅读
+            i.icon-comment
+            span.num.ds-thread-count(data-thread-key="#{thread.id}",data-count-type="comments")
+                | 加载中...
+            i.icon-weibo
+            span.num.ds-thread-count(data-thread-key="#{thread.id}",data-count-type="weibo_reposts")
+                | 加载中...
+            i.icon-tumblr
+            span.num.ds-thread-count(data-thread-key="#{thread.id}",data-count-type="qqt_reposts")
+                | 加载中...
         .comment-board
             include ../comment.jade
