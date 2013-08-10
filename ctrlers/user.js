@@ -26,7 +26,7 @@ exports.count = function(cb){
 
 // 读取一个用户
 exports.read = function(id,cb){
-	user.findById(id).populate('thread').exec(function(err,user){
+	user.findById(id).populate('threads').exec(function(err,user){
 		if (!err) {
 			cb(user)
 		} else {

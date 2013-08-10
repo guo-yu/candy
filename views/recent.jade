@@ -1,0 +1,12 @@
+#recent.mime-block
+    h3.title 最近发布的主题
+        .pub-list.clearfix
+            - each thread in uu.threads
+                .single-pub
+                    h4.title.clearfix
+                        a(href="/thread/#{thread.id}") 
+                            i.icon-chevron-right
+                            |#{thread.name}
+                            span.author
+                                i.icon-time
+                                != moment(thread.pubdate).fromNow()

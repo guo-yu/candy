@@ -24,11 +24,9 @@ block content
                 .ds-demo.fn-clear.fn-hide
                     .ds-thread
             - else
-                #recent.mime-block
-                    h3.title 我最近发布的主题
+                include recent
         - else
-            #recent.mime-block
-                h3.title #{uu.nickname} 最近发布的主题
+            include recent
 block js
     - if (user)
         - if (user._id == uu._id)
