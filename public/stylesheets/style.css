@@ -867,6 +867,35 @@ footer .copyright .powered {
   border: 1px solid #ddd;
   padding: 1px;
 }
+.side-cnt .pub-list,
+.mime-block .pub-list {
+  border-top: 1px solid #ddd;
+  margin-top: 10px;
+  padding-top: 15px;
+}
+.side-cnt .single-pub,
+.mime-block .single-pub {
+  padding: 12px 0;
+}
+.side-cnt .single-pub h4,
+.mime-block .single-pub h4 {
+  margin: 0;
+  line-height: 1;
+}
+.side-cnt .single-pub h4 a,
+.mime-block .single-pub h4 a {
+  font-size: 14px;
+}
+.side-cnt .single-pub h4 a i.icon-chevron-right,
+.mime-block .single-pub h4 a i.icon-chevron-right {
+  color: #3498db;
+}
+.side-cnt .single-pub span,
+.mime-block .single-pub span {
+  padding-left: 10px;
+  font-size: 12px;
+  color: #999;
+}
 /* sugars */
 /* duoshuo */
 .side-block {

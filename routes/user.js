@@ -35,7 +35,8 @@ exports.remove = function(req, res, next) {
 
 exports.mime = function(req, res) {
     if (req.params.id) {
-        user.queryById(req.params.id,function(u){
+        user.read(req.params.id,function(u){
+            console.log(u)
             res.render('mime',{
                 uu: u
             })
