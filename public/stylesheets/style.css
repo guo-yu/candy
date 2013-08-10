@@ -313,6 +313,9 @@ header .user-nav a {
   font-weight: normal;
   padding-left: 6px;
 }
+.banner .inner .admin {
+  font-size: 12px;
+}
 .banner .post {
   font-size: 12px;
   margin-top: 10px;
@@ -487,14 +490,14 @@ header .user-nav a {
   margin-right: 10px;
   text-align: center;
   color: #999;
-  width: 52px;
+  width: 40px;
   overflow: hidden;
 }
 .index-board .board-meta span i {
   display: block;
   margin-bottom: 8px;
   text-align: center;
-  font-size: 26px;
+  font-size: 22px;
   line-height: 1;
   padding: 0;
   color: #ddd;
@@ -643,7 +646,7 @@ header .user-nav a {
 }
 /* Footer */
 footer .copyright {
-  padding: 0px 0 20px;
+  padding: 20px 0;
   margin-top: 5px;
   color: #999;
   font-size: 12px;

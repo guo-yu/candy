@@ -29,8 +29,9 @@ block content
                         .author
                             span.name 
                                 a(href="/member/#{thread.lz.id}") #{thread.lz.nickname ? thread.lz.nickname : thread.lz.duoshuo.user_id}
-                            i.icon-time
-                            != moment(thread.pubdate).fromNow()
+                            span.cat
+                                i.icon-time
+                                != moment(thread.pubdate).fromNow()
                     .board-meta.clearfix
                         span.views
                             i.icon-eye-open
