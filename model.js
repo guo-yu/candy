@@ -1,5 +1,5 @@
 /**
- * db configs
+ * db models
  */
 
 var mongoose = require('mongoose'),
@@ -21,8 +21,7 @@ var configModel = new Schema({
     }
 });
 
-// 用户模型
-// 如果要同步的话，如何抓取到用户在多说的『我的站点』发布的评论和帖子？实际上帖子是在这里的，评论我是拿不到的。
+// users
 var userModel = new Schema({
     nickname: String,
     email: String,
@@ -51,7 +50,7 @@ var userModel = new Schema({
     }
 });
 
-// 板块模型
+// boards
 var boardModel = new Schema({
     name: String,
     desc: String,
@@ -70,7 +69,7 @@ var boardModel = new Schema({
     }]
 })
 
-// 帖子模型
+// threads
 var threadModel = new Schema({
     name: String,
     content: String,

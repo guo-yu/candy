@@ -9,6 +9,11 @@ block banner
                         - if (uu.avatar)
                             img.avatar-mid.fn-left(src="#{uu.avatar}").fn-left
                         h2.title #{uu.nickname}
+                            - if (uu.type == 'admin')
+                                span.admin 
+                                    |( 
+                                    i.icon-user-md
+                                    |管理员 )
                             span.desc 
                                 - if (uu.url)
                                     a(href="#{uu.url}",target="_blank") #{uu.url}
@@ -27,6 +32,8 @@ block content
                 include recent
         - else
             include recent
+    - else 
+        include recent
 block js
     - if (user)
         - if (user._id == uu._id)
