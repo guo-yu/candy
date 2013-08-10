@@ -495,17 +495,18 @@ header {
     .board-meta {
         position: absolute;
         right: 10px;
-        top: 10px;
+        top: 25px;
         z-index: 999;
         width: 180px;
-        span {
+        div {
             display: block;
             float: right;
             margin-right: 10px;
             text-align: center;
             color: #999;
-            width: 40px;
+            width: 50px;
             overflow: hidden;
+            font-size: 12px;
             i {
                 display: block;
                 margin-bottom: 8px;
@@ -515,32 +516,38 @@ header {
                 padding: 0;
                 color: #ddd;
             }
+            a {
+                color: #999;
+                &:hover {
+                    color:#000;
+                }
+            }
         }
     }
 }
-.board-meta {
-    text-align: center;
-    padding: 10px 0;
-    font-size: 12px;
-    text-shadow: 1px 1px 1px #fff;
-    span {
-        color: #999;
-        .br(4px);
-        padding: 2px 5px;
+.single-thread {
+    .board-meta {
+        text-align: center;
+        padding: 10px 0;
+        font-size: 12px;
         text-shadow: 1px 1px 1px #fff;
-        margin-right: 10px;
-        a {
+        span {
             color: #999;
-            &:hover {
-                color:#000;
+            .br(4px);
+            padding: 2px 5px;
+            text-shadow: 1px 1px 1px #fff;
+            margin-right: 10px;
+            a {
+                color: #999;
+                &:hover {
+                    color:#000;
+                }
             }
         }
         i {
-            padding-right: 5px; 
+            color : #999;
+            padding-right: 3px; 
         }
-    }
-    .num {
-        
     }
 }
 .signin {
@@ -1295,5 +1302,29 @@ h3.syncing {
     }
     span {
         font-size: 14px;
+    }
+}
+
+// widgets
+.ds-recent-visitors {
+    padding: 5px 10px;
+    img {
+        .thumbnail();
+        margin-right: 0px;
+    }
+}
+
+.ds-recent-comments {
+    margin-left: 10px !important;
+    margin-bottom: 0 !important;
+    margin-right: 10px !important;
+    li {
+        border: 0 !important;
+        img {
+            .thumbnail();
+        }
+        &:hover {
+            background-color: #fff !important;
+        };
     }
 }

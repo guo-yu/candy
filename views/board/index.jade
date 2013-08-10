@@ -8,7 +8,7 @@ block banner
                     h2.title 
                         i.icon-asterisk
                         |#{board.name}
-                        span.desc #{board.desc}
+                        span.desc #{board.desc} ( 共 #{board.threads.length} 个话题 )
                 .col-lg-3
                     a.btn.btn-success.post(href="/thread/new?bid=#{board.id}").pull-right
                         i.icon-plus
@@ -33,12 +33,12 @@ block content
                                 i.icon-time
                                 != moment(thread.pubdate).fromNow()
                     .board-meta.clearfix
-                        span.views
+                        .views
                             i.icon-eye-open
                             | #{thread.views}
-                        span.num
+                        .num
                             i.icon-comment
-                            | 136
+                            span.num.ds-thread-count(data-thread-key="#{thread.id}",data-count-type="comments") 加载中...
         - else 
             h4.no
                 i.icon-ban-circle
