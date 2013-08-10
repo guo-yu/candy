@@ -37,8 +37,9 @@ block content
                             i.icon-eye-open
                             | #{thread.views}
                         .num
-                            i.icon-comment
-                            span.num.ds-thread-count(data-thread-key="#{thread.id}",data-count-type="comments") 加载中...
+                            a(href="/thread/#{thread.id}#comments")
+                                i.icon-comment
+                                span.num.ds-thread-count(data-thread-key="#{thread.id}",data-count-type="comments") 加载中...
         - else 
             h4.no
                 i.icon-ban-circle
