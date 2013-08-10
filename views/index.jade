@@ -27,7 +27,7 @@ block content
                         .num
                             a(href="/thread/#{thread.id}#comments")
                                 i.icon-comment
-                                | 136
+                                span.num.ds-thread-count(data-thread-key="#{thread.id}",data-count-type="comments") 加载中...
         - else
             h4.no
                 i.icon-star
