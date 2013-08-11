@@ -27,6 +27,7 @@ exports.new = function(req, res, next) {
     }
 }
 
+// read a thread
 exports.read = function(req, res, next) {
     thread.read(req.params.id, function(t) {
         if (t && t != 'error') {
@@ -52,10 +53,11 @@ exports.update = function(req, res, next) {
 }
 
 exports.create = function(req, res, next) {
-    thread.create(req.body.thread, function(baby) {
+    thread.create(req.body.thread, function(err,baby) {
         res.json({
-            stat: 'ok',
-            thread: baby
+            stat: !err ? 'ok' : 'error',
+            thread: baby,
+            error: err
         })
     })
 }

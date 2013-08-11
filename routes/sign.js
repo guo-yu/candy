@@ -13,6 +13,7 @@ var passport = function(req, res, next, cb) {
 
 var createUser = function(result, cb) {
     user.create({
+        type: result.type ? result.type : 'normal',
         duoshuo: {
             user_id: result.user_id,
             access_token: result.access_token
@@ -42,7 +43,6 @@ exports.in = function(req, res) {
                 } else {
                     // first signin
                     user.count(function(count){
-                        console.log(count);
                         if (count == 0) {
                             result['type'] = 'admin';
                         };

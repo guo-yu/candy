@@ -1,12 +1,12 @@
-//    __            __     
-//   / /____  _____/ /___ _
-//  / __/ _ \/ ___/ / __ `/
-// / /_/  __(__  ) / /_/ / 
-// \__/\___/____/_/\__,_/  
-//
-// a micro bbs system based on duoshuo.com apis
-// @author : [turingou]                 
-// @url: [http://teslaer.com]
+//                         __     
+//   _________ _____  ____/ /_  __
+//  / ___/ __ `/ __ \/ __  / / / /
+// / /__/ /_/ / / / / /_/ / /_/ / 
+// \___/\__,_/_/ /_/\__,_/\__, /  
+//                       /____/   
+// 
+// @brief  : a micro bbs system based on duoshuo.com apis
+// @author : [turingou](http://guoyu.me)
 
 var Server = function(params) {
 
@@ -21,7 +21,7 @@ var Server = function(params) {
         MemStore = express.session.MemoryStore;
 
     pkg.set('/database.json',params.database);
-    
+
     // static file config
     ifile.options = {
         gzip: true,
@@ -94,6 +94,7 @@ var Server = function(params) {
 
     // board
     app.get('/board/:url', sign.passport, board.read);
+    app.get('/board/:url/page/:page', sign.passport, board.read);
     app.post('/board/new', sign.checkJSON, board.create);
     app.post('/board/:id', board.update);
     app.post('/board/:id/remove', sign.checkJSON, board.remove);
