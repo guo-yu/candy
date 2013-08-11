@@ -6,11 +6,14 @@ block banner
            .row
               .col-lg-12
                   h2.title 
-                      i.icon-plus-sign 
-                      | 在 「#{board.name}」 新建话题
-                      //- span.desc 请遵循社区互助原则发言
+                      - if (board)
+                        i.icon-plus-sign
+                        | 在 「#{board.name}」 新建话题
+                      - else
+                        | 呃。。。管理员还没有创建任何讨论节点
 
 block content
+  - if (board)
     #thread(ng-controller="candy.ctrlers.thread.new").thread
         #new.fn-clear
             form(name="createThread").form-horizontal
@@ -31,6 +34,7 @@ block content
                     | 写好了
 
 block js
+  - if (board)
     //- editor
     link(href="/stylesheets/editor/editor.css",rel="stylesheet")
     script(src="/javascripts/lib/editor.js")

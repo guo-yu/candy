@@ -1,6 +1,7 @@
 var model = require('../model'),
 	user = model.user,
-	duoshuo = require('duoshuo');
+	moment = require('moment'),
+	Duoshuo = require('duoshuo');
 
 // list users
 exports.ls = function(cb){
@@ -72,8 +73,28 @@ exports.create = function(baby,cb) {
 }
 
 // 同步一个用户到多说
-exports.sync = function(uid) {
-	
+exports.sync = function(config,user,cb) {
+	var duoshuo = new Duoshuo(config);
+	var typeMap = {
+		admin: 'administrator',
+		editor: 'editor',
+		author: 'author',
+		normal: 'user'
+	};
+	// sync user info
+	duoshuo.join({
+	    info: {
+	        user_key: user._id,
+	        name: user.nickname,
+	        role: typeMap[user.type],
+	        avatar_url: user.avatar,
+	        url: user.url,
+	        created_at: moment(user.created).format('YYYY-MM-DD hh:MM:ss')
+	    },
+	    access_token: user.duoshuo.access_token
+	},function(result){
+		cb(result);
+	});
 }
 
 // 更新用户

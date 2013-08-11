@@ -3,8 +3,9 @@
  */
 
 var mongoose = require('mongoose'),
-    db = mongoose.createConnection('localhost', 'candy'),
-    Schema = mongoose.Schema;
+    Schema = mongoose.Schema,
+    config = require('./database'),
+    db = mongoose.createConnection('localhost', config.name);
 
 // configs
 var configModel = new Schema({

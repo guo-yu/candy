@@ -29,7 +29,7 @@ exports.readByUrl = function(url,cb){
 	board.findOne({
 		url: url
 	}).populate('bz').exec(function(err,board){
-		if (!err) {
+		if (!err && board) {
 			thread.lsByBoardId(board._id,{
 				limit: 20
 			},function(ts){
@@ -46,12 +46,11 @@ exports.readByUrl = function(url,cb){
 }
 
 // read default
-exports.default = function(cb){
+exports.readDefault = function(cb){
 	board.findOne({}).exec(function(err,board){
 		if (!err) {
 			cb(board)
 		} else {
-			console.log(err)
 			cb('error')
 		}
 	});
