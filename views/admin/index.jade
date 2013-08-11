@@ -145,8 +145,8 @@ block content
                     .form-group
                         .col-lg-offset-2.col-lg-10
                           a(href="javascript:void(0);",ng-click="update()").btn.btn-success
-                            i.icon-ok
-                            |写好了
+                            i(ng-class="btns.edit.icon")
+                            |{{btns.edit.text}}
 
 block js
     script(src="/javascripts/admin.js")

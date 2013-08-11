@@ -18,7 +18,7 @@ var configModel = new Schema({
     },
     created: {
         type: Date,
-        default: new Date()
+        default: Date.now
     }
 });
 
@@ -32,7 +32,7 @@ var userModel = new Schema({
     url: String,
     created: {
         type: Date,
-        default: new Date()
+        default: Date.now
     },
     type: {
         type: String,
@@ -74,17 +74,13 @@ var boardModel = new Schema({
 var threadModel = new Schema({
     name: String,
     content: String,
-    tid: {
-        type: Number,
-        unique: true
-    },
     views: {
         type: Number,
         default: 0
     },
     pubdate: {
         type: Date,
-        default: new Date()
+        default: Date.now
     },
     lz: {
         type: Schema.Types.ObjectId,

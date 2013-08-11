@@ -1,0 +1,14 @@
+- if (threads.length == 10)
+    #pager.pagination.clearfix
+        li
+            - if (page.current != 1)
+                a(href="/board/#{board.name}/page/#{page.current - 1}")
+                    i.icon-chevron-left
+            - else
+                i.icon-chevron-left
+        li
+            - if (page.current != page.max)
+                a(href="/board/#{board.name}/page/#{page.current + 1}")
+                    i.icon-chevron-right
+            - else
+                i.icon-chevron-right

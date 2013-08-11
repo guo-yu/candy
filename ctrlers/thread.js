@@ -40,13 +40,14 @@ exports.read = function(id, cb) {
 
 exports.create = function(baby, cb) {
 	var baby = new thread(baby);
+	console.log(baby);
 	async.waterfall([
 		function(callback) {
 			baby.save(function(err) {
 				if (!err) {
 					callback(null, baby);
 				} else {
-					console.log(err)
+					cb(err);
 				}
 			});
 		},
@@ -58,6 +59,7 @@ exports.create = function(baby, cb) {
 						callback(null, baby)
 					} else {
 						console.log(err)
+						cb(err);
 					}
 				})
 			})
@@ -67,9 +69,10 @@ exports.create = function(baby, cb) {
 				u.threads.push(baby._id);
 				u.save(function(err){
 					if (!err) {
-						cb(baby);
+						cb(null,baby);
 					} else {
 						console.log(err);
+						cb(err);
 					}
 				})
 			})

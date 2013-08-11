@@ -16,6 +16,9 @@ candy.ctrlers['thread'] = {
                         if (result.stat == 'ok') {
                             alert('话题新建成功');
                             window.location = './' + result.thread._id;
+                        } else {
+                            alert('数据库出现错误，请查看控制台');
+                            console.log(result.error)
                         }
                     })
                 } else {

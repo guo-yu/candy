@@ -1,6 +1,7 @@
 var model = require('../model'),
 	board = model.board,
-	thread = require('./thread');
+	thread = require('./thread'),
+	pager = require('./pager');
 
 // list board
 exports.ls = function(cb){
@@ -24,19 +25,30 @@ exports.lsId = function(params,cb){
 	});
 }
 
-// read by url
-exports.readByUrl = function(url,cb){
+// read by url and list pager
+exports.readByUrl = function(url,page,cb){
+	var limit = 10;
 	board.findOne({
 		url: url
 	}).populate('bz').exec(function(err,board){
 		if (!err && board) {
-			thread.lsByBoardId(board._id,{
-				limit: 20
-			},function(ts){
-				cb({
-					board: board,
-					threads: ts
-				});
+			pager(model.thread,{
+				filter: {
+					board: board._id
+				},
+				limit: limit,
+				page: page
+			},function(page){
+				thread.lsByBoardId(board._id,{
+					limit: page.limit,
+					from: page.from
+				},function(ts){
+					cb({
+						board: board,
+						threads: ts,
+						page: page
+					});
+				})
 			})
 		} else {
 			console.log(err)
