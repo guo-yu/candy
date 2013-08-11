@@ -1,5 +1,5 @@
 // sign
-var duoshuo = require('duoshuo'),
+var Duoshuo = require('duoshuo'),
     user = require('../ctrlers/user');
 
 var passport = function(req, res, next, cb) {
@@ -9,16 +9,6 @@ var passport = function(req, res, next, cb) {
     } else {
         cb();
     }
-}
-
-var checkMaster = function(cb) {
-    user.count(function(count) {
-        if (count == 1) {
-            cb(true)
-        } else {
-            cb(false);
-        }
-    })
 }
 
 var createUser = function(result, cb) {
@@ -40,17 +30,30 @@ var queryUser = function(id, cb) {
 
 // signin
 exports.in = function(req, res) {
-    var code = req.query.code;
+    var code = req.query.code,
+        duoshuo = new Duoshuo(res.locals.App.app.locals.site.duoshuo);
     duoshuo.auth(code, function(result) {
         if (result != 'error') {
             queryUser(result.user_id, function(u) {
                 if (u) {
+                    // user exist
                     req.session.user = u;
                     res.redirect('back');
                 } else {
-                    createUser(result, function(baby) {
-                        req.session.user = baby;
-                        res.redirect('/member/' + req.session.user._id);
+                    // first signin
+                    user.count(function(count){
+                        console.log(count);
+                        if (count == 0) {
+                            result['type'] = 'admin';
+                        };
+                        createUser(result, function(baby) {
+                            req.session.user = baby;
+                            if (count == 0) {
+                                res.redirect('/admin/');
+                            } else {
+                                res.redirect('/member/' + req.session.user._id);
+                            }
+                        });
                     });
                 }
             })
@@ -64,14 +67,15 @@ exports.in = function(req, res) {
 exports.out = function(req, res) {
     if (req.session.user) {
         delete req.session.user;
-        res.redirect('/');
+        res.redirect('back');
     }
 };
 
 // check
 exports.check = function(req, res, next) {
     passport(req, res, next, function() {
-        res.redirect('/');
+        // Not-authed
+        res.render('sign');
     });
 }
 
@@ -92,37 +96,9 @@ exports.passport = function(req, res, next) {
     });
 }
 
-// check creater
-exports.checkMaster = function(req, res, next) {
-    if (req.session.user) {
-        checkMaster(function(stat) {
-            if (stat) {
-                user.query(req.session.user._id, function(u) {
-                    if (u && u != 'error') {
-                        u.type = 'admin';
-                        u.save(function(err) {
-                            if (!err) {
-                                res.locals.user = u;
-                                next();
-                            } else {
-                                console.log(err);
-                            }
-                        })
-                    }
-                })
-            } else {
-                res.locals.user = req.session.user;
-                next();
-            }
-        })
-    } else {
-        res.redirect('/');
-    }
-}
-
 // check admin user
 exports.checkAdmin = function(req, res, next) {
-    if (req.session.user && (req.session.user.type == 'admin' || res.locals.user && res.locals.user.type == 'admin')) {
+    if (res.locals.user && res.locals.user.type == 'admin') {
         next();
     } else {
         res.redirect('/');

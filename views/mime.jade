@@ -34,6 +34,11 @@ block content
             include recent
     - else 
         include recent
+
+block sidebar
+    include signin
+    include widgets/search
+
 block js
     - if (user)
         - if (user._id == uu._id)

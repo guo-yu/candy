@@ -14,11 +14,14 @@ var Server = function(params) {
         path = require('path'),
         MongoStore = require('connect-mongo')(express),
         ifile = require('ifile'),
+        pkg = require('./pkg'),
         self = this;
 
     var app = express(),
         MemStore = express.session.MemoryStore;
 
+    pkg.set('/database.json',params.database);
+    
     // static file config
     ifile.options = {
         gzip: true,
@@ -86,7 +89,7 @@ var Server = function(params) {
     app.get('/', sign.passport, index);
 
     // signin & signout
-    app.get('/signin', sign.in );
+    app.get('/signin', sign.in);
     app.get('/signout', sign.out);
 
     // board
@@ -113,13 +116,14 @@ var Server = function(params) {
     app.get('/member/:id', sign.passport, user.mime);
 
     // admin
-    app.get('/admin', sign.checkMaster, sign.checkAdmin, admin.page);
+    app.get('/admin', sign.passport, sign.checkAdmin, admin.page);
 
     // setting
     app.post('/setting', admin.update);
 
     this.app = app;
     this.params = params;
+
 }
 
 Server.prototype.config = function(cb) {
@@ -148,6 +152,7 @@ Server.prototype.config = function(cb) {
     if (params && typeof(params) == 'object') {
         config.check(function(count) {
             if (count == 0) {
+                // first create
                 config.create(params, function(c) {
                     _set(c);
                     cb();

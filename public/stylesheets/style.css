@@ -5,7 +5,7 @@
   font-family: 'Indie Flower';
   font-style: normal;
   font-weight: 400;
-  src: local('Indie Flower'), local('IndieFlower'), url(http://themes.googleusercontent.com/static/fonts/indieflower/v4/10JVD_humAd5zP2yrFqw6qRDOzjiPcYnFooOUGCOsRk.woff) format('woff');
+  src: local('Indie Flower'), local('IndieFlower'), url(../font/logo.woff) format('woff');
 }
 i {
   padding-right: 4px;
@@ -1323,7 +1323,7 @@ h3.syncing {
   font-size: 14px;
 }
 .ds-recent-visitors {
-  padding: 5px 10px;
+  padding: 5px 8px;
 }
 .ds-recent-visitors img {
   border: 1px solid #ddd;
@@ -1337,7 +1337,7 @@ h3.syncing {
   box-shadow: 1px 1px 4px #efefef;
   -moz-box-shadow: 1px 1px 4px #efefef;
   -webkit-box-shadow: 1px 1px 4px #efefef;
-  margin-right: 0px;
+  margin: 0px 0px 10px 0px !important;
 }
 .ds-recent-comments {
   margin-left: 10px !important;

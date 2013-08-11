@@ -56,10 +56,14 @@ exports.sync = function(req, res) {
             u.save(function(err){
                 if (!err) {
                     req.session.user = u;
+                    // 这个api出现了404的情况
+                    // user.sync(res.locals.App.app.locals.site.duoshuo,u,function(stat){
+                    //     console.log(stat);
+                    // });
                     res.json({
                         stat: 'ok',
                         user: u
-                    })
+                    });
                 } else {
                     res.json({
                         stat: 'error',

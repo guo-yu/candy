@@ -2,9 +2,9 @@ var thread = require('../ctrlers/thread'),
     board = require('../ctrlers/board'),
     marked = require('marked');
 
-var visited = function(thread,cb) {
+var visited = function(thread, cb) {
     thread.views = thread.views + 1;
-    thread.save(function(err){
+    thread.save(function(err) {
         if (err) console.log(err)
         cb();
     })
@@ -19,7 +19,7 @@ exports.new = function(req, res, next) {
             });
         })
     } else {
-        board.default(function(b) {
+        board.readDefault(function(b) {
             res.render('thread/new', {
                 board: b
             });
@@ -29,8 +29,8 @@ exports.new = function(req, res, next) {
 
 exports.read = function(req, res, next) {
     thread.read(req.params.id, function(t) {
-        if (t) {
-            visited(t,function(){
+        if (t && t != 'error') {
+            visited(t, function() {
                 res.render('thread/index', {
                     thread: t,
                     marked: marked

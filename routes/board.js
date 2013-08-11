@@ -2,10 +2,12 @@ var board = require('../ctrlers/board');
 
 exports.read = function(req,res,next) {
     board.readByUrl(req.params.url,function(b){
-        res.render('board',{
-            board: b.board,
-            threads: b.threads
-        })
+        if (b && b != 'error') {
+            res.render('board',{
+                board: b.board,
+                threads: b.threads
+            })
+        }
     });
 }
 
