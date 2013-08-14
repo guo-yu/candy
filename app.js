@@ -13,7 +13,7 @@ var Server = function(params) {
     var express = require('express'),
         path = require('path'),
         MongoStore = require('connect-mongo')(express),
-        ifile = require('ifile'),
+        // ifile = require('ifile'),
         pkg = require('./pkg'),
         self = this;
 
@@ -23,11 +23,11 @@ var Server = function(params) {
     pkg.set('/database.json',params.database);
 
     // static file config
-    ifile.options = {
-        gzip: true,
-        gzip_min_size: 1024,
-        gzip_file: ['js', 'css', 'less', 'html', 'xhtml', 'htm', 'xml', 'json', 'txt'], //gzip压缩的文件后缀名
-    }
+    // ifile.options = {
+    //     gzip: true,
+    //     gzip_min_size: 1024,
+    //     gzip_file: ['js', 'css', 'less', 'html', 'xhtml', 'htm', 'xml', 'json', 'txt'], //gzip压缩的文件后缀名
+    // }
 
     var board = require('./routes/board'),
         thread = require('./routes/thread'),
@@ -66,12 +66,13 @@ var Server = function(params) {
     app.use(require('less-middleware')({
         src: __dirname + '/public'
     }));
-    app.use(ifile.connect([
-        ["/", "public", ['js', 'css', 'jpg', 'png', 'gif','woff','ttf','svg','ico']],
-    ],function(req,res,is_static){
-        res.statusCode = 404;
-        res.render('404');
-    }));
+    // app.use(ifile.connect([
+    //     ["/", "public", ['js', 'css', 'jpg', 'png', 'gif','woff','ttf','svg','ico']],
+    // ],function(req,res,is_static){
+    //     res.statusCode = 404;
+    //     res.render('404');
+    // }));
+    app.use(express.static(path.join(__dirname, 'public')));
 
     // development only
     if ('development' == app.get('env')) {
@@ -101,6 +102,7 @@ var Server = function(params) {
 
     // thread
     app.get('/thread/new', sign.check, thread.new);
+    app.get('/thread/list', sign.checkJSON, thread.ls);
     app.get('/thread/:id', sign.passport, thread.read);
     app.post('/thread/new', sign.checkJSON, thread.create);
     app.post('/thread/remove', thread.remove);
@@ -108,8 +110,8 @@ var Server = function(params) {
 
     // user
     app.get('/user/:id', sign.passport, user.read);
-    app.post('/user/new', user.create);
-    app.post('/user/remove', user.remove);
+    // app.post('/user/new', user.create);
+    // app.post('/user/remove', user.remove);
     app.post('/user/sync', sign.check, user.sync);
     app.post('/user/:id', user.update);
 
@@ -118,8 +120,6 @@ var Server = function(params) {
 
     // admin
     app.get('/admin', sign.passport, sign.checkAdmin, admin.page);
-
-    // setting
     app.post('/setting', admin.update);
 
     this.app = app;

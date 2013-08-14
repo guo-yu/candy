@@ -10,6 +10,15 @@ var visited = function(thread, cb) {
     })
 }
 
+exports.ls = function(req, res, next) {
+    thread.ls(function(ths){
+        res.json({
+            stat: ths != 'error' ? 'ok' : 'error',
+            threads: ths
+        })
+    })
+}
+
 exports.new = function(req, res, next) {
     // 需要添加识别默认板块的逻辑
     if (req.query.bid) {
