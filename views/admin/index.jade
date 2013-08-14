@@ -1,5 +1,8 @@
 extends ../layout
 
+block title
+    | 管理后台  
+
 block banner
 
 block content
@@ -46,9 +49,9 @@ block content
                         .desc.col-lg-10 
                             h3.uptime 总讨论节点数量 #{boards.length} 个
                             //- .info 今日新增讨论节点 3 个
-                    .dash-item.col-lg-12
+                    //- .dash-item.col-lg-12
                         i.icon-comments-alt.col-lg-2.label.label-danger
-                        .desc.col-lg-10 
+                        //- .desc.col-lg-10 
                             h3.uptime 总话题量 35 帖
                             //- .info 今日新增话题 35 帖
             #board.tab-pane(ng-controller="candy.ctrlers.admin.board")

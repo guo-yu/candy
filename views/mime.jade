@@ -1,5 +1,8 @@
 extends layout
 
+block title
+    | #{uu.nickname}@#{site.name}
+
 block banner
     - if (uu.nickname)
         .banner.clearfix
