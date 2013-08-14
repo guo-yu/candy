@@ -3,6 +3,8 @@
 
 基于多说社交评论的简易论坛
 
+[Candy 官方社区](http://candy.menkr.com)
+
 ![screenshot](http://ww2.sinaimg.cn/large/61ff0de3gw1e7gysyptnkj20wf0nj0wu.jpg)
 
 ### 如何安装
@@ -78,6 +80,7 @@ $ node candy.js // 或者使用 forever 之类的守护程序来启动永久服�
 
 ### Demo 网站
 
+- [Candy 官方社区](http://candy.menkr.com)
 - [Teslaer: tesla电动车中国爱好者社区](http://teslaer.com) (now building...)
 
 ### 截图

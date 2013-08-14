@@ -3,6 +3,8 @@
 
 a micro bbs system based on duoshuo.com apis [(Candy 中文说明文档)](https://github.com/turingou/candy/blob/master/README_zh-cn.md)
 
+[Candy 官方社区](http://candy.menkr.com)
+
 ![screenshot](http://ww2.sinaimg.cn/large/61ff0de3gw1e7gysyptnkj20wf0nj0wu.jpg)
 
 ### How to install
@@ -76,6 +78,7 @@ $ node candy.js // or forever start candy.js
 
 ### Candy demos
 
+- [Candy 官方社区](http://candy.menkr.com)
 - [Teslaer: tesla电动车中国爱好者社区](http://teslaer.com) (now building...)
 
 ### Screenshots
