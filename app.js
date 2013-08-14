@@ -139,7 +139,7 @@ Server.prototype.config = function(cb) {
         self.app.locals({
             site: c,
             sys: pkg,
-            href: self.app.locals.settings.env == 'development' ? 'http://localhost:' + self.app.locals.settings.port : self.app.locals.site.url
+            href: self.app.locals.settings.env == 'development' ? 'http://localhost:' + self.app.locals.settings.port : params.url
         });
     }
 
