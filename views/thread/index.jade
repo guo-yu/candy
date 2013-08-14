@@ -1,5 +1,12 @@
 extends ../layout
 
+block meta
+    meta(name="keywords",content="#{thread.name},#{site.name}")
+    meta(name="description",content="#{thread.content.substr(0,16)}")
+
+block title
+    | #{thread.name}  
+
 block content
       .board.single-thread
         .pub-main.lz-board

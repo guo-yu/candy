@@ -1,5 +1,12 @@
 extends ../layout
 
+block meta
+    meta(name="keywords",content="#{board.name},#{site.name}")
+    meta(name="description",content="#{board.desc}")
+
+block title
+    | #{board.name}
+
 block banner
     .banner.clearfix
         .inner.clearfix.container
