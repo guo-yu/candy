@@ -31,7 +31,6 @@
     "connect-mongo":"*",
     "mongoose": "*",
     "async": "*",
-    "ifile": "*",
     "underscore" : "*",
     "moment": "*",
     "marked": "*"
