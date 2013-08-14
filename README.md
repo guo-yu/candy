@@ -1,7 +1,7 @@
 ![logo](http://ww1.sinaimg.cn/large/61ff0de3gw1e7d9luh49bj201201bdfm.jpg) Candy ![](https://badge.fury.io/js/candy.png)
 ---
 
-a micro bbs system based on duoshuo.com apis [(Candy 中文说明文档)](https://github.com/turingou/candy/blob/master/README.md)
+a micro bbs system based on duoshuo.com apis [(Candy 中文说明文档)](https://github.com/turingou/candy/blob/master/README_zh-cn.md)
 
 ![screenshot](http://ww2.sinaimg.cn/large/61ff0de3gw1e7gysyptnkj20wf0nj0wu.jpg)
 
