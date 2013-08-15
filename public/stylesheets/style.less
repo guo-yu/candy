@@ -429,6 +429,16 @@ header {
                 color: #999;
                 .br(5px);
             }
+            .edit {
+                background-color: #efefef;
+                padding: 2px 8px;
+                margin-left: 10px;
+                .br(10px);
+                &:hover {
+                    background-color: #444;
+                    color: #fff;
+                };
+            }
             .name {
                 padding-right: 10px;
             }
@@ -543,6 +553,9 @@ header {
         i {
             color : #999;
             padding-right: 3px; 
+        }
+        a.edit {
+            color: #999;
         }
     }
 }
@@ -1282,6 +1295,14 @@ img.avatar-mid {
             .br();
         }
         
+    }
+    .remove {
+        font-size: 12px;
+        padding-left: 10px;
+        color: #999;
+        &:hover {
+            color: red;
+        };
     }
 }
 

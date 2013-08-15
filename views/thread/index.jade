@@ -24,6 +24,10 @@ block content
                         a(href="/board/#{thread.board.url}") #{thread.board.name}
                     i.icon-time
                     != moment(thread.pubdate).fromNow()
+                    - if (user && user._id == thread.lz._id)
+                        a(href="/thread/#{thread.id}/edit").edit
+                            i.icon-edit
+                            |编辑
                 .desc!= marked(thread.content)
         .board-meta
             i.icon-eye-open
@@ -37,6 +41,10 @@ block content
             i.icon-tumblr
             span.num.ds-thread-count(data-thread-key="#{thread.id}",data-count-type="qqt_reposts")
                 | 加载中...
+            - if (user && user._id == thread.lz._id)
+                a(href="/thread/#{thread.id}/edit").edit
+                    i.icon-edit
+                    |编辑
         .comment-board
             include ../comment.jade
 
