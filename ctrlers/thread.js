@@ -28,6 +28,25 @@ exports.lsByBoardId = function(bid,params,cb) {
 	});
 }
 
+// 查看当前用户是否是楼主
+exports.checkLz = function(tid, uid, cb) {
+	thread.findById(tid).exec(function(err, thread) {
+		if (!err) {
+			if (thread) {
+				if (thread.lz == uid) {
+					cb(true,thread)
+				} else {
+					cb(false)
+				}
+			} else {
+				cb(false)
+			}
+		} else {
+			cb('error')
+		}
+	});
+}
+
 exports.read = function(id, cb) {
 	thread.findById(id).populate('lz').populate('board').exec(function(err, thread) {
 		if (!err) {
@@ -40,7 +59,7 @@ exports.read = function(id, cb) {
 
 exports.create = function(baby, cb) {
 	var baby = new thread(baby);
-	console.log(baby);
+	// console.log(baby);
 	async.waterfall([
 		function(callback) {
 			baby.save(function(err) {
@@ -83,7 +102,9 @@ exports.create = function(baby, cb) {
 exports.update = function(id, body, cb) {
 	thread.findByIdAndUpdate(id, body, function(err) {
 		if (!err) {
-			cb(body);
+			cb(null,body);
+		} else {
+			cb(err)
 		}
 	})
 }

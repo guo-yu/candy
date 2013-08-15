@@ -4,7 +4,7 @@ var Duoshuo = require('duoshuo'),
 
 var passport = function(req, res, next, cb) {
     if (req.session.user) {
-        res.locals.user = req.session.user
+        res.locals.user = req.session.user;
         next()
     } else {
         cb();

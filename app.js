@@ -102,15 +102,15 @@ var Server = function(params) {
 
     // thread
     app.get('/thread/new', sign.check, thread.new);
+    app.post('/thread/new', sign.checkJSON, thread.create);
     app.get('/thread/list', sign.checkJSON, thread.ls);
     app.get('/thread/:id', sign.passport, thread.read);
-    app.post('/thread/new', sign.checkJSON, thread.create);
-    app.post('/thread/remove', thread.remove);
-    app.post('/thread/:id', thread.update);
+    app.get('/thread/:id/edit', sign.check, thread.edit);
+    app.post('/thread/:id/update', sign.checkJSON, thread.update);
+    app.post('/thread/:id/remove', thread.remove);
 
     // user
     app.get('/user/:id', sign.passport, user.read);
-    // app.post('/user/new', user.create);
     // app.post('/user/remove', user.remove);
     app.post('/user/sync', sign.check, user.sync);
     app.post('/user/:id', user.update);

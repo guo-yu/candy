@@ -425,6 +425,19 @@ header .user-nav a {
   -webkit-border-radius: 5px;
   -o-border-radius: 5px;
 }
+.board .pub-main .author .edit {
+  background-color: #efefef;
+  padding: 2px 8px;
+  margin-left: 10px;
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+.board .pub-main .author .edit:hover {
+  background-color: #444;
+  color: #fff;
+}
 .board .pub-main .author .name {
   padding-right: 10px;
 }
@@ -534,6 +547,9 @@ header .user-nav a {
 .single-thread .board-meta i {
   color: #999;
   padding-right: 3px;
+}
+.single-thread .board-meta a.edit {
+  color: #999;
 }
 .signin {
   background-color: #fff;
@@ -1313,6 +1329,14 @@ img.avatar-mid {
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
   -o-border-radius: 4px;
+}
+.thread .remove {
+  font-size: 12px;
+  padding-left: 10px;
+  color: #999;
+}
+.thread .remove:hover {
+  color: red;
 }
 i.icon-spinner {
   padding: 0 !important;
