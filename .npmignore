@@ -5,3 +5,4 @@ thumb
 psd
 backup.*
 *.log
+sftp-*
