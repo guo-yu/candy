@@ -1,6 +1,7 @@
 // sign
 var Duoshuo = require('duoshuo'),
-    user = require('../ctrlers/user');
+    user = require('../ctrlers/user'),
+    async = require('async');
 
 var passport = function(req, res, next, cb) {
     if (req.session.user) {
@@ -18,52 +19,81 @@ var createUser = function(result, cb) {
             user_id: result.user_id,
             access_token: result.access_token
         }
-    }, function(baby) {
-        cb(baby);
+    }, function(err, baby) {
+        if (!err) {
+            cb(null, baby);
+        } else {
+            cb(err)
+        }
     })
 }
 
 var queryUser = function(id, cb) {
-    user.readByDsId(id, function(user) {
-        cb(user);
+    user.readByDsId(id, function(err, user) {
+        if (!err) {
+            cb(null, user);
+        } else {
+            cb(err)
+        }
     })
 }
 
-// signin
-exports.in = function(req, res) {
+// PAGE: 登入
+exports.in = function(req, res, next) {
+
     var code = req.query.code,
         duoshuo = new Duoshuo(res.locals.App.app.locals.site.duoshuo);
+
     duoshuo.auth(code, function(result) {
+        
+        // 还没有判断这个result换取token错误的情况
         if (result != 'error') {
-            queryUser(result.user_id, function(u) {
-                if (u) {
-                    // user exist
-                    req.session.user = u;
-                    res.redirect('back');
-                } else {
-                    // first signin
-                    user.count(function(count){
-                        if (count == 0) {
-                            result['type'] = 'admin';
-                        };
-                        createUser(result, function(baby) {
-                            req.session.user = baby;
-                            if (count == 0) {
-                                res.redirect('/admin/');
-                            } else {
-                                res.redirect('/member/' + req.session.user._id);
-                            }
+
+            async.waterfall([
+                function(callback) {
+                    queryUser(result.user_id, function(err, u) {
+                        callback(err, u)
+                    });
+                },
+                function(u, callback) {
+                    if (u) {
+                        req.session.user = u;
+                        res.redirect('back');
+                    } else {
+                        user.count(function(err, count) {
+                            callback(err, count);
                         });
+                    }
+                },
+                function(count, callback) {
+                    if (count == 0) {
+                        result['type'] = 'admin';
+                    };
+                    createUser(result, function(err, baby) {
+                        callback(err, count, baby);
                     });
                 }
-            })
+            ], function(err, count, baby) {
+                if (!err) {
+                    req.session.user = baby;
+                    if (count == 0) {
+                        res.redirect('/admin/');
+                    } else {
+                        res.redirect('/member/' + req.session.user._id);
+                    }
+                } else {
+                    next(err);
+                }
+            });
+
         } else {
-            res.json(result);
+            // 如果多说挂了
+            next(new Error('多说登录出错，请稍后再试或者联系管理员'))
         }
     })
 };
 
-// signout
+// PAGE: 登出
 exports.out = function(req, res) {
     if (req.session.user) {
         delete req.session.user;
@@ -71,7 +101,7 @@ exports.out = function(req, res) {
     }
 };
 
-// check
+// MIDDLEWARE: 检查用户是否登录
 exports.check = function(req, res, next) {
     passport(req, res, next, function() {
         // Not-authed
@@ -79,24 +109,21 @@ exports.check = function(req, res, next) {
     });
 }
 
-// check cb(json)
+// MIDDLEWARE: 检查用户是否登录（xhr）
 exports.checkJSON = function(req, res, next) {
     passport(req, res, next, function() {
-        res.json({
-            stat: 'fail',
-            msg: 'login required'
-        });
+        next(new Error('login required'));
     });
 }
 
-// set passport
+// MIDDLEWARE: 为登录用户写入locals
 exports.passport = function(req, res, next) {
     passport(req, res, next, function() {
         next();
     });
 }
 
-// check admin user
+// MIDDLEWARE: 检查用户是否管理员用户
 exports.checkAdmin = function(req, res, next) {
     if (res.locals.user && res.locals.user.type == 'admin') {
         next();

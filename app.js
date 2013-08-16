@@ -13,7 +13,6 @@ var Server = function(params) {
     var express = require('express'),
         path = require('path'),
         MongoStore = require('connect-mongo')(express),
-        // ifile = require('ifile'),
         pkg = require('./pkg'),
         self = this;
 
@@ -22,6 +21,7 @@ var Server = function(params) {
 
     pkg.set('/database.json',params.database);
 
+    // 暂时移除 ifile 配置
     // static file config
     // ifile.options = {
     //     gzip: true,
@@ -35,10 +35,12 @@ var Server = function(params) {
         index = require('./routes/index'),
         sign = require('./routes/sign'),
         admin = require('./routes/admin'),
+        errhandler = require('./lib/error'),
         cn = require('./lib/zh-cn'),
         moment = require('moment');
 
     // all environments
+    app.set('env', params.env ? params.env : 'development');
     app.set('views', __dirname + '/views');
     app.set('view engine', 'jade');
     app.use(express.favicon());
@@ -61,22 +63,29 @@ var Server = function(params) {
             res.locals.App = self;
         }
         next();
-    })
+    });
     app.use(app.router);
     app.use(require('less-middleware')({
         src: __dirname + '/public'
     }));
+    app.use(express.static(path.join(__dirname, 'public')));
+
+    // 暂时移除 ifile 中间件
     // app.use(ifile.connect([
     //     ["/", "public", ['js', 'css', 'jpg', 'png', 'gif','woff','ttf','svg','ico']],
     // ],function(req,res,is_static){
     //     res.statusCode = 404;
     //     res.render('404');
     // }));
-    app.use(express.static(path.join(__dirname, 'public')));
-
-    // development only
-    if ('development' == app.get('env')) {
+    
+    if (app.get('env') == 'development') {
         app.use(express.errorHandler());
+        app.use(errhandler.xhr);
+        app.use(errhandler.common);
+    } else {
+        app.use(errhandler.logger);
+        app.use(errhandler.xhr);
+        app.use(errhandler.common);
     }
 
     moment.lang('zh-cn',cn);
@@ -107,7 +116,7 @@ var Server = function(params) {
     app.get('/thread/:id', sign.passport, thread.read);
     app.get('/thread/:id/edit', sign.check, thread.edit);
     app.post('/thread/:id/update', sign.checkJSON, thread.update);
-    app.post('/thread/:id/remove', thread.remove);
+    app.post('/thread/:id/remove', sign.checkJSON, thread.remove);
 
     // user
     app.get('/user/:id', sign.passport, user.read);
@@ -122,6 +131,9 @@ var Server = function(params) {
     app.get('/admin', sign.passport, sign.checkAdmin, admin.page);
     app.post('/setting', admin.update);
 
+    // 404
+    // app.get('*', errhandler.notfound)
+
     this.app = app;
     this.params = params;
 
@@ -135,31 +147,45 @@ Server.prototype.config = function(cb) {
         params = self.params;
 
     // setup system params
-    var _set = function(c) {
+    var setLocals = function(info) {
         self.app.locals({
-            site: c,
+            site: info,
             sys: pkg,
             href: self.app.locals.settings.env == 'development' ? 'http://localhost:' + self.app.locals.settings.port : params.url
         });
     }
 
     var read = function(cb) {
-        config.read(function(c) {
-            _set(c);
-            cb();
+        config.read(function(err,info) {
+            if (!err) {
+                setLocals(info);
+                cb();
+            } else {
+                console.log('Setup Error:')
+                console.log(error);
+            }
         });
     }
 
     if (params && typeof(params) == 'object') {
-        config.check(function(count) {
-            if (count == 0) {
-                // first create
-                config.create(params, function(c) {
-                    _set(c);
-                    cb();
-                });
+        config.check(function(err,count) {
+            if (!err) {
+                if (count == 0) {
+                    // first create
+                    config.create(params, function(err,c) {
+                        if (!err) {
+                            setLocals(c);
+                            cb();
+                        } else {
+                            console.log('Setup Error:')
+                        }
+                    });
+                } else {
+                    read(cb);
+                }
             } else {
-                read(cb);
+                console.log('Setup Error:')
+                console.log(err);
             }
         });
     } else {

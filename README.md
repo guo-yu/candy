@@ -22,6 +22,7 @@ I've prepare a script for you:
 ````
 $ git clone https://github.com/turingou/candy.git
 $ cd candy
+$ npm install // install dependencies
 $ vi server.js // edit configs
 $ node server.js
 ````

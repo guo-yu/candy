@@ -1,8 +1,7 @@
 // index page
 var board = require('../ctrlers/board'),
     thread = require('../ctrlers/thread'),
-    async = require('async'),
-    _ = require('underscore');
+    async = require('async');
 
 // borads are id list
 var wash = function(boards, params, callback) {
@@ -10,41 +9,51 @@ var wash = function(boards, params, callback) {
     var fetchThreads = function(b, cb) {
         thread.lsByBoardId(b, {
             limit: params.limit
-        }, function(ts) {
-            if (ts && ts.length > 0) {
-                threads = threads.concat(ts);
+        }, function(err, ts) {
+            if (!err) {
+                if (ts && ts.length > 0) {
+                    threads = threads.concat(ts);
+                }
+                cb();
+            } else {
+                cb(err)
             }
-            cb();
         })
     };
     async.each(boards, fetchThreads, function(err) {
         if (!err) {
-            callback(threads);
+            callback(null, threads);
+        } else {
+            callback(err)
         }
     });
 }
 
-module.exports = function(req, res) {
+// PAGE: 首页
+module.exports = function(req, res, next) {
     async.waterfall([
         function(callback) {
             board.lsId({
                 limit: 10
-            }, function(boards) {
-                callback(null, boards);
+            }, function(err, boards) {
+                callback(err, boards);
             })
         },
         function(boards, callback) {
             wash(boards, {
                 limit: 5
-            }, function(threads) {
-                callback(null, boards, threads)
+            }, function(err, threads) {
+                callback(err, boards, threads)
             });
-        },
-        function(boards, threads, callback) {
+        }
+    ],function(err, boards, threads){
+        if (!err) {
             res.render('index', {
                 boards: boards,
                 threads: threads
-            })
+            });
+        } else {
+            next(err);
         }
-    ]);
+    });
 };

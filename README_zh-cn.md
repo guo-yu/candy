@@ -22,6 +22,7 @@ $ npm install candy
 ````
 $ git clone https://github.com/turingou/candy.git
 $ cd candy
+$ npm install // 安装依赖
 $ vi server.js // 编辑配置
 $ node server.js
 ````

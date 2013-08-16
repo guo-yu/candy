@@ -37,7 +37,9 @@ candy.ctrlers['admin'] = {
                     $scope.btns.new.text = '已经成功新建'
                     setTimeout(function(){
                         window.location.reload()
-                    },800);
+                    },500);
+                } else {
+                    alert(result.error.toString());
                 }
             })
         }
