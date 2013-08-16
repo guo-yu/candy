@@ -1,6 +1,6 @@
 {
   "name": "candy",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "a micro bbs system based on duoshuo.com apis",
   "main": "app.js",
   "scripts": {
@@ -33,7 +33,8 @@
     "async": "*",
     "underscore" : "*",
     "moment": "*",
-    "marked": "*"
+    "marked": "*",
+    "highlight.js": "*"
   },
   "devDependencies": {
     "mocha": "*",

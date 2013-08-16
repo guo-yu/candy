@@ -1,6 +1,14 @@
 var thread = require('../ctrlers/thread'),
     board = require('../ctrlers/board'),
-    marked = require('marked');
+    marked = require('marked'),
+    hljs = require('highlight.js');
+
+marked.setOptions({
+    sanitize: true,
+    highlight: function(code, lang) {
+        return hljs.highlightAuto(code).value;
+    }
+});
 
 // 简单的自增计数
 var visited = function(thread, cb) {
@@ -145,7 +153,7 @@ exports.remove = function(req, res, next) {
     thread.checkLz(req.params.id, res.locals.user._id, function(err, lz, th) {
         if (!err) {
             if (lz) {
-                thread.remove(req.params.id, function(err,tid) {
+                thread.remove(req.params.id, function(err, tid) {
                     if (!err) {
                         res.json({
                             stat: 'ok',

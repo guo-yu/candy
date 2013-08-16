@@ -392,17 +392,29 @@ header .user-nav a {
 .board .pub-main .single-pub pre {
   margin: 10px 0 14px;
 }
-.board .pub-main .title {
+.board .pub-main .single-pub table {
+  border: 1px solid #ddd;
+  box-shadow: 0px 0px 1px #ddd;
+}
+.board .pub-main .single-pub table th {
+  background-color: #f5f5f5;
+  padding: 3px 8px;
+}
+.board .pub-main .single-pub table td {
+  padding: 5px 8px;
+  border-bottom: 1px dashed #ddd;
+}
+.board .pub-main h4.title {
   font-size: 18px;
   font-weight: normal;
   margin-bottom: 8px;
   line-height: 1.5;
   margin-top: 3px;
 }
-.board .pub-main .title a {
+.board .pub-main h4.title a {
   color: #444;
 }
-.board .pub-main .title a:hover {
+.board .pub-main h4.title a:hover {
   color: #999;
 }
 .board .pub-main .author {
