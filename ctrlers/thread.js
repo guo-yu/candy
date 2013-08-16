@@ -8,9 +8,9 @@ var model = require('../model'),
 exports.ls = function(cb) {
 	thread.find({}).exec(function(err, threads) {
 		if (!err) {
-			cb(threads)
+			cb(null,threads)
 		} else {
-			cb('error');
+			cb(err);
 		}
 	});
 }
@@ -21,9 +21,9 @@ exports.lsByBoardId = function(bid,params,cb) {
 		board: bid
 	}).limit(params.limit).populate('lz').populate('board').exec(function(err, threads) {
 		if (!err) {
-			cb(threads)
+			cb(null,threads)
 		} else {
-			cb('error');
+			cb(err);
 		}
 	});
 }
@@ -34,15 +34,15 @@ exports.checkLz = function(tid, uid, cb) {
 		if (!err) {
 			if (thread) {
 				if (thread.lz == uid) {
-					cb(true,thread)
+					cb(null,true,thread)
 				} else {
-					cb(false)
+					cb(null,false)
 				}
 			} else {
-				cb(false)
+				cb(null,false)
 			}
 		} else {
-			cb('error')
+			cb(err)
 		}
 	});
 }
@@ -50,16 +50,15 @@ exports.checkLz = function(tid, uid, cb) {
 exports.read = function(id, cb) {
 	thread.findById(id).populate('lz').populate('board').exec(function(err, thread) {
 		if (!err) {
-			cb(thread)
+			cb(null,thread)
 		} else {
-			cb('error')
+			cb(err)
 		}
 	});
 }
 
 exports.create = function(baby, cb) {
 	var baby = new thread(baby);
-	// console.log(baby);
 	async.waterfall([
 		function(callback) {
 			baby.save(function(err) {
@@ -71,32 +70,40 @@ exports.create = function(baby, cb) {
 			});
 		},
 		function(baby, callback) {
-			board.brief(baby.board,function(b){
-				b.threads.push(baby._id);
-				b.save(function(err){
-					if (!err) {
-						callback(null, baby)
-					} else {
-						console.log(err)
-						cb(err);
-					}
-				})
+			board.brief(baby.board,function(err,b){
+				if (!err) {
+					b.threads.push(baby._id);
+					b.save(function(err){
+						if (!err) {
+							callback(null, baby)
+						} else {
+							cb(err);
+						}
+					})
+				} else {
+					cb(err)
+				}
 			})
 		},
 		function(baby, callback) {
-			user.queryById(baby.lz,function(u){
-				u.threads.push(baby._id);
-				u.save(function(err){
-					if (!err) {
-						cb(null,baby);
-					} else {
-						console.log(err);
-						cb(err);
-					}
-				})
+			user.queryById(baby.lz,function(err,u){
+				if (!err) {
+					u.threads.push(baby._id);
+					u.save(function(err){
+						if (!err) {
+							cb(null,baby);
+						} else {
+							cb(err);
+						}
+					})
+				} else {
+					cb(err)
+				}
 			})
 		}
-	]);
+	],function(err,baby){
+		cb(err,baby)
+	});
 }
 
 exports.update = function(id, body, cb) {
@@ -111,10 +118,11 @@ exports.update = function(id, body, cb) {
 
 // 删除之后要删除在相应board的索引？
 exports.remove = function(id) {
-	thread.findById(id).exec(function(err, t) {
+	thread.findByIdAndRemove(id,function(err){
 		if (!err) {
-			t.remove();
-			t.save();
+			cb(null,id)
+		} else {
+			cb(err)
 		}
 	})
 }

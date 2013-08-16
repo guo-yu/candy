@@ -17,9 +17,9 @@ exports.create = function(baby,cb){
     var baby = new config(baby);
     baby.save(function(err){
         if (!err) {
-            cb(baby);
+            cb(null,baby);
         } else {
-            console.log(err);
+            cb(err)
         }
     })
 }
@@ -29,9 +29,9 @@ exports.update = function(id,baby,cb) {
     var baby = wash(baby);
     config.findByIdAndUpdate(id,baby,function(err,result){
         if (!err) {
-            cb(result);
+            cb(null,result);
         } else {
-            console.log(err);
+            cb(err)
         }
     })
 }
@@ -40,9 +40,9 @@ exports.update = function(id,baby,cb) {
 exports.readById = function(cb) {
     config.findById(id).exec(function(err,body){
         if (!err) {
-            cb(body);
+            cb(null,body);
         } else {
-            console.log(err);
+            cb(err)
         }
     });
 }
@@ -51,9 +51,9 @@ exports.readById = function(cb) {
 exports.read = function(cb) {
     config.findOne({}).exec(function(err,body){
         if (!err) {
-            cb(body);
+            cb(null,body);
         } else {
-            console.log(err);
+            cb(err)
         }
     });
 }
@@ -62,9 +62,9 @@ exports.read = function(cb) {
 exports.check = function(cb) {
     config.count().exec(function(err,conuts){
         if (!err) {
-            cb(conuts);
+            cb(null,conuts);
         } else {
-            console.log(err);
+            cb(err)
         }
     })
 }

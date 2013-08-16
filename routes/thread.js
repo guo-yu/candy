@@ -6,18 +6,25 @@ var thread = require('../ctrlers/thread'),
 var visited = function(thread, cb) {
     thread.views = thread.views + 1;
     thread.save(function(err) {
-        if (err) console.log(err)
-        cb();
+        if (!err) {
+            cb(null)
+        } else {
+            cb(err)
+        }
     })
 }
 
 // 列出所有帖子
 exports.ls = function(req, res, next) {
-    thread.ls(function(ths){
-        res.json({
-            stat: ths != 'error' ? 'ok' : 'error',
-            threads: ths
-        })
+    thread.ls(function(err, ths) {
+        if (!err) {
+            res.json({
+                stat: 'ok',
+                threads: ths
+            })
+        } else {
+            next(err)
+        }
     })
 }
 
@@ -25,92 +32,134 @@ exports.ls = function(req, res, next) {
 exports.new = function(req, res, next) {
     // 需要添加识别默认板块的逻辑
     if (req.query.bid) {
-        board.brief(req.query.bid, function(b) {
-            res.render('thread/new', {
-                board: b
-            });
+        board.brief(req.query.bid, function(err, b) {
+            if (!err) {
+                res.render('thread/new', {
+                    board: b
+                });
+            } else {
+                next(err)
+            }
         })
     } else {
-        board.readDefault(function(b) {
-            res.render('thread/new', {
-                board: b
-            });
+        board.readDefault(function(err, b) {
+            if (!err) {
+                res.render('thread/new', {
+                    board: b
+                });
+            } else {
+                next(err)
+            }
         })
     }
 }
 
 // 查看话题页面
 exports.read = function(req, res, next) {
-    thread.read(req.params.id, function(t) {
-        if (t && t != 'error') {
-            visited(t, function() {
-                res.render('thread/index', {
-                    thread: t,
-                    marked: marked
-                });
-            })
+    thread.read(req.params.id, function(err, t) {
+        if (!err) {
+            if (t) {
+                visited(t, function(err) {
+                    // 容忍无法自增浏览数的情况出现，暂时不处理error
+                    res.render('thread/index', {
+                        thread: t,
+                        marked: marked,
+                        error: err
+                    });
+                })
+            } else {
+                next(new Error('404'))
+            }
         } else {
-            res.render('404')
+            next(err)
         }
     });
 }
 
 // 更新帖子页面
 exports.edit = function(req, res, next) {
-    thread.checkLz(req.params.id,res.locals.user._id,function(lz,thread){
-        if (lz && lz != 'error') {
-            res.render('thread/edit',{
-                thread: thread
-            })
+    thread.checkLz(req.params.id, res.locals.user._id, function(err, lz, thread) {
+        if (!err) {
+            if (lz) {
+                res.render('thread/edit', {
+                    thread: thread
+                })
+            } else {
+                next(new Error('404'))
+            }
         } else {
-            res.render('404')
+            next(err)
         }
     })
 }
 
 // API：更新话题
 exports.update = function(req, res, next) {
-    thread.checkLz(req.params.id,res.locals.user._id,function(lz,th){
-        if (lz && lz != 'error') {
-            th.name = req.body.thread.name;
-            th.content = req.body.thread.content;
-            thread.update(req.params.id, {
-                name: req.body.thread.name,
-                content: req.body.thread.content,
-                pubdate: th.pubdate,
-                views: th.views,
-                board: th.board,
-                lz: th.lz
-            }, function(err,thread) {
-                res.json({
-                    stat: !err ? 'ok' : 'error',
-                    thread: thread,
-                    error: err
-                })
-            });
+    thread.checkLz(req.params.id, res.locals.user._id, function(err, lz, th) {
+        if (!err) {
+            if (lz) {
+                th.name = req.body.thread.name;
+                th.content = req.body.thread.content;
+                thread.update(req.params.id, {
+                    name: req.body.thread.name,
+                    content: req.body.thread.content,
+                    pubdate: th.pubdate,
+                    views: th.views,
+                    board: th.board,
+                    lz: th.lz
+                }, function(err, thread) {
+                    if (!err) {
+                        res.json({
+                            stat: 'ok',
+                            thread: thread
+                        })
+                    } else {
+                        next(err);
+                    }
+                });
+            } else {
+                next(new Error('not authed'))
+            }
         } else {
-            res.render('500')
+            next(err)
         }
     })
 }
 
 // API：创建话题
 exports.create = function(req, res, next) {
-    thread.create(req.body.thread, function(err,baby) {
-        res.json({
-            stat: !err ? 'ok' : 'error',
-            thread: baby,
-            error: err
-        })
+    thread.create(req.body.thread, function(err, baby) {
+        if (!err) {
+            res.json({
+                stat: 'ok',
+                thread: baby
+            })
+        } else {
+            next(err)
+        }
     })
 }
 
 // API：删除话题
 exports.remove = function(req, res, next) {
-    thread.remove(req.params.id, function(thread) {
-        res.json({
-            stat: thread.stat,
-            thread: thread.body
-        })
+    thread.checkLz(req.params.id, res.locals.user._id, function(err, lz, th) {
+        if (!err) {
+            if (lz) {
+                thread.remove(req.params.id, function(err,tid) {
+                    if (!err) {
+                        res.json({
+                            stat: 'ok',
+                            tid: tid
+                        })
+                    } else {
+                        next(err);
+                    }
+                })
+            } else {
+                next(new Error('not authed'))
+            }
+        } else {
+            next(err)
+        }
     })
 }

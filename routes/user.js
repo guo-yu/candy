@@ -1,76 +1,106 @@
 var user = require('../ctrlers/user');
 
+// PAGE: read
 exports.read = function(req, res, next) {
-    user.read(req.params.id, function(b) {
-        res.render('user', b)
+    user.read(req.params.id, function(err, b) {
+        if (!err) {
+            res.render('user', b)
+        } else {
+            next(err)
+        }
     });
 }
 
-exports.update = function(req, res, next) {
-    user.update(req.params.id, req.body.user, function(user) {
-        res.json({
-            stat: user.stat,
-            user: user.body
-        })
-    });
-}
-
-exports.create = function(req, res, next) {
-    user.create(req.body.user, function(baby) {
-        res.json({
-            stat: 'ok',
-            user: baby
-        })
-    })
-}
-
-exports.remove = function(req, res, next) {
-    user.remove(req.params.id, function(user) {
-        res.json({
-            stat: user.stat,
-            user: user.body
-        })
-    })
-}
-
-exports.mime = function(req, res) {
+// PAGE: mime
+exports.mime = function(req, res, next) {
     if (req.params.id) {
-        user.read(req.params.id,function(u){
-            res.render('mime',{
-                uu: u
-            })
+        user.read(req.params.id, function(err, u) {
+            if (!err) {
+                if (u) {
+                    res.render('mime', {
+                        uu: u
+                    })
+                } else {
+                    next(new Error('404'));
+                }
+            } else {
+                next(err)
+            }
         })
     } else {
-        res.render('404');
+        next(new Error('404'))
     }
 }
 
-// 同步用户信息
-exports.sync = function(req, res) {
+// API: update
+exports.update = function(req, res, next) {
+    user.update(req.params.id, req.body.user, function(err, user) {
+        if (!err) {
+            res.json({
+                stat: 'ok',
+                user: user.body
+            })
+        } else {
+            next(err)
+        }
+    });
+}
+
+// API: create
+exports.create = function(req, res, next) {
+    user.create(req.body.user, function(err, baby) {
+        if (!err) {
+            res.json({
+                stat: 'ok',
+                user: baby
+            })
+        } else {
+            next(err);
+        }
+    })
+}
+
+// API: remove
+exports.remove = function(req, res, next) {
+    user.remove(req.params.id, function(err, uid) {
+        if (!err) {
+            res.json({
+                stat: 'ok',
+                user: user.body
+            })
+        } else {
+            next(err);
+        }
+    })
+}
+
+// API: Sync to duoshuo
+exports.sync = function(req, res ,next) {
     var uu = req.body.user;
     if (uu && typeof(uu) == 'object') {
-        user.queryById(req.session.user._id,function(u){
-            u.nickname = uu.name;
-            u.url = uu.url;
-            u.avatar = uu.avatar;
-            u.save(function(err){
-                if (!err) {
-                    req.session.user = u;
-                    // 这个api出现了404的情况
+        user.queryById(req.session.user._id, function(err, u) {
+            if (!err) {
+                u.nickname = uu.name;
+                u.url = uu.url;
+                u.avatar = uu.avatar;
+                u.save(function(err) {
+                    // 这个api出现了404的情况，导致所有用户数据没有在创建时同步到多说数据库
                     // user.sync(res.locals.App.app.locals.site.duoshuo,u,function(stat){
                     //     console.log(stat);
                     // });
-                    res.json({
-                        stat: 'ok',
-                        user: u
-                    });
-                } else {
-                    res.json({
-                        stat: 'error',
-                        error: err
-                    })
-                }
-            });
+                    if (!err) {
+                        req.session.user = u;
+                        res.json({
+                            stat: 'ok',
+                            user: u
+                        })
+                    } else {
+                        next(err)
+                    }
+                });
+            } else {
+                next(err)
+            }
         });
     }
 }

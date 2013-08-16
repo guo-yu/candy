@@ -1,38 +1,62 @@
 var board = require('../ctrlers/board');
 
-// read a board, list threads and page
-exports.read = function(req,res,next) {
-    board.readByUrl(req.params.url,req.params.page,function(b){
-        if (b && b != 'error') {
-            res.render('board',{
-                board: b.board,
-                threads: b.threads,
-                page: b.page
-            })
+// PAGE: 列出单个板块
+exports.read = function(req, res, next) {
+    board.readByUrl(req.params.url, req.params.page, function(err, b) {
+        if (!err) {
+            if (b) {
+                res.render('board', {
+                    board: b.board,
+                    threads: b.threads,
+                    page: b.page
+                })
+            } else {
+                next(new Error('404'))
+            }
+        } else {
+            next(err);
         }
     });
 }
 
-exports.update = function(req,res,next) {
-    board.update(req.params.id,req.body.board,function(board){
-        res.json({
-            stat: board.stat,
-            board: board.body
-        })
+// API: 更新板块信息
+exports.update = function(req, res, next) {
+    board.update(req.params.id, req.body.board, function(err, board) {
+        if (!err) {
+            res.json({
+                stat: 'ok',
+                board: board
+            })
+        } else {
+            next(err)
+        }
     });
 }
 
-exports.create = function(req,res,next) {
-    board.create(res.locals.user._id,req.body.board,function(baby){
-        res.json(baby)
+// API: 创建板块
+exports.create = function(req, res, next) {
+    board.create(res.locals.user._id, req.body.board, function(err, baby) {
+        if (!err) {
+            res.json({
+                stat: 'ok',
+                board: baby
+            });
+        } else {
+            next(err);
+        }
     })
 }
 
-exports.remove = function(req,res,next) {
-    board.remove(req.params.id,function(board){
-        res.json({
-            stat: board.stat,
-            board: board.body
-        })
+// API: 删除板块
+exports.remove = function(req, res, next) {
+    board.remove(req.params.id, function(err, bid) {
+        if (!err) {
+            res.json({
+                stat: 'ok',
+                bid: bid
+            })
+        } else {
+            next(err)
+        }
     })
 }

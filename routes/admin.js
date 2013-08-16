@@ -1,21 +1,29 @@
 // admin panel
 var admin = require('../ctrlers/admin');
 
-exports.page = function(req, res) {
-    admin.read(function(info){
-        res.render('admin/index',info);
+// PAGE: 管理后台首页
+exports.page = function(req, res, next) {
+    admin.read(function(err, info) {
+        if (!err) {
+            res.render('admin/index', info);
+        } else {
+            next(err)
+        }
     })
 };
 
-exports.update = function(req, res) {
+// API: 更新网站设置
+exports.update = function(req, res, next) {
     if (req.body.setting) {
-        admin.update(req.body.setting,function(site){
-            res.locals.App.app.locals.site = site;
-            res.json(site)
+        admin.update(req.body.setting, function(err, site) {
+            if (!err) {
+                res.locals.App.app.locals.site = site;
+                res.json(site)
+            } else {
+                next(err)
+            }
         });
     } else {
-        res.json({
-            stat: 'fail'
-        })
+        next(new Error('缺少表单'))
     }
 };
