@@ -45,13 +45,24 @@ candy.ctrlers['thread'] = {
                     alert('话题更新成功');
                     window.location = '/thread/' + $scope.thread.id;
                 } else {
-                    alert('数据库出现错误，请查看控制台');
+                    alert('出现错误，请查看控制台');
                     console.log(result.error)
                 }
             })
         };
-        $scope.remove = function(id, e) {
-            var btn = angular.element(e.target);
+        $scope.remove = function(id) {
+            Store.thread.single.remove({
+                action: 'remove',
+                tid: id
+            },function(result){
+                if (result.stat == 'ok') {
+                    alert('您已成功删除此帖');
+                    window.location = '/';
+                } else {
+                    alert('出现错误，请查看控制台');
+                    console.log(result.error)
+                }
+            })
         }
     }
 }

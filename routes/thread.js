@@ -158,7 +158,7 @@ exports.remove = function(req, res, next) {
                         res.json({
                             stat: 'ok',
                             tid: tid
-                        })
+                        });
                     } else {
                         next(err);
                     }

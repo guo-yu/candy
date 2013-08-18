@@ -25,6 +25,17 @@ exports.count = function(cb) {
 	});
 }
 
+// check admin
+exports.checkAdmin = function(uid,cb) {
+	exports.queryById(uid,function(err,user){
+		if (!err) {
+			cb(null,(user.type == 'admin'));
+		} else {
+			cb(err)
+		}
+	})
+}
+
 // 读取一个用户
 exports.read = function(id, cb) {
 	user.findById(id).populate('threads').exec(function(err, user) {
