@@ -48,13 +48,17 @@ exports.checkLz = function(tid, uid, cb) {
 }
 
 exports.read = function(id, cb) {
-	thread.findById(id).populate('lz').populate('board').exec(function(err, thread) {
-		if (!err) {
-			cb(null,thread)
-		} else {
-			cb(err)
-		}
-	});
+	if (id && id.match(/^[0-9a-fA-F]{24}$/)) {
+		thread.findById(id).populate('lz').populate('board').exec(function(err, thread) {
+			if (!err) {
+				cb(null,thread)
+			} else {
+				cb(err)
+			}
+		});
+	} else {
+		cb(new Error('404'));
+	}
 }
 
 exports.create = function(baby, cb) {

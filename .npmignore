@@ -6,3 +6,4 @@ psd
 backup.*
 *.log
 sftp-*
+*.backup
