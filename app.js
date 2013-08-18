@@ -6,7 +6,7 @@
 //                       /____/   
 // 
 // @brief  : a micro bbs system based on duoshuo.com apis
-// @author : [turingou](http://guoyu.me)
+// @author : 新浪微博@郭宇 [turingou](http://guoyu.me)
 
 var Server = function(params) {
 
@@ -20,14 +20,6 @@ var Server = function(params) {
         MemStore = express.session.MemoryStore;
 
     pkg.set('/database.json',params.database);
-
-    // 暂时移除 ifile 配置
-    // static file config
-    // ifile.options = {
-    //     gzip: true,
-    //     gzip_min_size: 1024,
-    //     gzip_file: ['js', 'css', 'less', 'html', 'xhtml', 'htm', 'xml', 'json', 'txt'], //gzip压缩的文件后缀名
-    // }
 
     var board = require('./routes/board'),
         thread = require('./routes/thread'),
@@ -64,32 +56,18 @@ var Server = function(params) {
         }
         next();
     });
-    app.use(app.router);
     app.use(require('less-middleware')({
         src: __dirname + '/public'
     }));
     app.use(express.static(path.join(__dirname, 'public')));
+    app.use(app.router);
 
-    // 暂时移除 ifile 中间件
-    // app.use(ifile.connect([
-    //     ["/", "public", ['js', 'css', 'jpg', 'png', 'gif','woff','ttf','svg','ico']],
-    // ],function(req,res,is_static){
-    //     res.statusCode = 404;
-    //     res.render('404');
-    // }));
-    
-    if (app.get('env') == 'development') {
-        app.use(express.errorHandler());
-        app.use(errhandler.xhr);
-        app.use(errhandler.common);
-    } else {
-        app.use(errhandler.logger);
-        app.use(errhandler.xhr);
-        app.use(errhandler.common);
-    }
+    // errhandler
+    app.use(errhandler.logger);
+    app.use(errhandler.xhr);
+    app.use(errhandler.common);
 
     moment.lang('zh-cn',cn);
-    
     app.get('*', function(req,res,next){
         res.locals.moment = moment;
         next();
@@ -132,7 +110,7 @@ var Server = function(params) {
     app.post('/setting', admin.update);
 
     // 404
-    // app.get('*', errhandler.notfound)
+    app.get('*', errhandler.notfound)
 
     this.app = app;
     this.params = params;

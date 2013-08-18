@@ -3,6 +3,7 @@
 node_*
 thumb
 psd
+*.backup
 backup.*
 *.log
 sftp-*

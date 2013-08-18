@@ -1415,3 +1415,8 @@ h3.syncing {
 .pagination i {
   padding: 0;
 }
+.error-detail {
+  font-size: 12px;
+  padding-left: 76px;
+  color: #999;
+}
