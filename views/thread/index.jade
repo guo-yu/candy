@@ -25,7 +25,7 @@ block content
                         a(href="/board/#{thread.board.url}") #{thread.board.name}
                     i.icon-time
                     != moment(thread.pubdate).fromNow()
-                    - if (user && user._id == thread.lz._id)
+                    - if ((user && user._id == thread.lz._id) || user.type == 'admin') 
                         a(href="/thread/#{thread.id}/edit").edit
                             i.icon-edit
                             |编辑

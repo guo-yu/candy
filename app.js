@@ -85,7 +85,7 @@ var Server = function(params) {
     app.get('/board/:url/page/:page', sign.passport, board.read);
     app.post('/board/new', sign.checkJSON, board.create);
     app.post('/board/:id', board.update);
-    app.post('/board/:id/remove', sign.checkJSON, board.remove);
+    app.delete('/board/:id/remove', sign.checkJSON, board.remove);
 
     // thread
     app.get('/thread/new', sign.check, thread.new);
@@ -94,13 +94,13 @@ var Server = function(params) {
     app.get('/thread/:id', sign.passport, thread.read);
     app.get('/thread/:id/edit', sign.check, thread.edit);
     app.post('/thread/:id/update', sign.checkJSON, thread.update);
-    app.post('/thread/:id/remove', sign.checkJSON, thread.remove);
+    app.delete('/thread/:id/remove', sign.checkJSON, thread.remove);
 
     // user
     app.get('/user/:id', sign.passport, user.read);
-    // app.post('/user/remove', user.remove);
     app.post('/user/sync', sign.check, user.sync);
     app.post('/user/:id', user.update);
+    app.delete('/user/remove', user.remove);
 
     // user center
     app.get('/member/:id', sign.passport, user.mime);

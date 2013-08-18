@@ -31,9 +31,9 @@ block content
                   a(href="javascript:void(0);",ng-click="update()").btn.btn-success
                     i.icon-ok 
                     | 写好了
-                  //- a(href="#",ng-click="remove('#{thread._id}',$event)").remove.btn
-                  //-   i.icon-remove
-                  //-   | 删除此帖
+                  a(href="javascript:void(0);",ng-click="remove('#{thread._id}')").remove.btn
+                    i.icon-remove
+                    | 删除此帖
 
 block js
     //- editor
