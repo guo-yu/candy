@@ -27,7 +27,7 @@ html(ng-app="candy")
             .c10
             .c11
             .c12
-        header
+        #header
             #ihd.container.clearfix
                 .row
                     .col-lg-12
@@ -37,16 +37,17 @@ html(ng-app="candy")
                                 span.desc #{site.desc}
     block banner
         include banner
-    article#cnt
+    #cnt
         #icnt.container.clearfix
           .row
-            .col-lg-9
-                block content
-            .col-lg-3
-                block sidebar
-                    include sidebar
+              block main
+                .col-lg-9
+                    block content
+                .col-lg-3
+                    block sidebar
+                        include sidebar
     block footer
-      footer
+      #footer
         #ft.clearfix
             #ift.container.clearfix.copyright &copy; #{new Date().getFullYear()} 『#{site.name}』 #{site.desc} | Powered by 
                     a(href="https://github.com/turingou/candy",title="npm install candy").candy #{sys.name} 

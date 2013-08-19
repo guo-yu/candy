@@ -12,32 +12,49 @@ block banner
                     i.icon-edit
                     | 编辑话题「#{thread.name}」
 
-block content
+block main
     #thread(ng-controller="candy.ctrlers.thread.edit").thread
-        #edit.fn-clear
-            form(name="createThread").form-horizontal
-              .form-group
-                label.col-lg-1.control-label 标题
-                .col-lg-11
-                    input(type="text",ng-model="thread.name",ng-init="thread.name='#{thread.name}'").form-control
-              .form-group
-                label.col-lg-1.control-label 内容
-                .col-lg-11.editor
-                    textarea.form-control(ng-init="thread.content='#{thread.content}'")
-                        |#{thread.content}
-              input(type="hidden",ng-model="thread.id",ng-init="thread.id='#{thread._id}'")
-              .form-group
-                .col-lg-offset-1.col-lg-11
-                  a(href="javascript:void(0);",ng-click="update()").btn.btn-success
-                    i.icon-ok 
-                    | 写好了
-                  a(href="javascript:void(0);",ng-click="remove('#{thread._id}')").remove.btn
-                    i.icon-remove
-                    | 删除此帖
+      .col-lg-9
+          #edit.fn-clear
+              form(name="createThread").form-horizontal
+                .form-group
+                  label.col-lg-1.control-label 标题
+                  .col-lg-11
+                      input(type="text",ng-model="thread.name",ng-init="thread.name='#{thread.name}'").form-control
+                .form-group
+                  label.col-lg-1.control-label 内容
+                  .col-lg-11.editor
+                      textarea.form-control(ng-init="thread.content='#{thread.content}'")
+                          |#{thread.content}
+                .form-group.attachement
+                  .col-lg-offset-1.col-lg-11
+                    .uploader
+                      .btn.btn-default.fileinput-button
+                        i.icon-plus.icon-white
+                        span 上传附件
+                        input#fileupload(type="file",name="media")
+                      //- #progress.progress
+                      //-   .progress-bar.progress-bar-success
+                      #files.files.clearfix
+                input(type="hidden",ng-model="thread.id",ng-init="thread.id='#{thread._id}'")
+      .col-lg-3
+          .thread-submit.clearfix.side-cnt
+              a(href="javascript:void(0);",ng-click="update()").btn.btn-success.submit
+                i.icon-ok 
+                | 修改好了
+              a(href="javascript:void(0);",ng-click="remove('#{thread._id}')").remove.btn
+                i.icon-remove
+                | 删除此帖
+          include ../signin
 
 block js
     //- editor
     link(href="/stylesheets/editor/editor.css",rel="stylesheet")
     script(src="/javascripts/lib/editor.js")
+    //- uploader
+    link(href="/stylesheets/jquery.fileupload-ui.css",rel="stylesheet")
+    script(src="/javascripts/upload/jquery.ui.widget.js")
+    script(src="/javascripts/upload/jquery.iframe-transport.js")
+    script(src="/javascripts/upload/jquery.fileupload.js")
     //- thread ctrler
     script(src="/javascripts/thread.js")

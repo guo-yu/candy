@@ -117,18 +117,18 @@ a:hover {
   transition: color 0.25s linear, background-color 0.25s linear, border-color 0.25s linear;
 }
 /* Header */
-header {
+#header {
   background-color: #3498db;
   box-shadow: 0px 0px 5px #999;
 }
-header #ihd {
+#header #ihd {
   color: #fff;
 }
-header #logo h1 {
+#header #logo h1 {
   margin-top: 0px;
   margin-bottom: 0;
 }
-header #logo h1 a {
+#header #logo h1 a {
   padding-top: 12px;
   padding-bottom: 12px;
   padding-left: 32px;
@@ -142,20 +142,20 @@ header #logo h1 a {
   text-shadow: none;
   letter-spacing: 2px;
 }
-header #logo h1 a span.desc {
+#header #logo h1 a span.desc {
   font-size: 12px;
   padding-left: 10px;
   color: #fff;
 }
-header .user-nav {
+#header .user-nav {
   list-style-type: none;
   font-size: 14px;
 }
-header .user-nav li {
+#header .user-nav li {
   display: block;
   float: left;
 }
-header .user-nav a {
+#header .user-nav a {
   font-size: 14px !important;
   display: block;
   background-color: #fff;
@@ -681,23 +681,23 @@ header .user-nav a {
   color: #fff;
 }
 /* Footer */
-footer .copyright {
+#footer .copyright {
   padding: 20px 0;
   margin-top: 5px;
   color: #999;
   font-size: 12px;
 }
-footer .copyright a {
+#footer .copyright a {
   color: #999;
 }
-footer .copyright a:hover {
+#footer .copyright a:hover {
   color: #000;
 }
-footer .copyright .candy {
+#footer .copyright .candy {
   padding-left: 13px;
   background: url('/images/candy.png') no-repeat left center;
 }
-footer .copyright .powered {
+#footer .copyright .powered {
   text-align: right;
 }
 /*page*/
@@ -1342,15 +1342,6 @@ img.avatar-mid {
   -webkit-border-radius: 4px;
   -o-border-radius: 4px;
 }
-.thread .remove {
-  font-size: 12px;
-  padding-left: 10px;
-  color: #999;
-  float: right;
-}
-.thread .remove:hover {
-  color: red;
-}
 i.icon-spinner {
   padding: 0 !important;
 }
@@ -1420,4 +1411,47 @@ h3.syncing {
   font-size: 12px;
   padding-left: 76px;
   color: #999;
+}
+.uploader {
+  background-color: #f5f5f5;
+  margin-top: -20px;
+  padding: 1px;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+.uploader .btn {
+  font-size: 12px;
+}
+.thread-submit {
+  padding: 0px;
+  margin-bottom: 20px;
+}
+.thread-submit a.btn {
+  text-align: left;
+  border-radius: 0px;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  -o-border-radius: 0px;
+  font-size: 14px;
+  padding: 5px 15px;
+  display: block;
+  text-shadow: none;
+}
+.thread-submit a.submit {
+  color: #fff;
+}
+.thread-submit a.remove {
+  color: #999;
+  font-size: 12px;
+}
+.thread-submit a.remove i {
+  padding-right: 12px;
+  font-size: 14px;
+}
+.thread-submit a.remove:hover {
+  color: red;
 }

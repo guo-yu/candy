@@ -27,6 +27,7 @@ var Server = function(params) {
         index = require('./routes/index'),
         sign = require('./routes/sign'),
         admin = require('./routes/admin'),
+        media = require('./routes/media'),
         errhandler = require('./lib/error'),
         cn = require('./lib/zh-cn'),
         moment = require('moment');
@@ -39,7 +40,7 @@ var Server = function(params) {
     app.use(express.logger('dev'));
     app.use(express.bodyParser({
         keepExtensions: true,
-        uploadDir: path.join(__dirname, '/uploads')
+        uploadDir: path.join(__dirname, '/public/uploads')
     }));
     app.use(express.methodOverride());
     app.use(express.cookieParser(params.database.name));
@@ -95,6 +96,10 @@ var Server = function(params) {
     app.get('/thread/:id/edit', sign.check, thread.edit);
     app.post('/thread/:id/update', sign.checkJSON, thread.update);
     app.delete('/thread/:id/remove', sign.checkJSON, thread.remove);
+
+    // attachements and media
+    app.post('/upload', sign.checkJSON, media.upload);
+    app.post('/download/:id', media.download);
 
     // user
     app.get('/user/:id', sign.passport, user.read);

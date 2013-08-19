@@ -3,6 +3,24 @@ candy.ctrlers['thread'] = {
         window.editor = new Editor();
         window.editor.render();
     },
+    uploader: function(dom) {
+        $(dom).fileupload({
+            url: '/upload',
+            dataType: 'json',
+            done: function(e, data) {
+                $.each(data.result.files, function(index, file) {
+                    $('<p/>').text(file.name).appendTo('#files');
+                });
+            },
+            progressall: function(e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('#progress .progress-bar').css(
+                    'width',
+                    progress + '%'
+                );
+            }
+        }).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
+    },
     new: function($scope, Store) {
         $scope.create = function() {
             var thread = $scope.thread;
@@ -54,7 +72,7 @@ candy.ctrlers['thread'] = {
             Store.thread.single.remove({
                 action: 'remove',
                 tid: id
-            },function(result){
+            }, function(result) {
                 if (result.stat == 'ok') {
                     alert('您已成功删除此帖');
                     window.location = '/';
@@ -69,4 +87,5 @@ candy.ctrlers['thread'] = {
 
 jQuery(document).ready(function($) {
     candy.ctrlers.thread.editor();
+    candy.ctrlers.thread.uploader('#fileupload');
 });
