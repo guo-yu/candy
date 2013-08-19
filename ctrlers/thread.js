@@ -19,7 +19,7 @@ exports.ls = function(cb) {
 exports.lsByBoardId = function(bid, params, cb) {
 	thread.find({
 		board: bid
-	}).limit(params.limit).populate('lz').populate('board').exec(function(err, threads) {
+	}).skip(params.from).limit(params.limit).sort('-pubdate').populate('lz').populate('board').exec(function(err, threads) {
 		if (!err) {
 			cb(null, threads)
 		} else {

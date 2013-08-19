@@ -1,10 +1,11 @@
 module.exports = function(collection,params,cb) {
     collection.count(params.filter).exec(function(err, count) {
         if (!err) {
+            var page = parseInt(params.page);
             cb(null,{
-                current: params.page ? params.page : 1,
+                current: page ? page : 1,
                 limit: params.limit,
-                from: (params.page && params.page > 1) ? ((params.page - 1) * params.limit + 1) : 0,
+                from: (page && page > 1) ? ((page - 1) * params.limit) : 0,
                 max: Math.round(count / params.limit)
             })
         } else {
