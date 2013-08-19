@@ -9,4 +9,4 @@ var store = angular.module('store', ['ngResource']).factory('Store', function($r
     },
     setting : $resource('/setting', {})
   }
-})
+});

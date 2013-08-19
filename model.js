@@ -89,10 +89,47 @@ var threadModel = new Schema({
     board: {
         type: Schema.Types.ObjectId,
         ref: 'board'
-    }
+    },
+    media: [{
+        type: Schema.Types.ObjectId,
+        ref: 'media'
+    }]
 });
+
+// media
+var mediaModel = new Schema({
+    name: String,
+    src: String,
+    count: {
+        download: {
+            type: Number,
+            default: 0
+        },
+        share: {
+            type: Number,
+            default: 0
+        }
+    },
+    stat: {
+        type: String,
+        default: 'public'
+    },
+    pubdate: {
+        type: Date,
+        default: Date.now
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'user'
+    },
+    thread: {
+        type: Schema.Types.ObjectId,
+        ref: 'thread'
+    }
+})
 
 exports.config = db.model('config', configModel);
 exports.user = db.model('user', userModel);
 exports.board = db.model('board', boardModel);
 exports.thread = db.model('thread', threadModel);
+exports.media = db.model('media', mediaModel);
