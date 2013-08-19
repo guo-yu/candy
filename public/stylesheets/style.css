@@ -1417,14 +1417,45 @@ h3.syncing {
   margin-top: -20px;
   padding: 1px;
   border: 1px solid #ddd;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -o-border-radius: 5px;
 }
 .uploader .btn {
   font-size: 12px;
+  border-radius: 0px;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  -o-border-radius: 0px;
+}
+.uploader .files {
+  font-size: 12px;
+  padding-top: 8px;
+}
+.uploader #progress {
+  height: 31px;
+  padding: 0;
+  border-radius: 0px;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  -o-border-radius: 0px;
+  display: block;
+  margin-bottom: 0px;
+  box-shadow: none;
+}
+.uploader #progress .progress-bar {
+  text-align: center;
+  font-size: 14px;
+  line-height: 31px;
+}
+#files {
+  padding-left: 0px;
+  margin-top: -1px;
+}
+#files li {
+  margin-left: 0px;
+  border-radius: 0px;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  -o-border-radius: 0px;
+  border: 1px solid #ddd;
 }
 .thread-submit {
   padding: 0px;
@@ -1454,4 +1485,33 @@ h3.syncing {
 }
 .thread-submit a.remove:hover {
   color: red;
+}
+.attachements {
+  border-top: 1px solid #ddd;
+  padding: 10px 15px;
+}
+.attachements .single-file .thumb {
+  width: 50px;
+  border: 1px solid #ddd;
+  padding: 1px;
+  background-color: #fff;
+  margin-right: 8px;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -o-border-radius: 3px;
+  box-shadow: 1px 1px 4px #efefef;
+  -moz-box-shadow: 1px 1px 4px #efefef;
+  -webkit-box-shadow: 1px 1px 4px #efefef;
+}
+.attachements .single-file span {
+  font-size: 12px;
+  color: #999;
+  padding-right: 8px;
+}
+.attachements .single-file span.name {
+  padding-bottom: 5px;
+  font-size: 14px;
+  color: #3498db;
+  display: block;
 }

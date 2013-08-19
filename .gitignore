@@ -7,3 +7,4 @@ psd
 backup.*
 *.log
 sftp-*
+public/uploads

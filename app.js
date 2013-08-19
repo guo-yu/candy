@@ -97,9 +97,9 @@ var Server = function(params) {
     app.post('/thread/:id/update', sign.checkJSON, thread.update);
     app.delete('/thread/:id/remove', sign.checkJSON, thread.remove);
 
-    // attachements and media
+    // media
     app.post('/upload', sign.checkJSON, media.upload);
-    app.post('/download/:id', media.download);
+    app.get('/download/:id', media.download);
 
     // user
     app.get('/user/:id', sign.passport, user.read);

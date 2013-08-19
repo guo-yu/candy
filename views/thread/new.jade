@@ -29,16 +29,16 @@ block main
                   label.col-lg-1.control-label 内容
                   .col-lg-11.editor
                       textarea.form-control
-                .form-group.attachement
+                .form-group.uploader-wrap
                   .col-lg-offset-1.col-lg-11
-                    .uploader
-                      .btn.btn-default.fileinput-button
+                    .uploader.clearfix
+                      .btn.btn-default.fileinput-button.col-lg-2
                         i.icon-plus.icon-white
                         span 上传附件
                         input#fileupload(type="file",name="media")
-                      //- #progress.progress
-                      //-   .progress-bar.progress-bar-success
-                      #files.files.clearfix
+                      #progress.col-lg-10.progress-striped.active.progress
+                        .progress-bar(role="progressbar",aria-valuenow="45",aria-valuemin="0",aria-valuemax="100")
+                    ul#files.files
                 input(type="hidden",ng-model="thread.board",ng-init="thread.board='#{board._id}'")
                 input(type="hidden",ng-model="thread.lz",ng-init="thread.lz='#{user._id}'")
     .col-lg-3
