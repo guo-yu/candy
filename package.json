@@ -1,6 +1,6 @@
 {
   "name": "candy",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "a micro bbs system based on duoshuo.com apis",
   "main": "app.js",
   "scripts": {

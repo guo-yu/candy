@@ -100,6 +100,13 @@ var threadModel = new Schema({
 var mediaModel = new Schema({
     name: String,
     src: String,
+    url: String,
+    cdn: String,
+    type: String,
+    meta: {
+        size: Number,
+        lastModifiedDate: Date
+    },
     count: {
         download: {
             type: Number,
@@ -121,10 +128,6 @@ var mediaModel = new Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'user'
-    },
-    thread: {
-        type: Schema.Types.ObjectId,
-        ref: 'thread'
     }
 })
 

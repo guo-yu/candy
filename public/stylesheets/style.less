@@ -1378,10 +1378,36 @@ h3.syncing {
     margin-top: -20px;
     padding: 1px;
     border: 1px solid #ddd;
-    margin-bottom: 20px;
-    .br(5px);
     .btn {
         font-size: 12px;
+        .br(0px);
+    }
+    .files {
+        font-size: 12px;
+        padding-top: 8px;
+    }
+    #progress {
+        height: 31px;
+        padding: 0;
+        .br(0px);
+        display: block;
+        margin-bottom: 0px;
+        box-shadow: none;
+        .progress-bar {
+            text-align: center;
+            font-size: 14px;
+            line-height: 31px;
+        }
+    }
+}
+
+#files {
+    padding-left: 0px;
+    margin-top: -1px;
+    li {
+        margin-left: 0px;
+        .br(0px);
+        border: 1px solid #ddd;
     }
 }
 
@@ -1409,5 +1435,27 @@ h3.syncing {
         &:hover {
             color: red;
         };
+    }
+}
+
+.attachements {
+    border-top: 1px solid #ddd;
+    padding: 10px 15px;
+    .single-file {
+        .thumb {
+            width: 50px;
+            .thumbnail()
+        }
+        span {
+            font-size: 12px;
+            color: #999;
+            padding-right: 8px;
+        }
+        span.name {
+            padding-bottom: 5px;
+            font-size: 14px;
+            color: @key-color;
+            display: block;
+        }
     }
 }

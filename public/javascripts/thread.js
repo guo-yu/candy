@@ -3,17 +3,31 @@ candy.ctrlers['thread'] = {
         window.editor = new Editor();
         window.editor.render();
     },
-    uploader: function(dom) {
+    uploader: function(dom, thread) {
         $(dom).fileupload({
             url: '/upload',
             dataType: 'json',
             done: function(e, data) {
-                $.each(data.result.files, function(index, file) {
-                    $('<p/>').text(file.name).appendTo('#files');
-                });
+                // init uploader
+                if (data.result.stat == 'ok') {
+                    var file = data.result.file;
+                    thread.media.push(file._id);
+                    $('#files').append([
+                        "<li class='list-group-item single-file'>",
+                        "<a target='_blank' href='",
+                        file.url,
+                        "'>",
+                        file.name,
+                        '</a>',
+                        "</li>"
+                    ].join('\n'));
+                } else {
+                    alert(data.result.error);
+                }
             },
             progressall: function(e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('#progress .progress-bar').text(progress + '%')
                 $('#progress .progress-bar').css(
                     'width',
                     progress + '%'
@@ -22,6 +36,8 @@ candy.ctrlers['thread'] = {
         }).prop('disabled', !$.support.fileInput).parent().addClass($.support.fileInput ? undefined : 'disabled');
     },
     new: function($scope, Store) {
+        $scope.thread = {};
+        $scope.thread['media'] = [];
         $scope.create = function() {
             var thread = $scope.thread;
             if (thread && thread.name) {
@@ -46,6 +62,7 @@ candy.ctrlers['thread'] = {
                 alert('写点什么再提交吧')
             }
         }
+        candy.ctrlers.thread.uploader('#fileupload', $scope.thread);
     },
     edit: function($scope, Store) {
         var content = angular.element('#edit textarea').text();
@@ -82,10 +99,10 @@ candy.ctrlers['thread'] = {
                 }
             })
         }
+        candy.ctrlers.thread.uploader('#fileupload', $scope.thread);
     }
 }
 
 jQuery(document).ready(function($) {
     candy.ctrlers.thread.editor();
-    candy.ctrlers.thread.uploader('#fileupload');
 });

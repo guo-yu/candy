@@ -30,7 +30,7 @@ exports.lsByBoardId = function(bid, params, cb) {
 
 // 查看当前用户是否是楼主 或者 是否是admin用户
 exports.checkLz = function(tid, uid, cb) {
-	thread.findById(tid).exec(function(err, thread) {
+	thread.findById(tid).populate('media').exec(function(err, thread) {
 		if (!err) {
 			if (thread) {
 				if (thread.lz == uid) {
@@ -59,7 +59,7 @@ exports.checkLz = function(tid, uid, cb) {
 
 exports.read = function(id, cb) {
 	if (id && id.match(/^[0-9a-fA-F]{24}$/)) {
-		thread.findById(id).populate('lz').populate('board').exec(function(err, thread) {
+		thread.findById(id).populate('lz').populate('board').populate('media').exec(function(err, thread) {
 			if (!err) {
 				cb(null, thread)
 			} else {
