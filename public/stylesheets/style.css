@@ -1486,8 +1486,8 @@ h3.syncing {
 .thread-submit a.remove:hover {
   color: red;
 }
-.attachements {
-  border-top: 1px solid #ddd;
+.attachements .single-file {
+  border-top: 1px dashed #ddd;
   padding: 10px 15px;
 }
 .attachements .single-file .thumb {
