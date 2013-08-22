@@ -99,7 +99,7 @@ var Server = function(params) {
 
     // media
     app.post('/upload', sign.checkJSON, media.upload);
-    app.get('/download/:id', media.download);
+    app.get('/download/:id', sign.passport, media.download);
 
     // user
     app.get('/user/:id', sign.passport, user.read);
