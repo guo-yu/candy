@@ -9,12 +9,17 @@ candy['ctrlers'] = {
         }
     },
     board: {
-        ls: function($scope,Store) {
+        list: function($scope,Store) {
+            var drop = function() {
+                
+            }
             $scope.ls = function() {
                 Store.board.get({
                     action: 'ls'
                 }, function(result) {
-                    console.log(result);
+                    if (result.stat == 'ok') {
+                        $scope.boards = result.boards;
+                    };
                 });
             }
         }

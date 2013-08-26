@@ -32,11 +32,17 @@ html(ng-app="candy")
                 .row
                     .col-lg-12
                       #logo.clearfix.fn-left
-                        h1.clearfix(ng-controller="cnady.ctrlers.board")
-                            a(href="/") #{site.name}
+                        h1.clearfix(ng-controller="candy.ctrlers.board.list")
+                            a(href="/").logo #{site.name}
                                 span.desc #{site.desc}
-                            a(ng-click="ls()",href="#")
-                                i.icon-chevron-down
+                            a(ng-click="ls()",href="#").boards-dropdown
+                                i.icon-circle-arrow-down
+        #boards-dropdown
+            #ibd.container.clearfix
+                .row
+                    .col-lg-12
+                        .boards-index
+                            
     block banner
         include banner
     #cnt
