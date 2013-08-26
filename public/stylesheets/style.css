@@ -128,7 +128,7 @@ a:hover {
   margin-top: 0px;
   margin-bottom: 0;
 }
-#header #logo h1 a {
+#header #logo h1 a.logo {
   padding-top: 12px;
   padding-bottom: 12px;
   padding-left: 32px;
@@ -141,8 +141,9 @@ a:hover {
   color: #fff;
   text-shadow: none;
   letter-spacing: 2px;
+  float: left;
 }
-#header #logo h1 a span.desc {
+#header #logo h1 a.logo span.desc {
   font-size: 12px;
   padding-left: 10px;
   color: #fff;
@@ -165,6 +166,22 @@ a:hover {
   -webkit-border-radius: 15px;
   -o-border-radius: 15px;
   box-shadow: 0px 0px 3px #ddd;
+}
+#header .boards-dropdown {
+  font-size: 18px;
+  float: left;
+  display: block;
+  color: #fff;
+  padding-left: 20px;
+  padding-top: 15px;
+}
+#header .boards-dropdown i {
+  display: block;
+  color: #efefef;
+}
+#header .boards-dropdown:hover i {
+  color: #fff;
+  text-shadow: 0px 0px 1px #ddd;
 }
 .active-nav {
   font-size: 14px !important;
@@ -1493,7 +1510,6 @@ h3.syncing {
 .attachements .single-file .thumb {
   width: 50px;
   border: 1px solid #ddd;
-  padding: 1px;
   background-color: #fff;
   margin-right: 8px;
   border-radius: 3px;
@@ -1503,6 +1519,11 @@ h3.syncing {
   box-shadow: 1px 1px 4px #efefef;
   -moz-box-shadow: 1px 1px 4px #efefef;
   -webkit-box-shadow: 1px 1px 4px #efefef;
+  border-radius: 0;
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  -o-border-radius: 0;
+  padding: 1px;
 }
 .attachements .single-file span {
   font-size: 12px;
@@ -1514,4 +1535,30 @@ h3.syncing {
   font-size: 14px;
   color: #3498db;
   display: block;
+}
+.attachements .single-file .other-files {
+  display: block;
+  font-size: 30px;
+  border: 1px solid #ddd;
+  padding: 1px;
+  background-color: #fff;
+  margin-right: 8px;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -o-border-radius: 3px;
+  box-shadow: 1px 1px 4px #efefef;
+  -moz-box-shadow: 1px 1px 4px #efefef;
+  -webkit-box-shadow: 1px 1px 4px #efefef;
+  border-radius: 0;
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  -o-border-radius: 0;
+  padding: 6px 1px;
+  width: 50px;
+  text-align: center;
+  color: #999;
+}
+.attachements .single-file:hover {
+  background-color: #f5f5f5;
 }

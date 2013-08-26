@@ -33,17 +33,21 @@ block content
             - if (thread.media && thread.media.length > 0)
                 .attachements
                     - each file in thread.media
+                        - var size = (file.meta.size / 1024 / 1024).toString().substr(0,4)
                         .single-file.clearfix
-                            a(href="/download/#{file.id}",target='_blank')
                                 - if (file.type == 'image/jpeg' || file.type == 'image/png' || file.type == 'image/gif')
                                     img(src="#{file.url}").thumb.pull-left
-                                span.name #{file.name}
+                                - else
+                                    i.icon-paperclip.other-files.pull-left
+                                a(href="/download/#{file.id}",target='_blank')
+                                    span.name 
+                                        |#{file.name}
                                 span.download 
                                     i.icon-circle-arrow-down
                                     | #{file.count.download} 下载 
                                 span.share-count
-                                    i.icon-share-sign
-                                    | #{file.count.share} 分享 
+                                    i.icon-archive
+                                    | #{size} MB
         .board-meta
             i.icon-eye-open
             span.views #{thread.views} 阅读
