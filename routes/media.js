@@ -1,17 +1,6 @@
 // media
 var media = require('../ctrlers/media');
 
-var downloadCount = function(file,cb) {
-    file.count.download = file.count.download + 1;
-    file.save(function(err){
-        if (!err) {
-            cb(null,file);
-        } else {
-            cb(err)
-        }
-    })
-}
-
 exports.upload = function(req, res, next) {
     if (req.files.media) {
         var originFile = req.files.media,
@@ -50,7 +39,7 @@ exports.download = function(req, res, next) {
             if (!err) {
                 if (file) {
                     if (file.stat == 'public') {
-                        downloadCount(file,function(err,f){
+                        media.countDownload(file,function(err,f){
                             if (!err) {
                                 res.sendfile(file.src);
                             } else {
@@ -59,14 +48,17 @@ exports.download = function(req, res, next) {
                         })
                     } else {
                         // 这里要扩充判断逻辑
+                        // 比如需要注册分享，需要分享分享等等
                         if (res.locals.user) {
-                            downloadCount(file,function(err,f){
+                            media.countDownload(file,function(err,f){
                                 if (!err) {
                                     res.sendfile(file.src);
                                 } else {
                                     next(err);
                                 }
                             })
+                        } else {
+                            next(new Error('403'))
                         }
                     }
                 } else {

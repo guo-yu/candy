@@ -19,7 +19,7 @@ var Server = function(params) {
     var app = express(),
         MemStore = express.session.MemoryStore;
 
-    pkg.set('/database.json',params.database);
+    pkg.set('/database.json', params.database);
 
     var board = require('./routes/board'),
         thread = require('./routes/thread'),
@@ -68,8 +68,8 @@ var Server = function(params) {
     app.use(errhandler.xhr);
     app.use(errhandler.common);
 
-    moment.lang('zh-cn',cn);
-    app.get('*', function(req,res,next){
+    moment.lang('zh-cn', cn);
+    app.get('*', function(req, res, next) {
         res.locals.moment = moment;
         next();
     });
@@ -82,6 +82,7 @@ var Server = function(params) {
     app.get('/signout', sign.out);
 
     // board
+    app.get('/board/ls', sign.passport, board.ls);
     app.get('/board/:url', sign.passport, board.read);
     app.get('/board/:url/page/:page', sign.passport, board.read);
     app.post('/board/new', sign.checkJSON, board.create);
@@ -139,7 +140,7 @@ Server.prototype.config = function(cb) {
     }
 
     var read = function(cb) {
-        config.read(function(err,info) {
+        config.read(function(err, info) {
             if (!err) {
                 setLocals(info);
                 cb();
@@ -151,11 +152,11 @@ Server.prototype.config = function(cb) {
     }
 
     if (params && typeof(params) == 'object') {
-        config.check(function(err,count) {
+        config.check(function(err, count) {
             if (!err) {
                 if (count == 0) {
                     // first create
-                    config.create(params, function(err,c) {
+                    config.create(params, function(err, c) {
                         if (!err) {
                             setLocals(c);
                             cb();

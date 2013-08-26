@@ -35,7 +35,8 @@
     "moment": "*",
     "marked": "*",
     "highlight.js": "*",
-    "winston": "*"
+    "winston": "*",
+    "qiniu": "*"
   },
   "devDependencies": {
     "mocha": "*",

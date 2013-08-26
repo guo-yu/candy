@@ -60,3 +60,18 @@ exports.remove = function(req, res, next) {
         }
     })
 }
+
+// API: 列出所有板块名称和url
+exports.ls = function(req,res,next) {
+    board.lsName(function(err,boards){
+        console.log(boards);
+        if (!err) {
+            res.json({
+                stat: 'ok',
+                boards: boards
+            })
+        } else {
+            next(err);
+        }
+    })
+}
