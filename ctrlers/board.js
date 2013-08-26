@@ -3,6 +3,16 @@ var model = require('../model'),
 	thread = require('./thread'),
 	pager = require('./pager');
 
+// 这三个可以ctrler可以合并成一个
+exports.lsName = function(cb) {
+	board.find({}).select('name url').exec(function(err, boards) {
+		if (!err) {
+			cb(null, boards)
+		} else {
+			cb(err);
+		}
+	});
+}
 
 exports.ls = function(cb) {
 	board.find({}).populate('bz').populate('threads').exec(function(err, boards) {

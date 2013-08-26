@@ -64,3 +64,20 @@ exports.remove = function(id) {
         }
     })
 }
+
+exports.countDownload = function(file,cb) {
+    file.count.download = file.count.download + 1;
+    file.save(function(err){
+        if (!err) {
+            cb(null,file);
+        } else {
+            cb(err)
+        }
+    })
+}
+
+exports.router = function(type,cb) {
+    if (type == 'public') {
+        
+    }
+}
