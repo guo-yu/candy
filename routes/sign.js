@@ -46,8 +46,8 @@ exports.in = function(req, res, next) {
 
     duoshuo.auth(code, function(result) {
         
-        // 还没有判断这个result换取token错误的情况
-        if (result != 'error') {
+        // 当返回正确时
+        if (result.code == 0) {
 
             async.waterfall([
                 function(callback) {
@@ -88,7 +88,7 @@ exports.in = function(req, res, next) {
 
         } else {
             // 如果多说挂了
-            next(new Error('多说登录出错，请稍后再试或者联系管理员'))
+            next(new Error('多说登录出错，请稍后再试或者联系管理员，具体错误:' + result.errorMessage))
         }
     })
 };

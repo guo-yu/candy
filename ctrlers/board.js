@@ -56,7 +56,6 @@ exports.readByUrl = function(url, page, cb) {
 							from: page.from
 						}, function(err, ts) {
 							if (!err) {
-								console.log(page);
 								cb(null, {
 									board: board,
 									threads: ts,
