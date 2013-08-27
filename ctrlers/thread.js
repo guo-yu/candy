@@ -121,6 +121,7 @@ exports.create = function(baby, cb) {
 }
 
 exports.update = function(id, body, cb) {
+	console.log(body);
 	thread.findByIdAndUpdate(id, body, function(err) {
 		if (!err) {
 			cb(null, body);

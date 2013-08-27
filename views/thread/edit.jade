@@ -38,7 +38,7 @@ block main
                     ul#files.files
                       - if (thread.media && thread.media.length > 0)
                         - each file in thread.media
-                          li.list-group-item.single-file
+                          li.list-group-item.single-file(ng-init="thread.media.push('#{file._id}')")
                             a(href="#{file.url}",target='_blank') #{file.name}
                 input(type="hidden",ng-model="thread.id",ng-init="thread.id='#{thread._id}'")
       .col-lg-3

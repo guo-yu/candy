@@ -38,6 +38,7 @@ exports.checkAdmin = function(uid,cb) {
 
 // 读取一个用户
 exports.read = function(id, cb) {
+	// 这里没有做分页
 	user.findById(id).populate('threads').exec(function(err, user) {
 		if (!err) {
 			cb(null, user)
