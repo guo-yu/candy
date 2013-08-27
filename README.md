@@ -90,6 +90,9 @@ $ node candy.js // or forever start candy.js
 #### Admin panel
 ![](http://ww4.sinaimg.cn/large/61ff0de3jw1e7fos2mr2wj20ur0oln18.jpg)
 
+#### Attachments uploads
+![](http://ww2.sinaimg.cn/large/61ff0de3gw1e81cdo3ibij20vs0p4djx.jpg)
+
 ### Pull Request Welcome !
 
 - fork this repo
