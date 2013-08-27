@@ -41,7 +41,7 @@ exports.download = function(req, res, next) {
                     if (file.stat == 'public') {
                         media.countDownload(file,function(err,f){
                             if (!err) {
-                                res.sendfile(file.src);
+                                res.download(file.src,file.name);
                             } else {
                                 next(err);
                             }
@@ -52,7 +52,7 @@ exports.download = function(req, res, next) {
                         if (res.locals.user) {
                             media.countDownload(file,function(err,f){
                                 if (!err) {
-                                    res.sendfile(file.src);
+                                    res.download(file.src);
                                 } else {
                                     next(err);
                                 }
