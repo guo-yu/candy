@@ -143,6 +143,7 @@ a {
         color: #fff;
     }
     #logo {
+        position: relative;
         h1 {
             margin-top: 0px;
             margin-bottom: 0;
@@ -184,13 +185,23 @@ a {
             box-shadow: 0px 0px 3px #ddd;
         }
     }
+    .open-true {
+        background-color: #fff;
+        box-shadow: inset 0px 6px 8px #ddd;
+        i {
+            color: @key-color !important;
+        }
+    }
     .boards-dropdown {
         font-size: 18px;
         float: left;
         display: block;
         color: #fff;
-        padding-left: 20px;
+        margin-left: 10px;
         padding-top: 15px;
+        padding-bottom: 15px;
+        padding-left: 15px;
+        padding-right: 15px;
         i {
             display: block;
             color: #efefef;
@@ -201,6 +212,36 @@ a {
                 text-shadow: 0px 0px 1px #ddd;
             }
         };
+    }
+    .boards-index {
+        position: absolute;
+        top: 46px;
+        right: -110px;
+        z-index: 1000;
+        float: left;
+        min-width: 160px;
+        padding: 5px 0;
+        margin: 2px 0 0;
+        list-style: none;
+        background-color: #fff;
+        width: 150px;
+        padding: 1px;
+        border: 1px solid #ddd;
+        border-top: 0;
+        box-shadow: 1px 5px 5px #f5f5f5;
+        li {
+            font-size: 12px;
+            color: #999;
+            a {
+                font-size: 12px;
+                display: block;
+                padding: 6px 12px;
+                &:hover {
+                    background-color: @key-color - #444;
+                    color: #fff;
+                };
+            }
+        }
     }
 }
 
@@ -1493,4 +1534,9 @@ h3.syncing {
             background-color: #f5f5f5;
         };
     }
+}
+
+#boards-dropdown {
+    background-color: #fff;
+    padding: 20px 0;
 }

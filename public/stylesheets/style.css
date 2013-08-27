@@ -124,6 +124,9 @@ a:hover {
 #header #ihd {
   color: #fff;
 }
+#header #logo {
+  position: relative;
+}
 #header #logo h1 {
   margin-top: 0px;
   margin-bottom: 0;
@@ -167,13 +170,23 @@ a:hover {
   -o-border-radius: 15px;
   box-shadow: 0px 0px 3px #ddd;
 }
+#header .open-true {
+  background-color: #fff;
+  box-shadow: inset 0px 6px 8px #ddd;
+}
+#header .open-true i {
+  color: #3498db !important;
+}
 #header .boards-dropdown {
   font-size: 18px;
   float: left;
   display: block;
   color: #fff;
-  padding-left: 20px;
+  margin-left: 10px;
   padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 #header .boards-dropdown i {
   display: block;
@@ -182,6 +195,36 @@ a:hover {
 #header .boards-dropdown:hover i {
   color: #fff;
   text-shadow: 0px 0px 1px #ddd;
+}
+#header .boards-index {
+  position: absolute;
+  top: 46px;
+  right: -110px;
+  z-index: 1000;
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  list-style: none;
+  background-color: #fff;
+  width: 150px;
+  padding: 1px;
+  border: 1px solid #ddd;
+  border-top: 0;
+  box-shadow: 1px 5px 5px #f5f5f5;
+}
+#header .boards-index li {
+  font-size: 12px;
+  color: #999;
+}
+#header .boards-index li a {
+  font-size: 12px;
+  display: block;
+  padding: 6px 12px;
+}
+#header .boards-index li a:hover {
+  background-color: #005497;
+  color: #fff;
 }
 .active-nav {
   font-size: 14px !important;
@@ -1561,4 +1604,8 @@ h3.syncing {
 }
 .attachements .single-file:hover {
   background-color: #f5f5f5;
+}
+#boards-dropdown {
+  background-color: #fff;
+  padding: 20px 0;
 }
