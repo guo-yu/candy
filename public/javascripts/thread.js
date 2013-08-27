@@ -65,6 +65,8 @@ candy.ctrlers['thread'] = {
         candy.ctrlers.thread.uploader('#fileupload', $scope.thread);
     },
     edit: function($scope, Store) {
+        $scope.thread = {};
+        $scope.thread['media'] = [];
         var content = angular.element('#edit textarea').text();
         if (content && window.editor) {
             window.editor.codemirror.setValue(content);
@@ -99,6 +101,7 @@ candy.ctrlers['thread'] = {
                 }
             })
         }
+        console.log($scope.thread)
         candy.ctrlers.thread.uploader('#fileupload', $scope.thread);
     }
 }

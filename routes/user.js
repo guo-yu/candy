@@ -13,6 +13,7 @@ exports.read = function(req, res, next) {
 
 // PAGE: mime
 exports.mime = function(req, res, next) {
+    // 这里没有做分页
     if (req.params.id) {
         user.read(req.params.id, function(err, u) {
             if (!err) {

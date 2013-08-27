@@ -226,6 +226,9 @@ a:hover {
   background-color: #005497;
   color: #fff;
 }
+#header .boards-index i {
+  padding-right: 8px;
+}
 .active-nav {
   font-size: 14px !important;
   color: #999;

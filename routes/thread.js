@@ -106,16 +106,16 @@ exports.update = function(req, res, next) {
     thread.checkLz(req.params.id, res.locals.user._id, function(err, lz, th) {
         if (!err) {
             if (lz) {
-                th.name = req.body.thread.name;
-                th.content = req.body.thread.content;
-                thread.update(req.params.id, {
+                var updatedThread = {
                     name: req.body.thread.name,
                     content: req.body.thread.content,
                     pubdate: th.pubdate,
                     views: th.views,
                     board: th.board,
                     lz: th.lz
-                }, function(err, thread) {
+                };
+                if (req.body.thread.media) updatedThread.media = req.body.thread.media;
+                thread.update(req.params.id, updatedThread, function(err, thread) {
                     if (!err) {
                         res.json({
                             stat: 'ok',
