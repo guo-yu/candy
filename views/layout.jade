@@ -27,22 +27,21 @@ html(ng-app="candy")
             .c10
             .c11
             .c12
-        #header
+        #header(ng-controller="candy.ctrlers.board.list")
             #ihd.container.clearfix
                 .row
                     .col-lg-12
                       #logo.clearfix.fn-left
-                        h1.clearfix(ng-controller="candy.ctrlers.board.list")
+                        h1.clearfix
                             a(href="/").logo #{site.name}
                                 span.desc #{site.desc}
-                            a(ng-click="ls()",href="#").boards-dropdown
-                                i.icon-circle-arrow-down
-        #boards-dropdown
-            #ibd.container.clearfix
-                .row
-                    .col-lg-12
-                        .boards-index
-                            
+                            a(ng-click="ls()",href="#",ng-class="'open-' + open").boards-dropdown
+                                i(ng-class="arrow")
+                        ul.boards-index.clearfix(ng-show="open")
+                            li.board-name(ng-repeat="board in boards")
+                                a(ng-href="/board/{{board.url}}")
+                                    i.icon-chevron-right
+                                    |{{board.name}}
     block banner
         include banner
     #cnt

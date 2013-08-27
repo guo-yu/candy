@@ -37,7 +37,7 @@ exports.lsId = function(params, cb) {
 
 // read by url and list
 exports.readByUrl = function(url, page, cb) {
-	var limit = 2;
+	var limit = 10;
 	board.findOne({
 		url: url
 	}).populate('bz').exec(function(err, board) {
