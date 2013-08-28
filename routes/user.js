@@ -85,16 +85,23 @@ exports.sync = function(req, res ,next) {
                 u.url = uu.url;
                 u.avatar = uu.avatar;
                 u.save(function(err) {
-                    // 这个api出现了404的情况，导致所有用户数据没有在创建时同步到多说数据库
-                    // user.sync(res.locals.App.app.locals.site.duoshuo,u,function(stat){
-                    //     console.log(stat);
-                    // });
                     if (!err) {
-                        req.session.user = u;
-                        res.json({
-                            stat: 'ok',
-                            user: u
-                        })
+                        // 同步本地用户到多说
+                        user.sync(res.locals.App.app.locals.site.duoshuo,u,function(err,result){
+                            if (!err) {
+                                if (result.code == 0) {
+                                    req.session.user = u;
+                                    res.json({
+                                        stat: 'ok',
+                                        user: u
+                                    });
+                                } else {
+                                    next(new Error('多说用户同步失败，请稍后再试，详细错误：' + result.errorMessage))
+                                }
+                            } else {
+                                next(err);
+                            }
+                        });
                     } else {
                         next(err)
                     }

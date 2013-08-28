@@ -35,7 +35,7 @@ html(ng-app="candy")
                         h1.clearfix
                             a(href="/").logo #{site.name}
                                 span.desc #{site.desc}
-                            a(ng-click="ls()",href="#",ng-class="'open-' + open").boards-dropdown
+                            a(ng-click="ls()",href="#boards",ng-class="'open-' + open").boards-dropdown
                                 i(ng-class="arrow")
                         ul.boards-index.clearfix(ng-show="open")
                             li.board-name(ng-repeat="board in boards")

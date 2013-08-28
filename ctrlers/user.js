@@ -93,19 +93,20 @@ exports.sync = function(config, user, cb) {
 		author: 'author',
 		normal: 'user'
 	};
+	var u = {
+		user_key: user._id,
+		name: user.nickname,
+		role: typeMap[user.type],
+		avatar_url: user.avatar,
+		url: user.url,
+		created_at: moment(user.created).format('YYYY-MM-DD hh:MM:ss')
+	};
 	// sync user info
 	duoshuo.join({
-		info: {
-			user_key: user._id,
-			name: user.nickname,
-			role: typeMap[user.type],
-			avatar_url: user.avatar,
-			url: user.url,
-			created_at: moment(user.created).format('YYYY-MM-DD hh:MM:ss')
-		},
+		info: u,
 		access_token: user.duoshuo.access_token
-	}, function(result) {
-		cb(result);
+	}, function(err,result) {
+		cb(err,result);
 	});
 }
 
