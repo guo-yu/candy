@@ -1107,12 +1107,15 @@ a:hover {
   padding: 4px;
 }
 .comment-board {
-  padding: 15px;
+  padding: 10px;
   box-shadow: 1px 1px 2px #ddd;
   border: 1px solid #ddd;
   background-color: #fff;
   padding: 20px;
   margin-bottom: 20px;
+}
+.comment-board .ds-post-self {
+  padding-left: 0px !important;
 }
 .star {
   padding-left: 7px;
