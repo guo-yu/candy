@@ -89,6 +89,7 @@ exports.sync = function(req, res ,next) {
                         // 同步本地用户到多说
                         user.sync(res.locals.App.app.locals.site.duoshuo,u,function(err,result){
                             if (!err) {
+                                var result = result.body;
                                 if (result.code == 0) {
                                     req.session.user = u;
                                     res.json({
@@ -96,7 +97,7 @@ exports.sync = function(req, res ,next) {
                                         user: u
                                     });
                                 } else {
-                                    next(new Error('多说用户同步失败，请稍后再试，详细错误：' + result))
+                                    next(new Error('多说用户同步失败，请稍后再试，详细错误：' + result.errorMessage))
                                 }
                             } else {
                                 next(err);
