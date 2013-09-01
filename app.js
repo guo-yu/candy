@@ -6,7 +6,7 @@
 //                       /____/   
 // 
 // @brief  : a micro bbs system based on duoshuo.com apis
-// @author : 新浪微博@郭宇 [turingou](http://guoyu.me)
+// @author : 新浪微博@郭宇 [turing](http://guoyu.me)
 
 var Server = function(params) {
 
@@ -38,6 +38,7 @@ var Server = function(params) {
     app.set('view engine', 'jade');
     app.use(express.favicon());
     app.use(express.logger('dev'));
+    app.use(express.limit('20mb'));
     app.use(express.bodyParser({
         keepExtensions: true,
         uploadDir: path.join(__dirname, '/public/uploads')

@@ -96,7 +96,7 @@ exports.sync = function(req, res ,next) {
                                         user: u
                                     });
                                 } else {
-                                    next(new Error('多说用户同步失败，请稍后再试，详细错误：' + result.errorMessage))
+                                    next(new Error('多说用户同步失败，请稍后再试，详细错误：' + result))
                                 }
                             } else {
                                 next(err);
