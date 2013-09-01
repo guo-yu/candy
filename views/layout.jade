@@ -12,6 +12,7 @@ html(ng-app="candy")
             |#{site.name}
     link(rel='shortcut icon',type="image/x-icon",href="/images/favicon.ico")
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/duoshuo.css')
   body
     block header
         .bar.clearfix
@@ -72,6 +73,7 @@ html(ng-app="candy")
     script.
         var duoshuoQuery = {
             short_name: "#{site.duoshuo.short_name}",
+            theme: 'none',
             sso: { 
                login: "#{href}/signin/",
                logout: "#{href}/signout/"

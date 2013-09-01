@@ -101,7 +101,6 @@ candy.ctrlers['thread'] = {
                 }
             })
         }
-        console.log($scope.thread)
         candy.ctrlers.thread.uploader('#fileupload', $scope.thread);
     }
 }

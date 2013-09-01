@@ -3,6 +3,7 @@ var media = require('../ctrlers/media');
 
 exports.upload = function(req, res, next) {
     if (req.files.media) {
+        // 能否将这个path更友好的组织起来？
         var originFile = req.files.media,
             path = originFile.path;
         var file = {
@@ -26,7 +27,6 @@ exports.upload = function(req, res, next) {
                 next(err);
             }
         });
-
     } else {
         next(new Error('404'));
     }
@@ -72,6 +72,6 @@ exports.download = function(req, res, next) {
 }
 
 // sync media to cloud service
-exports.sync = function() {
-
+exports.sync = function(req, res, next) {
+    
 }
