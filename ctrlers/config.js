@@ -16,11 +16,7 @@ var wash = function(baby) {
 exports.create = function(baby,cb){
     var baby = new config(baby);
     baby.save(function(err){
-        if (!err) {
-            cb(null,baby);
-        } else {
-            cb(err)
-        }
+        cb(err, baby);
     })
 }
 
@@ -28,43 +24,27 @@ exports.create = function(baby,cb){
 exports.update = function(id,baby,cb) {
     var baby = wash(baby);
     config.findByIdAndUpdate(id,baby,function(err,result){
-        if (!err) {
-            cb(null,result);
-        } else {
-            cb(err)
-        }
+        cb(err, result);
     })
 }
 
 // 读取配置
 exports.readById = function(cb) {
     config.findById(id).exec(function(err,body){
-        if (!err) {
-            cb(null,body);
-        } else {
-            cb(err)
-        }
+        cb(err, body);
     });
 }
 
 // 读取配置
 exports.read = function(cb) {
     config.findOne({}).exec(function(err,body){
-        if (!err) {
-            cb(null,body);
-        } else {
-            cb(err)
-        }
+        cb(err, body);
     });
 }
 
 // 检查是否已经写入
 exports.check = function(cb) {
     config.count().exec(function(err,conuts){
-        if (!err) {
-            cb(null,conuts);
-        } else {
-            cb(err)
-        }
+        cb(err, conuts);
     })
 }

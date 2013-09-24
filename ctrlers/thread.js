@@ -7,11 +7,7 @@ var model = require('../model'),
 // list thread
 exports.ls = function(cb) {
 	thread.find({}).exec(function(err, threads) {
-		if (!err) {
-			cb(null, threads)
-		} else {
-			cb(err);
-		}
+		cb(err, threads);
 	});
 }
 
@@ -20,11 +16,7 @@ exports.lsByBoardId = function(bid, params, cb) {
 	thread.find({
 		board: bid
 	}).skip(params.from).limit(params.limit).sort('-pubdate').populate('lz').populate('board').exec(function(err, threads) {
-		if (!err) {
-			cb(null, threads)
-		} else {
-			cb(err);
-		}
+		cb(err, threads);
 	});
 }
 
@@ -60,11 +52,7 @@ exports.checkLz = function(tid, uid, cb) {
 exports.read = function(id, cb) {
 	if (id && id.match(/^[0-9a-fA-F]{24}$/)) {
 		thread.findById(id).populate('lz').populate('board').populate('media').exec(function(err, thread) {
-			if (!err) {
-				cb(null, thread)
-			} else {
-				cb(err)
-			}
+			cb(err, thread);
 		});
 	} else {
 		cb(new Error('404'));
@@ -76,11 +64,7 @@ exports.create = function(baby, cb) {
 	async.waterfall([
 		function(callback) {
 			baby.save(function(err) {
-				if (!err) {
-					callback(null, baby);
-				} else {
-					cb(err);
-				}
+				cb(err, baby);
 			});
 		},
 		function(baby, callback) {
@@ -88,11 +72,7 @@ exports.create = function(baby, cb) {
 				if (!err) {
 					b.threads.push(baby._id);
 					b.save(function(err) {
-						if (!err) {
-							callback(null, baby)
-						} else {
-							cb(err);
-						}
+						cb(err, baby);
 					})
 				} else {
 					cb(err)
@@ -104,11 +84,7 @@ exports.create = function(baby, cb) {
 				if (!err) {
 					u.threads.push(baby._id);
 					u.save(function(err) {
-						if (!err) {
-							cb(null, baby);
-						} else {
-							cb(err);
-						}
+						cb(err, baby);
 					})
 				} else {
 					cb(err)
@@ -122,21 +98,13 @@ exports.create = function(baby, cb) {
 
 exports.update = function(id, body, cb) {
 	thread.findByIdAndUpdate(id, body, function(err) {
-		if (!err) {
-			cb(null, body);
-		} else {
-			cb(err)
-		}
+		cb(err, body);
 	})
 }
 
 // 删除之后要删除在相应board的索引？
 exports.remove = function(id, cb) {
 	thread.findByIdAndRemove(id, function(err) {
-		if (!err) {
-			cb(null, id)
-		} else {
-			cb(err)
-		}
+		cb(err, id);
 	})
 }

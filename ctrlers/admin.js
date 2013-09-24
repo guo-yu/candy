@@ -36,10 +36,6 @@ exports.read = function(cb) {
 
 exports.update = function(setting,cb) {
     config.update(setting._id, setting, function(err,stat) {
-        if (!err) {
-            cb(null,stat)
-        } else {
-            cb(err)
-        }
+        cb(err, stat);
     });
 };
