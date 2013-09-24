@@ -6,32 +6,20 @@ var model = require('../model'),
 // 这三个可以ctrler可以合并成一个
 exports.lsName = function(cb) {
 	board.find({}).select('name url').exec(function(err, boards) {
-		if (!err) {
-			cb(null, boards)
-		} else {
-			cb(err);
-		}
+		cb(err, boards);
 	});
 }
 
 exports.ls = function(cb) {
 	board.find({}).populate('bz').populate('threads').exec(function(err, boards) {
-		if (!err) {
-			cb(null, boards)
-		} else {
-			cb(err);
-		}
+		cb(err, boards);
 	});
 }
 
 // list board and select id
 exports.lsId = function(params, cb) {
 	board.find({}).select('_id').limit(params.limit).exec(function(err, boards) {
-		if (!err) {
-			cb(null, boards)
-		} else {
-			cb(err);
-		}
+		cb(err, boards);
 	});
 }
 
@@ -81,33 +69,21 @@ exports.readByUrl = function(url, page, cb) {
 // read default
 exports.readDefault = function(cb) {
 	board.findOne({}).exec(function(err, board) {
-		if (!err) {
-			cb(null, board)
-		} else {
-			cb(err)
-		}
+		cb(err, board);
 	});
 }
 
 // read breif
 exports.brief = function(id, cb) {
 	board.findById(id).exec(function(err, board) {
-		if (!err) {
-			cb(null, board)
-		} else {
-			cb(err)
-		}
+		cb(err, board);
 	});
 }
 
 // read by id
 exports.read = function(id, cb) {
 	board.findById(id).populate('threads').populate('bz').exec(function(err, board) {
-		if (!err) {
-			cb(null, board)
-		} else {
-			cb(err)
-		}
+		cb(err, board);
 	});
 }
 
@@ -115,31 +91,19 @@ exports.create = function(bzid, baby, cb) {
 	var baby = new board(baby);
 	baby.bz.push(bzid);
 	baby.save(function(err) {
-		if (!err) {
-			cb(null, baby);
-		} else {
-			cb(err)
-		}
+		cb(err, baby);
 	})
 }
 
 exports.update = function(id, body, cb) {
 	// 这里可以直接使用update
 	board.findByIdAndUpdate(id, body, function(err) {
-		if (!err) {
-			cb(null, body);
-		} else {
-			cb(err)
-		}
+		cb(err, body);
 	})
 }
 
 exports.remove = function(id, cb) {
 	board.findByIdAndRemove(id, function(err) {
-		if (!err) {
-			cb(null, id)
-		} else {
-			cb(err)
-		}
+		cb(err, id);
 	})
 }
