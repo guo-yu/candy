@@ -3,7 +3,7 @@ var Server = require('./app').server;
 new Server({
     name: 'Candy', // 站点名称
     url: 'http://candy.com', // 站点url
-    desc: 'some desc', // 站点描述
+    desc: 'some desc', // 站点描述,
     database: {
         name: 'candy'
     },

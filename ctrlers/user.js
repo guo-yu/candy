@@ -19,12 +19,8 @@ exports.count = function(cb) {
 
 // check admin
 exports.checkAdmin = function(uid,cb) {
-	exports.queryById(uid,function(err,user){
-		if (!err) {
-			cb(null,(user.type == 'admin'));
-		} else {
-			cb(err)
-		}
+	exports.queryById(uid,function(err, user){
+		cb(err, (user && user.type == 'admin'))
 	})
 }
 

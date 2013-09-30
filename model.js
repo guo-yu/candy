@@ -4,8 +4,12 @@
 
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
-    config = require('./database'),
-    db = mongoose.createConnection('localhost', config.name);
+    database = require('./database.json'),
+    host = database.host ? database.host : 'localhost',
+    dbname = database.name ? database.name : 'test',
+    port = (database.port && !isNaN(parseInt(database.port, 10))) ? parseInt(database.port, 10) : 27017,
+    opts = database.options ? database.options : {},
+    db = mongoose.createConnection(host, dbname, port, opts);
 
 // configs
 var configModel = new Schema({
