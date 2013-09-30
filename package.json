@@ -34,8 +34,7 @@
     "underscore" : "*",
     "moment": "*",
     "marked": "*",
-    "highlight.js": "*",
-    "winston": "*"
+    "highlight.js": "*"
   },
   "devDependencies": {
     "mocha": "*",

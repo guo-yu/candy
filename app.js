@@ -8,16 +8,16 @@
 // @brief  : a micro bbs system based on duoshuo.com apis
 // @author : 新浪微博@郭宇 [turing](http://guoyu.me)
 
+var express = require('express'),
+    path = require('path'),
+    http = require('http'),
+    MongoStore = require('connect-mongo')(express),
+    pkg = require('./pkg');
+
 var Server = function(params) {
 
-    var express = require('express'),
-        path = require('path'),
-        MongoStore = require('connect-mongo')(express),
-        pkg = require('./pkg'),
-        self = this;
-
     var app = express(),
-        MemStore = express.session.MemoryStore;
+        self = this;
 
     pkg.set('/database.json', params.database);
 
@@ -79,7 +79,7 @@ var Server = function(params) {
     app.get('/', sign.passport, index);
 
     // signin & signout
-    app.get('/signin', sign.in);
+    app.get('/signin', sign. in );
     app.get('/signout', sign.out);
 
     // board
@@ -135,8 +135,7 @@ Server.prototype.config = function(cb) {
     var setLocals = function(info) {
         self.app.locals({
             site: info,
-            sys: pkg,
-            href: self.app.locals.settings.env == 'development' ? 'http://localhost:' + self.app.locals.settings.port : params.url
+            sys: pkg
         });
     }
 
@@ -179,16 +178,13 @@ Server.prototype.config = function(cb) {
 };
 
 Server.prototype.run = function(port) {
-    var self = this,
-        http = require('http');
-    if (port && !isNaN(parseInt(port))) {
-        self.app.set('port', parseInt(port));
-    } else {
-        self.app.set('port', 3000);
-    }
-    self.config(function() {
-        http.createServer(self.app).listen(self.app.get('port'));
+    var defaultPort = 3000,
+        app = this.app;
+    app.set('port', (port && !isNaN(parseInt(port, 10))) ? parseInt(port, 10) : defaultPort);
+    app.locals.href = (app.get('env') === 'production') ? this.params.url : 'http://localhost:' + app.get('port');
+    this.config(function() {
+        http.createServer(app).listen(app.get('port'));
     });
-}
+};
 
 exports.server = Server;
