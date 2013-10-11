@@ -64,7 +64,7 @@ exports.create = function(baby, cb) {
 	async.waterfall([
 		function(callback) {
 			baby.save(function(err) {
-				cb(err, baby);
+				callback(err, baby);
 			});
 		},
 		function(baby, callback) {
@@ -72,10 +72,10 @@ exports.create = function(baby, cb) {
 				if (!err) {
 					b.threads.push(baby._id);
 					b.save(function(err) {
-						cb(err, baby);
+						callback(err, baby);
 					})
 				} else {
-					cb(err)
+					callback(err)
 				}
 			})
 		},
@@ -84,16 +84,14 @@ exports.create = function(baby, cb) {
 				if (!err) {
 					u.threads.push(baby._id);
 					u.save(function(err) {
-						cb(err, baby);
+						callback(err, baby);
 					})
 				} else {
-					cb(err)
+					callback(err)
 				}
 			})
 		}
-	], function(err, baby) {
-		cb(err, baby)
-	});
+	], cb);
 }
 
 exports.update = function(id, body, cb) {
