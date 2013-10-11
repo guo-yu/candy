@@ -1,4 +1,4 @@
-var model = require('../model'),
+var model = require('../models/index'),
     config = model.config;
 
 var wash = function(baby) {

@@ -1,4 +1,4 @@
-var model = require('../model'),
+var model = require('../models/index'),
 	user = model.user,
 	moment = require('moment'),
 	Duoshuo = require('duoshuo');
