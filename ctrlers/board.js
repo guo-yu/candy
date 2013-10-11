@@ -1,4 +1,4 @@
-var model = require('../model'),
+var model = require('../models/index'),
 	board = model.board,
 	thread = require('./thread'),
 	pager = require('./pager');

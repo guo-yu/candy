@@ -1,4 +1,4 @@
-var model = require('../model'),
+var model = require('../models/index'),
     media = model.media;
 
 // list medias
@@ -47,9 +47,3 @@ exports.countDownload = function(file,cb) {
         cb(err, file);
     })
 }
-
-// exports.router = function(type,cb) {
-//     if (type == 'public') {
-        
-//     }
-// }

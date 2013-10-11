@@ -8,3 +8,4 @@ backup.*
 sftp-*
 *.backup
 public/uploads
+database.json
