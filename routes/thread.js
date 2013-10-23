@@ -40,7 +40,7 @@ exports.ls = function(req, res, next) {
 exports.new = function(req, res, next) {
     // 需要添加识别默认板块的逻辑
     if (req.query.bid) {
-        board.brief(req.query.bid, function(err, b) {
+        board.findById(req.query.bid, function(err, b) {
             if (!err) {
                 res.render('thread/new', {
                     board: b

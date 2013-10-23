@@ -1,8 +1,8 @@
 var Ctrler = require('./index'),
 	model = require('../models/index'),
 	thread = model.thread,
-	board = require('./board'),
-	user = require('./user'),
+	board = model.board,
+	user = model.user,
 	async = require('async');
 
 var Thread = new Ctrler(thread);
@@ -22,7 +22,7 @@ Thread.create = function(baby, cb) {
 			});
 		},
 		function(baby, callback) {
-			board.brief(baby.board, function(err, b) {
+			board.findById(baby.board, function(err, b) {
 				if (!err) {
 					b.threads.push(baby._id);
 					b.save(function(err) {
@@ -34,7 +34,7 @@ Thread.create = function(baby, cb) {
 			})
 		},
 		function(baby, callback) {
-			user.queryById(baby.lz, function(err, u) {
+			user.findById(baby.lz, function(err, u) {
 				if (!err) {
 					u.threads.push(baby._id);
 					u.save(function(err) {

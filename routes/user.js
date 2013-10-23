@@ -79,7 +79,7 @@ exports.remove = function(req, res, next) {
 exports.sync = function(req, res ,next) {
     var uu = req.body.user;
     if (uu && typeof(uu) == 'object') {
-        user.queryById(req.session.user._id, function(err, u) {
+        user.findById(req.session.user._id, function(err, u) {
             if (!err) {
                 u.nickname = uu.name;
                 u.url = uu.url;
