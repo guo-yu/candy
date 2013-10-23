@@ -19,19 +19,16 @@ var createUser = function(result, cb) {
             user_id: result.user_id,
             access_token: result.access_token
         }
-    }, function(err, baby) {
-        cb(err,baby);
-    })
+    }, cb)
 }
 
 var queryUser = function(id, cb) {
-    user.readByDsId(id, function(err, user) {
-        cb(err,user);
-    })
+    user.readByDsId(id, cb);
 }
 
 // PAGE: 登入
-exports.in = function(req, res, next) {
+exports.signin = function(req, res, next) {
+
     var code = req.query.code,
         duoshuo = new Duoshuo(res.locals.App.app.locals.site.duoshuo);
 
@@ -89,7 +86,7 @@ exports.in = function(req, res, next) {
 };
 
 // PAGE: 登出
-exports.out = function(req, res) {
+exports.signout = function(req, res) {
     if (req.session.user) {
         delete req.session.user;
         res.redirect('back');
