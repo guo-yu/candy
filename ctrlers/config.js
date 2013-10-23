@@ -4,11 +4,11 @@ var Ctrler = require('./index'),
 
 var Config = new Ctrler(config);
 
-exports.read = function(callback) {
+Config.read = function(callback) {
     config.findOne({}).exec(callback);
 }
 
-exports.check = function(callback) {
+Config.check = function(callback) {
     this.count(function(err, counts){
         callback(err, (counts !== 0))
     });
