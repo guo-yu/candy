@@ -1,30 +1,40 @@
-var model = require('../models/index'),
+var Ctrler = require('./index'),
+	model = require('../models/index'),
 	board = model.board,
 	thread = require('./thread'),
 	pager = require('./pager');
 
-// 这三个可以ctrler可以合并成一个
-exports.lsName = function(cb) {
-	board.find({}).select('name url').exec(function(err, boards) {
-		cb(err, boards);
+var Board = new Ctrler(board);
+
+Board.create = function(bzid, baby, cb) {
+	var baby = new board(baby);
+	baby.bz.push(bzid);
+	baby.save(function(err) {
+		cb(err, baby);
 	});
 }
 
-exports.ls = function(cb) {
-	board.find({}).populate('bz').populate('threads').exec(function(err, boards) {
-		cb(err, boards);
-	});
+Board.readDefault = function(callback) {
+	board.findOne({}).exec(callback);
 }
 
-// list board and select id
-exports.lsId = function(params, cb) {
-	board.find({}).select('_id').limit(params.limit).exec(function(err, boards) {
-		cb(err, boards);
-	});
+Board.read = function(id, callback) {
+	board.findById(id).populate('threads').populate('bz').exec(callback);
 }
 
-// read by url and list
-exports.readByUrl = function(url, page, cb) {
+Board.lsName = function(callback) {
+	board.find({}).select('name url').exec(callback);
+}
+
+Board.ls = function(callback) {
+	board.find({}).populate('bz').populate('threads').exec(callback);
+}
+
+Board.lsId = function(params, callback) {
+	board.find({}).select('_id').limit(params.limit).exec(callback);
+}
+
+Board.readByUrl = function(url, page, cb) {
 	var limit = 10;
 	board.findOne({
 		url: url
@@ -66,44 +76,4 @@ exports.readByUrl = function(url, page, cb) {
 	});
 }
 
-// read default
-exports.readDefault = function(cb) {
-	board.findOne({}).exec(function(err, board) {
-		cb(err, board);
-	});
-}
-
-// read breif
-exports.brief = function(id, cb) {
-	board.findById(id).exec(function(err, board) {
-		cb(err, board);
-	});
-}
-
-// read by id
-exports.read = function(id, cb) {
-	board.findById(id).populate('threads').populate('bz').exec(function(err, board) {
-		cb(err, board);
-	});
-}
-
-exports.create = function(bzid, baby, cb) {
-	var baby = new board(baby);
-	baby.bz.push(bzid);
-	baby.save(function(err) {
-		cb(err, baby);
-	})
-}
-
-exports.update = function(id, body, cb) {
-	// 这里可以直接使用update
-	board.findByIdAndUpdate(id, body, function(err) {
-		cb(err, body);
-	})
-}
-
-exports.remove = function(id, cb) {
-	board.findByIdAndRemove(id, function(err) {
-		cb(err, id);
-	})
-}
+module.exports = Board;

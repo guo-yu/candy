@@ -2,7 +2,6 @@
 var config = require('../ctrlers/config'),
     user = require('../ctrlers/user'),
     board = require('../ctrlers/board'),
-    thread = require('../ctrlers/thread'),
     async = require('async');
 
 exports.read = function(cb) {
@@ -15,7 +14,7 @@ exports.read = function(cb) {
         },
         // read users
         function(c, callback) {
-            user.ls(function(err,users){
+            user.list(function(err,users){
                 callback(err, c, users);
             })
         },
@@ -34,8 +33,6 @@ exports.read = function(cb) {
     });
 }
 
-exports.update = function(setting,cb) {
-    config.update(setting._id, setting, function(err,stat) {
-        cb(err, stat);
-    });
+exports.update = function(setting, callback) {
+    config.update(setting._id, setting, callback);
 };

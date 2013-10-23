@@ -1,63 +1,32 @@
-var model = require('../models/index'),
+var Ctrler = require('./index'),
+	model = require('../models/index'),
 	user = model.user,
 	moment = require('moment'),
 	Duoshuo = require('duoshuo');
 
-// list users
-exports.ls = function(cb) {
-	user.find({}).exec(function(err, us) {
-		cb(err, us);
-	});
+var User = new Ctrler(user);
+
+User.checkAdmin = function(uid, callback) {
+	if (this.checkId(uid)) {
+		this.read(uid, function(err, user){
+			callback(err, (user && user.type == 'admin'))
+		});
+	} else {
+		callback(new Error('ObjectId is required.'))
+	}
 }
 
-// count users
-exports.count = function(cb) {
-	user.count({}, function(err, count) {
-		cb(err, count);
-	});
+User.read = function(id, callback) {
+	user.findById(id).populate('threads').exec(callback);
 }
 
-// check admin
-exports.checkAdmin = function(uid,cb) {
-	exports.queryById(uid,function(err, user){
-		cb(err, (user && user.type == 'admin'))
-	})
-}
-
-// 读取一个用户
-exports.read = function(id, cb) {
-	// 这里没有做分页
-	user.findById(id).populate('threads').exec(function(err, user) {
-		cb(err, user);
-	});
-}
-
-// queryById
-exports.queryById = function(id, cb) {
-	user.findById(id).exec(function(err, user) {
-		cb(err, user);
-	});
-}
-
-// 读取一个用户by user_id
-exports.readByDsId = function(id, cb) {
+User.readByDsId = function(id, callback) {
 	user.findOne({
 		'duoshuo.user_id': id
-	}).exec(function(err, user) {
-		cb(err, user);
-	});
+	}).exec(callback);
 }
 
-// 创建用户
-exports.create = function(baby, cb) {
-	var baby = new user(baby);
-	baby.save(function(err) {
-		cb(err, baby);
-	})
-}
-
-// 同步一个用户到多说
-exports.sync = function(config, user, cb) {
+User.sync = function(config, user, callback) {
 	var duoshuo = new Duoshuo(config);
 	var typeMap = {
 		admin: 'administrator',
@@ -77,21 +46,7 @@ exports.sync = function(config, user, cb) {
 	duoshuo.join({
 		info: u,
 		access_token: user.duoshuo.access_token
-	}, function(err,result) {
-		cb(err,result);
-	});
+	}, callback);
 }
 
-// 更新用户
-exports.update = function(id, body, cb) {
-	user.findByIdAndUpdate(id, body, function(err) {
-		cb(err, body);
-	})
-}
-
-// 删除用户
-exports.remove = function(id) {
-	user.findByIdAndRemove(id, function(err) {
-		cb(err, id);
-	})
-}
+module.exports = User;

@@ -148,9 +148,9 @@ Server.prototype.config = function(cb) {
     }
 
     if (params && typeof(params) == 'object') {
-        config.check(function(err, count) {
+        config.check(function(err, installed) {
             if (!err) {
-                if (count == 0) {
+                if (!installed) {
                     // first create
                     config.create(params, function(err, c) {
                         if (!err) {

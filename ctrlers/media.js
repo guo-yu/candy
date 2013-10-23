@@ -1,49 +1,19 @@
-var model = require('../models/index'),
+var Ctrler = require('./index'),
+    model = require('../models/index'),
     media = model.media;
 
-// list medias
-exports.ls = function(cb) {
-    media.find({}).exec(function(err, ms) {
-        cb(err, ms);
-    });
+var Media = new Ctrler(media);
+
+Media.read = function(id, callback) {
+    media.findById(id).populate('threads').populate('user').exec(callback);
 }
 
-// count media
-exports.count = function(cb) {
-    media.count({}, function(err, count) {
-        cb(err, count);
-    });
-}
-
-exports.read = function(id, cb) {
-    media.findById(id).populate('threads').populate('user').exec(function(err, media) {
-        cb(err, media);
-    });
-}
-
-// queryById
-exports.queryById = function(id, cb) {
-    media.findById(id).exec(function(err, m) {
-        cb(err, m);
-    });
-}
-
-exports.create = function(baby, cb) {
-    var baby = new media(baby);
-    baby.save(function(err) {
-        cb(err, baby);
-    })
-}
-
-exports.remove = function(id) {
-    media.findByIdAndRemove(id, function(err) {
-        cb(err, id);
-    })
-}
-
-exports.countDownload = function(file,cb) {
+// 需要使用inc修改
+Media.countDownload = function(file, callback) {
     file.count.download = file.count.download + 1;
     file.save(function(err){
-        cb(err, file);
-    })
+        callback(err, file);
+    });
 }
+
+module.exports = Media;
