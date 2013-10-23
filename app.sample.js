@@ -1,4 +1,4 @@
-var Candy = require('./server');
+var Candy = require('candy');
 
 new Candy({
     name: 'Candy', // 站点名称
