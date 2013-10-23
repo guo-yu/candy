@@ -1,4 +1,4 @@
-![logo](http://ww1.sinaimg.cn/large/61ff0de3gw1e7d9luh49bj201201bdfm.jpg) Candy ![](https://badge.fury.io/js/candy.png)
+![logo](http://ww1.sinaimg.cn/large/61ff0de3gw1e7d9luh49bj201201bdfm.jpg) [Candy](http://getcandy.org) ![](https://badge.fury.io/js/candy.png)
 ---
 
 基于多说社交评论的社会化论坛系统，采用 Node.js/Mongodb 构建
@@ -9,7 +9,6 @@
 ![screenshot](http://ww2.sinaimg.cn/large/61ff0de3gw1e7gysyptnkj20wf0nj0wu.jpg)
 
 ### 如何安装
-
 ````
 $ npm install candy
 ````
@@ -18,7 +17,6 @@ $ npm install candy
 我们推荐，把 Candy 当做一个普通模块来看待，通过 `npm install candy` 安装后，在模块外部新建一个启动脚本的方式运行candy的服务，这样，你就可以方便的通过这个命令再次更新candy的主程序，而不影响原有配置，达到无缝升级的目的。
 
 #### 如何开始
-
 我们来试试看用这种方式启动 candy，仓库里有一份为你准备好的启动服务脚本，我们可以把他复制到candy的父目录，然后运行这个文件以启动服务。
 ````
 $ mkdir candy && cd candy
@@ -76,6 +74,8 @@ $ node app.js // 或者使用 forever, pm2 之类的守护程序来启动永久�
 ````
 $ forever start app.js // 或者 pm2 start app.js -i max
 ````
+#### 升级 Candy
+在Candy启动脚本的同级目录，运行 `$ npm install candy` 会自动安装最新版本的 Candy 程序
 
 #### 定制属于你自己的 candy
 
