@@ -16,6 +16,10 @@ var configModel = new Schema({
     name: String,
     desc: String,
     url: String,
+    theme: {
+        type: String,
+        default: 'candy'
+    },
     duoshuo: {
         short_name: String,
         secret: String

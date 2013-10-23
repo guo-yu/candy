@@ -12,14 +12,27 @@ var express = require('express'),
     path = require('path'),
     http = require('http'),
     MongoStore = require('connect-mongo')(express),
-    pkg = require('./pkg');
+    less = require('less-middleware'),
+    moment = require('moment'),
+    cn = require('./lib/zh-cn'),
+    pkg = require('./pkg'),
+    sys = require('./package.json');
+
+moment.lang('zh-cn', cn);
 
 var Server = function(params) {
 
     var app = express(),
-        self = this;
+        self = this,
+        secret = sys.name,
+        theme = {
+            name: sys.name,
+            engine: 'jade'
+        };
 
-    pkg.set('/database.json', params.database);
+    if (params.database) pkg.set('/database.json', params.database);
+    if (params.database && params.database.name) secret = params.database.name;
+    if (params.theme && typeof(params.theme) == 'object') theme = params.theme;
 
     var board = require('./routes/board'),
         thread = require('./routes/thread'),
@@ -28,40 +41,25 @@ var Server = function(params) {
         sign = require('./routes/sign'),
         admin = require('./routes/admin'),
         media = require('./routes/media'),
-        errhandler = require('./lib/error'),
-        cn = require('./lib/zh-cn'),
-        moment = require('moment');
+        errhandler = require('./lib/error');
 
     // all environments
-    app.set('env', params.env ? params.env : 'development');
-    app.set('views', __dirname + '/views');
-    app.set('view engine', 'jade');
-    app.use(express.favicon());
+    app.set('env', params.env && typeof(params.env) == 'string' ? params.env : 'development');
+    app.set('views', path.join(__dirname, '/views'));
+    app.set('view engine', theme.engine);
+    app.use(express.favicon(path.join(__dirname, '/public/images/favicon.ico')));
     app.use(express.logger('dev'));
     app.use(express.limit('20mb'));
-    app.use(express.bodyParser({
-        keepExtensions: true,
-        uploadDir: path.join(__dirname, '/public/uploads')
-    }));
+    app.use(express.bodyParser({ keepExtensions: true, uploadDir: path.join(__dirname, '/public/uploads') }));
     app.use(express.methodOverride());
-    app.use(express.cookieParser(params.database.name));
-    app.use(express.session({
-        secret: params.database.name,
-        store: new MongoStore({
-            db: params.database.name,
-            collection: 'sessions'
-        })
-    }));
+    app.use(express.cookieParser(secret));
+    app.use(express.session({ secret: secret, store: new MongoStore({ db: secret, collection: 'sessions' }) }));
+    app.use(less({ src: path.join(__dirname, 'public') }));
+    app.use(express.static(path.join(__dirname, 'public')));
     app.use(function(req, res, next) {
-        if (!res.locals.App) {
-            res.locals.App = self;
-        }
+        if (!res.locals.App) res.locals.App = self;
         next();
     });
-    app.use(require('less-middleware')({
-        src: __dirname + '/public'
-    }));
-    app.use(express.static(path.join(__dirname, 'public')));
     app.use(app.router);
 
     // errhandler
@@ -69,7 +67,7 @@ var Server = function(params) {
     app.use(errhandler.xhr);
     app.use(errhandler.common);
 
-    moment.lang('zh-cn', cn);
+    // res.locals.xxx
     app.get('*', function(req, res, next) {
         res.locals.moment = moment;
         next();
@@ -79,8 +77,8 @@ var Server = function(params) {
     app.get('/', sign.passport, index);
 
     // signin & signout
-    app.get('/signin', sign. in );
-    app.get('/signout', sign.out);
+    app.get('/signin', sign.signin);
+    app.get('/signout', sign.signout);
 
     // board
     app.get('/board/ls', sign.passport, board.ls);
@@ -100,8 +98,8 @@ var Server = function(params) {
     app.delete('/thread/:id/remove', sign.checkJSON, thread.remove);
 
     // media
-    app.post('/upload', sign.checkJSON, media.upload);
     app.get('/download/:id', sign.passport, media.download);
+    app.post('/upload', sign.checkJSON, media.upload);
 
     // user
     app.get('/user/:id', sign.passport, user.read);
@@ -117,7 +115,7 @@ var Server = function(params) {
     app.post('/setting', admin.update);
 
     // 404
-    app.get('*', errhandler.notfound)
+    app.get('*', errhandler.notfound);
 
     this.app = app;
     this.params = params;
@@ -126,17 +124,14 @@ var Server = function(params) {
 
 Server.prototype.config = function(cb) {
 
-    var config = require('./ctrlers/config'),
-        pkg = require('./pkg').fetch('/package.json'),
-        self = this,
-        params = self.params;
+    var self = this,
+        params = self.params,
+        config = require('./ctrlers/config');
 
     // setup system params
     var setLocals = function(info) {
-        self.app.locals({
-            site: info,
-            sys: pkg
-        });
+        self.app.locals.site = info;
+        self.app.locals.sys = sys;
     }
 
     var read = function(cb) {
