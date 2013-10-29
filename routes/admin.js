@@ -17,8 +17,8 @@ exports.update = function(req, res, next) {
     if (req.body.setting) {
         admin.update(req.body.setting, function(err, site) {
             if (!err) {
-                res.locals.App.app.locals.site = site;
-                res.json(site)
+                res.locals.app.locals.site = site;
+                res.json(site);
             } else {
                 next(err)
             }

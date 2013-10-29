@@ -22,15 +22,11 @@ var createUser = function(result, cb) {
     }, cb)
 }
 
-var queryUser = function(id, cb) {
-    user.readByDsId(id, cb);
-}
-
 // PAGE: 登入
 exports.signin = function(req, res, next) {
 
     var code = req.query.code,
-        duoshuo = new Duoshuo(res.locals.App.app.locals.site.duoshuo);
+        duoshuo = new Duoshuo(res.locals.app.locals.site.duoshuo);
 
     duoshuo.auth(code, function(err, result) {
         // 当通信正常时
@@ -40,7 +36,7 @@ exports.signin = function(req, res, next) {
             if (result.code == 0) {
                 async.waterfall([
                     function(callback) {
-                        queryUser(result.user_id, function(err, u) {
+                        user.readByDsId(result.user_id, function(err, u) {
                             callback(err, u)
                         });
                     },
@@ -90,14 +86,19 @@ exports.signout = function(req, res) {
     if (req.session.user) {
         delete req.session.user;
         res.redirect('back');
+    } else {
+        res.redirect('back');
     }
 };
 
 // MIDDLEWARE: 检查用户是否登录
 exports.check = function(req, res, next) {
     passport(req, res, next, function() {
-        // Not-authed
-        res.render('sign');
+        if (req.xhr) {
+            next(new Error('signin required'));
+        } else {
+            res.render('sign');
+        }
     });
 }
 

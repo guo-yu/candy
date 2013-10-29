@@ -87,7 +87,7 @@ exports.sync = function(req, res ,next) {
                 u.save(function(err) {
                     if (!err) {
                         // 同步本地用户到多说
-                        user.sync(res.locals.App.app.locals.site.duoshuo,u,function(err,result){
+                        user.sync(res.locals.app.locals.site.duoshuo,u,function(err,result){
                             if (!err) {
                                 var result = result.body;
                                 if (result.code == 0) {

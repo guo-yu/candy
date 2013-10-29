@@ -1,15 +1,27 @@
+var errorRender = function(code, err, res) {
+    res.status(500);
+    res.render('error', {
+        code: code,
+        error: err
+    });
+}
+
+var errorXhr = function(code, err, res) {
+    res.json(code, {
+        stat: 'error',
+        error: err
+    });
+}
+
+// choose a logger to save your errors
 exports.logger = function(err, req, res, next) {
-    // 记录到 forever.log 中
     console.log(err);
     next(err);
 }
 
 exports.xhr = function(err, req, res, next) {
     if (req.xhr) {
-        res.json(500, {
-            stat: 'error',
-            error: err
-        });
+        errorXhr(500, err, res);
     } else {
         next(err);
     }
@@ -19,10 +31,7 @@ exports.common = function(err, req, res, next) {
     if (err.toString() == 'Error: 404') {
         exports.notfound(req, res, next);
     } else {
-        res.status(500);
-        res.render('500', {
-            error: err
-        })
+        errorRender(500, err, res);
     }
 }
 
@@ -33,15 +42,10 @@ exports.notfound = function(req, res, next) {
             res.send('404');
         },
         html: function() {
-            res.render('404', {
-                url: req.url
-            });
+            errorRender(404, req.url, res);
         },
         json: function() {
-            res.json({
-                stat: '404',
-                error: 'not found'
-            })
+            errorXhr(404, req.url, res);
         }
     });
 }
