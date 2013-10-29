@@ -35,7 +35,7 @@ exports.upload = function(req, res, next) {
 // 这里还要控制一个如果保存在云上的话，要重定向到云，或者从云上拿下来返回
 exports.download = function(req, res, next) {
     if (req.params.id) {
-        media.queryById(req.params.id, function(err, file) {
+        media.findById(req.params.id, function(err, file) {
             if (!err) {
                 if (file) {
                     if (file.stat == 'public') {
