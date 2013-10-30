@@ -3,15 +3,6 @@ var Duoshuo = require('duoshuo'),
     user = require('../ctrlers/user'),
     async = require('async');
 
-var passport = function(req, res, next, cb) {
-    if (req.session.user) {
-        res.locals.user = req.session.user;
-        next()
-    } else {
-        cb();
-    }
-}
-
 var createUser = function(result, cb) {
     user.create({
         type: result.type ? result.type : 'normal',
@@ -90,31 +81,6 @@ exports.signout = function(req, res) {
         res.redirect('back');
     }
 };
-
-// MIDDLEWARE: 检查用户是否登录
-exports.check = function(req, res, next) {
-    passport(req, res, next, function() {
-        if (req.xhr) {
-            next(new Error('signin required'));
-        } else {
-            res.render('sign');
-        }
-    });
-}
-
-// MIDDLEWARE: 检查用户是否登录（xhr）
-exports.checkJSON = function(req, res, next) {
-    passport(req, res, next, function() {
-        next(new Error('login required'));
-    });
-}
-
-// MIDDLEWARE: 为登录用户写入locals
-exports.passport = function(req, res, next) {
-    passport(req, res, next, function() {
-        next();
-    });
-}
 
 // MIDDLEWARE: 检查用户是否管理员用户
 exports.checkAdmin = function(req, res, next) {

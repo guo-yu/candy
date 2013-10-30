@@ -16,6 +16,7 @@ var errorXhr = function(code, err, res) {
 // choose a logger to save your errors
 exports.logger = function(err, req, res, next) {
     console.log(err);
+    console.log(err.stack);
     next(err);
 }
 
@@ -28,7 +29,7 @@ exports.xhr = function(err, req, res, next) {
 }
 
 exports.common = function(err, req, res, next) {
-    if (err.toString() == 'Error: 404') {
+    if (err.message == '404') {
         exports.notfound(req, res, next);
     } else {
         errorRender(500, err, res);
