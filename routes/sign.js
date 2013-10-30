@@ -15,61 +15,64 @@ var createUser = function(result, cb) {
 
 // PAGE: 登入
 exports.signin = function(req, res, next) {
-
     var code = req.query.code,
         duoshuo = new Duoshuo(res.locals.app.locals.site.duoshuo);
 
-    duoshuo.auth(code, function(err, result) {
-        // 当通信正常时
-        if (!err) {
-            var result = result.body;
-            // 当返回正确时
-            if (result.code == 0) {
-                async.waterfall([
-                    function(callback) {
-                        user.readByDsId(result.user_id, function(err, u) {
-                            callback(err, u)
-                        });
-                    },
-                    function(u, callback) {
-                        if (u) {
-                            req.session.user = u;
-                            res.redirect('back');
-                        } else {
-                            user.count(function(err, count) {
-                                callback(err, count);
+    if (code) {
+        duoshuo.auth(code, function(err, result) {
+            // 当通信正常时
+            if (!err) {
+                var result = result.body;
+                // 当返回正确时
+                if (result.code == 0) {
+                    async.waterfall([
+                        function(callback) {
+                            user.readByDsId(result.user_id, function(err, u) {
+                                callback(err, u)
+                            });
+                        },
+                        function(u, callback) {
+                            if (u) {
+                                req.session.user = u;
+                                res.redirect('back');
+                            } else {
+                                user.count(function(err, count) {
+                                    callback(err, count);
+                                });
+                            }
+                        },
+                        function(count, callback) {
+                            if (count == 0) {
+                                result['type'] = 'admin';
+                            };
+                            createUser(result, function(err, baby) {
+                                callback(err, count, baby);
                             });
                         }
-                    },
-                    function(count, callback) {
-                        if (count == 0) {
-                            result['type'] = 'admin';
-                        };
-                        createUser(result, function(err, baby) {
-                            callback(err, count, baby);
-                        });
-                    }
-                ], function(err, count, baby) {
-                    if (!err) {
-                        req.session.user = baby;
-                        if (count == 0) {
-                            res.redirect('/admin/');
+                    ], function(err, count, baby) {
+                        if (!err) {
+                            req.session.user = baby;
+                            if (count == 0) {
+                                res.redirect('/admin/');
+                            } else {
+                                res.redirect('/member/' + req.session.user._id);
+                            }
                         } else {
-                            res.redirect('/member/' + req.session.user._id);
+                            next(err);
                         }
-                    } else {
-                        next(err);
-                    }
-                });
+                    });
 
+                } else {
+                    // 如果多说挂了
+                    next(new Error('多说登录出错，请稍后再试或者联系管理员，具体错误:' + result.errorMessage))
+                }
             } else {
-                // 如果多说挂了
-                next(new Error('多说登录出错，请稍后再试或者联系管理员，具体错误:' + result.errorMessage))
+                next(err);
             }
-        } else {
-            next(err);
-        }
-    })
+        })
+    } else {
+        res.render('sign');
+    }
 };
 
 // PAGE: 登出
