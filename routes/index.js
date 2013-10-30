@@ -30,7 +30,7 @@ module.exports = function(app) {
     app.get('/board/:url', passport, board.read);
     app.get('/board/:url/page/:page', passport, board.read);
     app.post('/board/new', check, board.create);
-    app.post('/board/:id', board.update);
+    app.post('/board/:id', check, board.update);
     app.delete('/board/:id/remove', check, board.remove);
 
     // thread
