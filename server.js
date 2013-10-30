@@ -39,7 +39,7 @@ var Server = function(configs) {
     app.use(express.bodyParser({ keepExtensions: true, uploadDir: path.join(__dirname, '/public/uploads') }));
     app.use(express.methodOverride());
     app.use(express.cookieParser(secret));
-    app.use(express.session({ secret: secret, store: new MongoStore({ db: secret, collection: 'sessions' }) }));
+    app.use(express.session({ secret: secret, store: new MongoStore({ db: secret }) }));
     app.use(less({ src: path.join(__dirname, 'public') }));
     app.use(express.static(path.join(__dirname, 'public')));
     app.use(app.router);
