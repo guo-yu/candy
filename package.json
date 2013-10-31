@@ -26,6 +26,7 @@
   "dependencies": {
     "duoshuo":"*",
     "express": "3.3.1",
+    "express-resource": "*",
     "jade": "*",
     "less-middleware": "*",
     "connect-mongo":"*",

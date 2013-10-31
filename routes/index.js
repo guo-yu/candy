@@ -17,7 +17,7 @@ moment.lang('zh-cn', cn);
 module.exports = function(app) {
 
     app.locals.moment = moment;
-    
+
     // home
     app.get('/', passport, home);
 
