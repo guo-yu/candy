@@ -1,5 +1,5 @@
 var errorRender = function(code, err, res) {
-    res.status(500);
+    res.status(code);
     res.render('error', {
         code: code,
         error: err
