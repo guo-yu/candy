@@ -1,3 +1,11 @@
+// GET     /          ->  index
+// GET     /new       ->  new
+// POST    /          ->  create
+// GET     /:id       ->  show
+// GET     /:id/edit  ->  edit
+// PUT     /:id       ->  update
+// DELETE  /:id       ->  destroy
+
 var thread = require('../ctrlers/thread'),
     board = require('../ctrlers/board'),
     marked = require('marked'),
@@ -23,7 +31,7 @@ var visited = function(thread, cb) {
 }
 
 // 列出所有帖子
-exports.ls = function(req, res, next) {
+exports.index = function(req, res, next) {
     thread.ls(function(err, ths) {
         if (!err) {
             res.json({
@@ -63,8 +71,8 @@ exports.new = function(req, res, next) {
 }
 
 // 查看话题页面
-exports.read = function(req, res, next) {
-    thread.read(req.params.id, function(err, t) {
+exports.show = function(req, res, next) {
+    thread.read(req.params.thread, function(err, t) {
         if (!err) {
             if (t) {
                 visited(t, function(err) {
@@ -86,7 +94,7 @@ exports.read = function(req, res, next) {
 
 // 更新帖子页面
 exports.edit = function(req, res, next) {
-    thread.checkLz(req.params.id, res.locals.user._id, function(err, lz, thread) {
+    thread.checkLz(req.params.thread, res.locals.user._id, function(err, lz, thread) {
         if (!err) {
             if (lz) {
                 res.render('thread/edit', {
@@ -103,7 +111,7 @@ exports.edit = function(req, res, next) {
 
 // API：更新话题
 exports.update = function(req, res, next) {
-    thread.checkLz(req.params.id, res.locals.user._id, function(err, lz, th) {
+    thread.checkLz(req.params.thread, res.locals.user._id, function(err, lz, th) {
         if (!err) {
             if (lz) {
                 var updatedThread = {
@@ -115,7 +123,7 @@ exports.update = function(req, res, next) {
                     lz: th.lz
                 };
                 if (req.body.thread.media) updatedThread.media = req.body.thread.media;
-                thread.update(req.params.id, updatedThread, function(err, thread) {
+                thread.update(req.params.thread, updatedThread, function(err, thread) {
                     if (!err) {
                         res.json({
                             stat: 'ok',
@@ -149,11 +157,11 @@ exports.create = function(req, res, next) {
 }
 
 // API：删除话题
-exports.remove = function(req, res, next) {
-    thread.checkLz(req.params.id, res.locals.user._id, function(err, lz, th) {
+exports.destroy = function(req, res, next) {
+    thread.checkLz(req.params.thread, res.locals.user._id, function(err, lz, th) {
         if (!err) {
             if (lz) {
-                thread.remove(req.params.id, function(err, tid) {
+                thread.remove(req.params.thread, function(err, tid) {
                     if (!err) {
                         res.json({
                             stat: 'ok',

@@ -1,7 +1,42 @@
+// GET     /          ->  index
+// GET     /new       ->  new
+// POST    /          ->  create
+// GET     /:id       ->  show
+// GET     /:id/edit  ->  edit
+// PUT     /:id       ->  update
+// DELETE  /:id       ->  destroy
+
 var board = require('../ctrlers/board');
 
+exports.index = function(req,res,next) {
+    board.lsName(function(err,boards){
+        if (!err) {
+            res.json({
+                stat: 'ok',
+                boards: boards
+            })
+        } else {
+            next(err);
+        }
+    })
+}
+
+// API: 创建板块
+exports.create = function(req, res, next) {
+    board.create(res.locals.user._id, req.body.board, function(err, baby) {
+        if (!err) {
+            res.json({
+                stat: 'ok',
+                board: baby
+            });
+        } else {
+            next(err);
+        }
+    })
+}
+
 // PAGE: 列出单个板块
-exports.read = function(req, res, next) {
+exports.show = function(req, res, next) {
     board.readByUrl(req.params.url, req.params.page, function(err, b) {
         if (!err) {
             if (b) {
@@ -33,22 +68,8 @@ exports.update = function(req, res, next) {
     });
 }
 
-// API: 创建板块
-exports.create = function(req, res, next) {
-    board.create(res.locals.user._id, req.body.board, function(err, baby) {
-        if (!err) {
-            res.json({
-                stat: 'ok',
-                board: baby
-            });
-        } else {
-            next(err);
-        }
-    })
-}
-
 // API: 删除板块
-exports.remove = function(req, res, next) {
+exports.destroy = function(req, res, next) {
     board.remove(req.params.id, function(err, bid) {
         if (!err) {
             res.json({
@@ -57,20 +78,6 @@ exports.remove = function(req, res, next) {
             })
         } else {
             next(err)
-        }
-    })
-}
-
-// API: 列出所有板块名称和url
-exports.ls = function(req,res,next) {
-    board.lsName(function(err,boards){
-        if (!err) {
-            res.json({
-                stat: 'ok',
-                boards: boards
-            })
-        } else {
-            next(err);
         }
     })
 }

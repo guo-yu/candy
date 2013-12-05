@@ -1,7 +1,15 @@
+// GET     /          ->  index
+// GET     /new       ->  new
+// POST    /          ->  create
+// GET     /:id       ->  show
+// GET     /:id/edit  ->  edit
+// PUT     /:id       ->  update
+// DELETE  /:id       ->  destroy
+
 // media
 var media = require('../ctrlers/media');
 
-exports.upload = function(req, res, next) {
+exports.create = function(req, res, next) {
     if (req.files.media) {
         // 能否将这个path更友好的组织起来？
         var originFile = req.files.media,
@@ -33,7 +41,7 @@ exports.upload = function(req, res, next) {
 }
 
 // 这里还要控制一个如果保存在云上的话，要重定向到云，或者从云上拿下来返回
-exports.download = function(req, res, next) {
+exports.show = function(req, res, next) {
     if (req.params.id) {
         media.findById(req.params.id, function(err, file) {
             if (!err) {
