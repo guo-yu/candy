@@ -9,4 +9,4 @@ sftp-*
 *.backup
 public/uploads
 database.json
-getcandy.*
+*.getcandy.*

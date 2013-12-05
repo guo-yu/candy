@@ -26,35 +26,35 @@ module.exports = function(app) {
     app.get('/signout', sign.signout);
 
     // boards
-    app.resource('boards', board);
-    // app.get('/board/ls', passport, board.ls);
-    // app.get('/board/:url', passport, board.read);
-    // app.get('/board/:url/page/:page', passport, board.read);
-    // app.post('/board/new', check, board.create);
-    // app.post('/board/:id', check, board.update);
-    // app.delete('/board/:id/remove', check, board.remove);
+    // app.resource('boards', board);
+    app.get('/board/ls', passport, board.ls);
+    app.get('/board/:url', passport, board.read);
+    app.get('/board/:url/page/:page', passport, board.read);
+    app.post('/board/new', check, board.create);
+    app.post('/board/:id', check, board.update);
+    app.delete('/board/:id/remove', check, board.remove);
 
     // threads
-    app.resource('threads', thread);
-    // app.get('/thread/new', check, thread.new);
-    // app.post('/thread/new', check, thread.create);
-    // app.get('/thread/list', check, thread.ls);
-    // app.get('/thread/:id', passport, thread.read);
-    // app.get('/thread/:id/edit', check, thread.edit);
-    // app.post('/thread/:id/update', check, thread.update);
-    // app.delete('/thread/:id/remove', check, thread.remove);
+    // app.resource('threads', thread);
+    app.get('/thread/new', check, thread.new);
+    app.post('/thread/new', check, thread.create);
+    app.get('/thread/list', check, thread.ls);
+    app.get('/thread/:id', passport, thread.read);
+    app.get('/thread/:id/edit', check, thread.edit);
+    app.post('/thread/:id/update', check, thread.update);
+    app.delete('/thread/:id/remove', check, thread.remove);
 
     // medias
-    app.resource('medias', thread);
-    // app.get('/download/:id', passport, media.download);
-    // app.post('/upload', check, media.upload);
+    // app.resource('medias', thread);
+    app.get('/download/:id', passport, media.download);
+    app.post('/upload', check, media.upload);
 
     // user
-    app.resource('medias', thread);
-    // app.get('/user/:id', passport, user.read);
-    // app.post('/user/sync', check, App(app), user.sync);
-    // app.post('/user/:id', user.update);
-    // app.delete('/user/remove', user.remove);
+    // app.resource('medias', thread);
+    app.get('/user/:id', passport, user.read);
+    app.post('/user/sync', check, App(app), user.sync);
+    app.post('/user/:id', user.update);
+    app.delete('/user/remove', user.remove);
 
     // user center
     app.get('/member/:id', passport, user.mime);
