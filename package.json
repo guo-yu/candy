@@ -6,7 +6,7 @@
   "author": "turing",
   "license": "MIT",
   "scripts": {
-    "start": "node server.js",
+    "start": "node app.js",
     "test": "./node_modules/mocha/bin/mocha ./test/test.js"
   },
   "repository": {
@@ -25,21 +25,12 @@
   ],
   "dependencies": {
     "duoshuo":"*",
-    "express": "3.3.1",
-    "express-resource": "*",
-    "jade": "*",
-    "less-middleware": "*",
-    "connect-mongo":"*",
-    "mongoose": "*",
+    "express-scaffold": "*",
     "async": "*",
     "underscore" : "*",
     "moment": "*",
     "marked": "*",
     "highlight.js": "*",
     "member": "*"
-  },
-  "devDependencies": {
-    "mocha": "*",
-    "should": "*"
   }
 }
