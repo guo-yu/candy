@@ -1,66 +1,68 @@
-var home = require('./home'),
+var member = require('member'),
+    moment = require('moment'),
+    passport = member.passport,
+    check = member.check,
+    home = require('./home'),
     sign = require('./sign'),
     board = require('./board'),
     thread = require('./thread'),
     user = require('./user'),
     admin = require('./admin'),
     media = require('./media'),
-    member = require('member'),
-    passport = member.passport,
-    check = member.check,
-    moment = require('moment'),
-    cn = require('../libs/zh-cn'),
-    App = require('../middlewares/app');
+    cn = require('../libs/zh-cn');
 
 moment.lang('zh-cn', cn);
 
-module.exports = function(app) {
+module.exports = function(app, $ctrlers, $middlewares) {
 
+    // middlewares
+    app.all('*', member.passport);
+    app.get('*', $middlewares.current);
     app.locals.moment = moment;
 
     // home
-    app.get('/', passport, home);
+    app.get('/', home($ctrlers));
 
     // signin & signout
-    app.get('/signin', App(app), sign.signin);
-    app.get('/signout', sign.signout);
+    app.get('/signin', $middlewares.locals.app(app), sign($ctrlers).signin);
+    app.get('/signout', sign($ctrlers).signout);
 
     // boards
     // app.resource('boards', board);
-    app.get('/board/ls', passport, board.ls);
-    app.get('/board/:url', passport, board.read);
-    app.get('/board/:url/page/:page', passport, board.read);
-    app.post('/board/new', check, board.create);
-    app.post('/board/:id', check, board.update);
-    app.delete('/board/:id/remove', check, board.remove);
+    app.get('/board/ls', board($ctrlers).index);
+    app.get('/board/:url', board($ctrlers).show);
+    app.get('/board/:url/page/:page', board($ctrlers).show);
+    app.post('/board/new', check, board($ctrlers).create);
+    app.post('/board/:id', check, board($ctrlers).update);
+    app.delete('/board/:id/remove', check, board($ctrlers).destroy);
 
     // threads
     // app.resource('threads', thread);
-    app.get('/thread/new', check, thread.new);
-    app.post('/thread/new', check, thread.create);
-    app.get('/thread/list', check, thread.ls);
-    app.get('/thread/:id', passport, thread.read);
-    app.get('/thread/:id/edit', check, thread.edit);
-    app.post('/thread/:id/update', check, thread.update);
-    app.delete('/thread/:id/remove', check, thread.remove);
+    app.get('/thread/new', check, thread($ctrlers).new);
+    app.post('/thread/new', check, thread($ctrlers).create);
+    app.get('/thread/list', check, thread($ctrlers).index);
+    app.get('/thread/:id', thread($ctrlers).show);
+    app.get('/thread/:id/edit', check, thread($ctrlers).edit);
+    app.post('/thread/:id/update', check, thread($ctrlers).update);
+    app.delete('/thread/:id/remove', check, thread($ctrlers).destroy);
 
     // medias
     // app.resource('medias', thread);
-    app.get('/download/:id', passport, media.download);
-    app.post('/upload', check, media.upload);
+    app.get('/download/:id', media($ctrlers).show);
+    app.post('/upload', check, media($ctrlers).create);
 
     // user
     // app.resource('medias', thread);
-    app.get('/user/:id', passport, user.read);
-    app.post('/user/sync', check, App(app), user.sync);
-    app.post('/user/:id', user.update);
-    app.delete('/user/remove', user.remove);
+    app.get('/user/:id', user($ctrlers).show);
+    app.post('/user/sync', check, $middlewares.locals.app(app), user($ctrlers).sync);
+    app.post('/user/:id', check, user($ctrlers).update);
+    app.delete('/user/remove', sign($ctrlers).checkAdmin, user($ctrlers).remove);
 
     // user center
-    app.get('/member/:id', passport, user.mime);
+    app.get('/member/:id', user($ctrlers).mime);
 
     // admin
-    app.get('/admin', passport, sign.checkAdmin, admin.page);
-    app.post('/setting', App(app), admin.update);
+    app.get('/admin', sign($ctrlers).checkAdmin, admin($ctrlers).page);
+    app.post('/setting', $middlewares.locals.app(app), admin($ctrlers).update);
 
 }

@@ -1,115 +1,116 @@
-var user = require('../ctrlers/user');
+exports = module.exports = function($ctrlers) {
 
-// PAGE: read
-exports.show = function(req, res, next) {
-    user.read(req.params.id, function(err, b) {
-        if (!err) {
-            res.render('user', b)
-        } else {
-            next(err)
-        }
-    });
-}
+    var user = $ctrlers.user;
 
-// PAGE: mime
-exports.mime = function(req, res, next) {
-    // 这里没有做分页
-    if (req.params.id) {
-        user.read(req.params.id, function(err, u) {
-            if (!err) {
-                if (u) {
-                    res.render('mime', {
-                        uu: u
+    return {
+        // PAGE: read
+        show: function(req, res, next) {
+            user.read(req.params.id, function(err, b) {
+                if (!err) {
+                    res.render('user', b)
+                } else {
+                    next(err)
+                }
+            });
+        },
+        // PAGE: mime
+        mime: function(req, res, next) {
+            // 这里没有做分页
+            if (req.params.id) {
+                user.read(req.params.id, function(err, u) {
+                    if (!err) {
+                        if (u) {
+                            res.render('mime', {
+                                uu: u
+                            })
+                        } else {
+                            next(new Error('404'));
+                        }
+                    } else {
+                        next(err)
+                    }
+                })
+            } else {
+                next(new Error('404'))
+            }
+        },
+        // API: update
+        update: function(req, res, next) {
+            user.update(req.params.id, req.body.user, function(err, user) {
+                if (!err) {
+                    res.json({
+                        stat: 'ok',
+                        user: user.body
                     })
                 } else {
-                    next(new Error('404'));
+                    next(err)
                 }
-            } else {
-                next(err)
-            }
-        })
-    } else {
-        next(new Error('404'))
-    }
-}
-
-// API: update
-exports.update = function(req, res, next) {
-    user.update(req.params.id, req.body.user, function(err, user) {
-        if (!err) {
-            res.json({
-                stat: 'ok',
-                user: user.body
+            });
+        },
+        // API: create
+        create: function(req, res, next) {
+            user.create(req.body.user, function(err, baby) {
+                if (!err) {
+                    res.json({
+                        stat: 'ok',
+                        user: baby
+                    })
+                } else {
+                    next(err);
+                }
             })
-        } else {
-            next(err)
-        }
-    });
-}
-
-// API: create
-exports.create = function(req, res, next) {
-    user.create(req.body.user, function(err, baby) {
-        if (!err) {
-            res.json({
-                stat: 'ok',
-                user: baby
+        },
+        // API: remove
+        destroy: function(req, res, next) {
+            user.remove(req.params.id, function(err, uid) {
+                if (!err) {
+                    res.json({
+                        stat: 'ok',
+                        user: user.body
+                    })
+                } else {
+                    next(err);
+                }
             })
-        } else {
-            next(err);
-        }
-    })
-}
-
-// API: remove
-exports.destroy = function(req, res, next) {
-    user.remove(req.params.id, function(err, uid) {
-        if (!err) {
-            res.json({
-                stat: 'ok',
-                user: user.body
-            })
-        } else {
-            next(err);
-        }
-    })
-}
-
-// API: Sync to duoshuo
-exports.sync = function(req, res ,next) {
-    var uu = req.body.user;
-    if (uu && typeof(uu) == 'object') {
-        user.findById(req.session.user._id, function(err, u) {
-            if (!err) {
-                u.nickname = uu.name;
-                u.url = uu.url;
-                u.avatar = uu.avatar;
-                u.save(function(err) {
+        },
+        // API: Sync to duoshuo
+        sync: function(req, res, next) {
+            var uu = req.body.user;
+            if (uu && typeof(uu) == 'object') {
+                user.findById(req.session.user._id, function(err, u) {
                     if (!err) {
-                        // 同步本地用户到多说
-                        user.sync(res.locals.app.locals.site.duoshuo,u,function(err,result){
+                        u.nickname = uu.name;
+                        u.url = uu.url;
+                        u.avatar = uu.avatar;
+                        u.save(function(err) {
                             if (!err) {
-                                var result = result.body;
-                                if (result.code == 0) {
-                                    req.session.user = u;
-                                    res.json({
-                                        stat: 'ok',
-                                        user: u
-                                    });
-                                } else {
-                                    next(new Error('多说用户同步失败，请稍后再试，详细错误：' + result.errorMessage))
-                                }
+                                // 同步本地用户到多说
+                                user.sync(res.locals.app.locals.site.duoshuo, u, function(err, result) {
+                                    if (!err) {
+                                        var result = result.body;
+                                        if (result.code == 0) {
+                                            req.session.user = u;
+                                            res.json({
+                                                stat: 'ok',
+                                                user: u
+                                            });
+                                        } else {
+                                            next(new Error('多说用户同步失败，请稍后再试，详细错误：' + result.errorMessage))
+                                        }
+                                    } else {
+                                        next(err);
+                                    }
+                                });
                             } else {
-                                next(err);
+                                next(err)
                             }
                         });
                     } else {
                         next(err)
                     }
                 });
-            } else {
-                next(err)
             }
-        });
+        }
     }
+
 }

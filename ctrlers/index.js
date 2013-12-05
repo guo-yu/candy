@@ -5,6 +5,7 @@ module.exports = function($models, $Ctrler) {
         thread: require('./thread')($models, $Ctrler),
         board: require('./board')($models, $Ctrler),
         media: require('./media')($models, $Ctrler),
-        admin: require('./admin')($models, $Ctrler)
+        admin: require('./admin')($models, $Ctrler),
+        config: require('./config')($models, $Ctrler)
     }
 }
