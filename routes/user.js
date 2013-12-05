@@ -1,7 +1,7 @@
 var user = require('../ctrlers/user');
 
 // PAGE: read
-exports.read = function(req, res, next) {
+exports.show = function(req, res, next) {
     user.read(req.params.id, function(err, b) {
         if (!err) {
             res.render('user', b)
@@ -62,7 +62,7 @@ exports.create = function(req, res, next) {
 }
 
 // API: remove
-exports.remove = function(req, res, next) {
+exports.destroy = function(req, res, next) {
     user.remove(req.params.id, function(err, uid) {
         if (!err) {
             res.json({
