@@ -24,13 +24,12 @@
     "social"
   ],
   "dependencies": {
-    "duoshuo":"*",
     "express-scaffold": "*",
+    "duoshuo":"*",
     "async": "*",
     "underscore" : "*",
     "moment": "*",
     "marked": "*",
-    "highlight.js": "*",
-    "member": "*"
+    "highlight.js": "*"
   }
 }
