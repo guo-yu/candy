@@ -1,7 +1,4 @@
-var member = require('member'),
-    moment = require('moment'),
-    passport = member.passport,
-    check = member.check,
+var moment = require('moment'),
     home = require('./home'),
     sign = require('./sign'),
     board = require('./board'),
@@ -9,16 +6,24 @@ var member = require('member'),
     user = require('./user'),
     admin = require('./admin'),
     media = require('./media'),
-    cn = require('../libs/zh-cn');
+    cn = require('../libs/zh-cn'),
+    sys = require('../package.json');
 
 moment.lang('zh-cn', cn);
 
 module.exports = function(app, $ctrlers, $middlewares) {
 
+    var passport = $middlewares.check(),
+        check = $middlewares.check(true);
+
     // middlewares
-    app.all('*', member.passport);
+    app.all('*', passport);
     app.get('*', $middlewares.current);
+    app.get('*', $middlewares.install(app, $ctrlers.config));
+
+    // locals
     app.locals.moment = moment;
+    app.locals.sys = sys;
 
     // home
     app.get('/', home($ctrlers));
