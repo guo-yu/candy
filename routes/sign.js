@@ -19,7 +19,7 @@ exports = module.exports = function($ctrlers) {
 
     return {
         // PAGE: 登入
-        exports.signin : function(req, res, next) {
+        signin: function(req, res, next) {
             var code = req.query.code,
                 duoshuo = new Duoshuo(res.locals.app.locals.site.duoshuo);
 
@@ -82,7 +82,7 @@ exports = module.exports = function($ctrlers) {
         },
 
         // PAGE: 登出
-        signout : function(req, res) {
+        signout: function(req, res) {
             if (req.session.user) {
                 delete req.session.user;
                 res.redirect('back');
@@ -92,7 +92,7 @@ exports = module.exports = function($ctrlers) {
         },
 
         // MIDDLEWARE: 检查用户是否管理员用户
-        checkAdmin : function(req, res, next) {
+        checkAdmin: function(req, res, next) {
             if (res.locals.user && res.locals.user.type == 'admin') {
                 next();
             } else {

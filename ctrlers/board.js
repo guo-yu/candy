@@ -1,10 +1,11 @@
 var async = require('async');
 
 exports = module.exports = function($models, $Ctrler) {
-    
+
     var Board = new $Ctrler($models.board),
+        Thread = new $Ctrler($models.thread),
         board = $models.board,
-        thread = $model.thread;
+        thread = $models.thread
 
     // create board
     Board.create = function(bzid, baby, cb) {
@@ -40,46 +41,32 @@ exports = module.exports = function($models, $Ctrler) {
         board.find({}).select('_id').limit(params.limit).exec(callback);
     }
 
-    // fetch board by URL
-    // 这段逻辑需要重构，太乱了。
+    // fetch board by url
     Board.readByUrl = function(url, page, cb) {
         var limit = 10;
-        board.findOne({
-            url: url
-        }).populate('bz').exec(function(err, board) {
+        async.waterfall([
+            function(callback) {
+                board.findOne({
+                    url: url
+                }).populate('bz').exec(callback);
+            },
+            function(b, callback) {
+                Thread.page(page, limit, {
+                    board: b._id
+                }, function(err, threads, pager){
+                    callback(err, b, threads, pager)
+                });
+            }
+        ], function(err, result) {
             if (!err) {
-                if (board) {
-                    pager(thread, {
-                        filter: {
-                            board: board._id
-                        },
-                        limit: limit,
-                        page: page
-                    }, function(err, page) {
-                        if (!err) {
-                            // 这段逻辑冗余了
-                            thread.find({
-                                board: board._id
-                            }).skip(page.from).limit(page.limit).sort('-pubdate').populate('lz').populate('board').exec(function(err, ts){
-                                if (!err) {
-                                    cb(null, {
-                                        board: board,
-                                        threads: ts,
-                                        page: page
-                                    });
-                                } else {
-                                    cb(err);
-                                }
-                            });
-                        } else {
-                            cb(err);
-                        }
-                    });
-                } else {
-                    cb(null, null);
-                }
+                console.log(result);
+                cb(null, {
+                    board: result.b,
+                    threads: result.threads,
+                    page: result.pager
+                });
             } else {
-                cb(err)
+                cb(err);
             }
         });
     }

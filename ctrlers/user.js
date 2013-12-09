@@ -4,7 +4,7 @@ var moment = require('moment'),
 exports = module.exports = function($models, $Ctrler) {
 
     var User = new $Ctrler($models.user),
-        user = $model.user;
+        user = $models.user;
 
     User.checkAdmin = function(uid, callback) {
         if (this.checkId(uid)) {

@@ -11,15 +11,15 @@ var moment = require('moment'),
 
 moment.lang('zh-cn', cn);
 
-module.exports = function(app, $ctrlers, $middlewares) {
+module.exports = function(app, $models, $ctrlers, $middlewares) {
 
-    var passport = $middlewares.check(),
-        check = $middlewares.check(true);
+    var passport = $middlewares.passport.check(),
+        check = $middlewares.passport.check(true);
 
     // middlewares
     app.all('*', passport);
     app.get('*', $middlewares.current);
-    app.get('*', $middlewares.install(app, $ctrlers.config));
+    app.get('*', $middlewares.install(app, $models.config));
 
     // locals
     app.locals.moment = moment;
@@ -61,7 +61,7 @@ module.exports = function(app, $ctrlers, $middlewares) {
     app.get('/user/:id', user($ctrlers).show);
     app.post('/user/sync', check, $middlewares.locals.app(app), user($ctrlers).sync);
     app.post('/user/:id', check, user($ctrlers).update);
-    app.delete('/user/remove', sign($ctrlers).checkAdmin, user($ctrlers).remove);
+    app.delete('/user/remove', sign($ctrlers).checkAdmin, user($ctrlers).destroy);
 
     // user center
     app.get('/member/:id', user($ctrlers).mime);

@@ -1,6 +1,5 @@
-@import url('./bootstrap.min.css');
-
-@import url('./font-awesome.min.css');
+@import url('bootstrap.min.css');
+@import url('font-awesome.min.css');
 @font-face {
   font-family: 'Indie Flower';
   font-style: normal;
