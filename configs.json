@@ -2,6 +2,9 @@
     "name": "Candy",
     "url": "http://candy.com",
     "desc": "some desc",
+    "views": "./views",
+    "public": "./public",
+    "uploads": "./public/uploads",
     "database": {
         "name": "candy"
     },
