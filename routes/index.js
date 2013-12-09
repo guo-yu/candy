@@ -26,7 +26,8 @@ module.exports = function(app, $models, $ctrlers, $middlewares) {
     app.locals.sys = sys;
 
     // home
-    app.get('/', home($ctrlers));
+    app.get('/', home($ctrlers).index);
+    app.get('/page/:page', home($ctrlers).page);
 
     // signin & signout
     app.get('/signin', $middlewares.locals.app(app), sign($ctrlers).signin);
