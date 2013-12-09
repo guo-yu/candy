@@ -3,9 +3,9 @@ var async = require('async');
 
 exports = module.exports = function($ctrlers) {
 
-    var thread = $ctrlers.thread;
+    var Thread = $ctrlers.thread;
     var fetchThreads = function(page, limit, query, callback) {
-        var cursor = threads.page(page, limit, query);
+        var cursor = Thread.page(page, limit, query);
         cursor.query.populate('lz').populate('board').exec(function(err, threads) {
             callback(err, threads, cursor.pager);
         });
@@ -30,10 +30,14 @@ exports = module.exports = function($ctrlers) {
                 var page = parseInt(req.params.page, 10);
                 fetchThreads(page, 20, {}, function(err, threads, pager) {
                     if (!err) {
-                        res.render('index', {
-                            threads: threads,
-                            pager: pager
-                        });
+                        if (threads && threads.length > 0) {
+                            res.render('index', {
+                                threads: threads,
+                                pager: pager
+                            });
+                        } else {
+                            next(new Error('404'));
+                        }
                     } else {
                         next(err);
                     }
