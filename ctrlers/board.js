@@ -51,19 +51,19 @@ exports = module.exports = function($models, $Ctrler) {
                 }).populate('bz').exec(callback);
             },
             function(b, callback) {
-                Thread.page(page, limit, {
-                    board: b._id
-                }, function(err, threads, pager){
-                    callback(err, b, threads, pager)
+                var cursor = Thread.page(page, limit, {board: b._id});
+                cursor.query.populate('lz').populate('board').exec(function(err, threads){
+                    callback(err, b, threads, cursor.pager);
                 });
             }
-        ], function(err, result) {
+        ], function(err, board, threads, pager) {
             if (!err) {
-                console.log(result);
+                console.log(threads);
+                console.log(pager);
                 cb(null, {
-                    board: result.b,
-                    threads: result.threads,
-                    page: result.pager
+                    board: board,
+                    threads: threads,
+                    page: pager
                 });
             } else {
                 cb(err);
