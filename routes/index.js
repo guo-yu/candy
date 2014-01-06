@@ -43,14 +43,14 @@ module.exports = function(app, $models, $ctrlers, $middlewares) {
     app.delete('/board/:id/remove', check, board($ctrlers).destroy);
 
     // threads
-    // app.resource('threads', thread);
-    app.get('/thread/new', check, thread($ctrlers).new);
-    app.post('/thread/new', check, thread($ctrlers).create);
-    app.get('/thread/list', check, thread($ctrlers).index);
-    app.get('/thread/:id', thread($ctrlers).show);
-    app.get('/thread/:id/edit', check, thread($ctrlers).edit);
-    app.post('/thread/:id/update', check, thread($ctrlers).update);
-    app.delete('/thread/:id/remove', check, thread($ctrlers).destroy);
+    app.resource('thread', thread($ctrlers));
+    // app.get('/thread/new', check, thread($ctrlers).new);
+    // app.post('/thread/new', check, thread($ctrlers).create);
+    // app.get('/thread/list', check, thread($ctrlers).index);
+    // app.get('/thread/:id', thread($ctrlers).show);
+    // app.get('/thread/:id/edit', check, thread($ctrlers).edit);
+    // app.post('/thread/:id/update', check, thread($ctrlers).update);
+    // app.delete('/thread/:id/remove', check, thread($ctrlers).destroy);
 
     // medias
     // app.resource('medias', thread);
