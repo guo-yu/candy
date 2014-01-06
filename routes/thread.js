@@ -16,6 +16,7 @@ exports = module.exports = function($ctrlers) {
     return {
         // 列出所有帖子
         index: function(req, res, next) {
+            // 这里还没有做分页
             thread.ls(function(err, ths) {
                 if (err) return next(err);
                 res.json({
@@ -26,7 +27,8 @@ exports = module.exports = function($ctrlers) {
         },
         // 新增话题页面
         new: function(req, res, next) {
-            // 需要添加识别默认板块的逻辑
+            if (!res.locals.user) return res.redirect('/signin');
+            // 获取默认发帖板块
             if (req.query.bid) {
                 board.findById(req.query.bid, function(err, b) {
                     if (err) return next(err);
@@ -43,34 +45,26 @@ exports = module.exports = function($ctrlers) {
                 })
             }
         },
-        // API：创建话题
-        create: function(req, res, next) {
-            thread.create(req.body.thread, function(err, baby) {
-                if (err) return next(err);
-                res.json({
-                    stat: 'ok',
-                    thread: baby
-                });
-            })
-        },
         // 查看话题页面
         show: function(req, res, next) {
+            if (!req.params.thread) return next(new Error('id required'));
+            if (!thread.checkId(req.params.thread)) return next(new Error('404'));
             thread.read(req.params.thread, function(err, t) {
                 if (err) return next(err);
                 if (!t) return next(new Error('404'));
                 t.views = t.views + 1;
                 t.save(function(err){
-                    // 容忍无法自增浏览数的情况出现，暂时不处理error
                     res.render('thread/index', {
                         thread: t,
-                        marked: marked,
-                        error: err
+                        marked: marked
                     });
                 });
             });
         },
         // 更新帖子页面
         edit: function(req, res, next) {
+            if (!res.locals.user) return res.redirect('/signin');
+            if (!req.params.thread) return next(new Error('id required'));
             thread.checkLz(req.params.thread, res.locals.user._id, function(err, lz, thread) {
                 if (err) return next(err);
                 if (!lz) return next(new Error('404'));
@@ -79,8 +73,22 @@ exports = module.exports = function($ctrlers) {
                 });
             })
         },
+        // API：创建话题
+        create: function(req, res, next) {
+            if (!res.locals.user) return next(new Error('signin required'));
+            if (!req.body.thread) return next(new Error('id required'));
+            thread.create(req.body.thread, function(err, baby) {
+                if (err) return next(err);
+                res.json({
+                    stat: 'ok',
+                    thread: baby
+                });
+            })
+        },
         // API：更新话题
         update: function(req, res, next) {
+            if (!res.locals.user) return next(new Error('signin required'));
+            if (!req.params.thread) return next(new Error('id required'));
             thread.checkLz(req.params.thread, res.locals.user._id, function(err, lz, th) {
                 if (err) return next(err);
                 if (!lz) return next(new Error('authed required'));
@@ -104,6 +112,8 @@ exports = module.exports = function($ctrlers) {
         },
         // API：删除话题
         destroy: function(req, res, next) {
+            if (!res.locals.user) return next(new Error('signin required'));
+            if (!req.params.thread) return next(new Error('id required'));
             thread.checkLz(req.params.thread, res.locals.user._id, function(err, lz, th) {
                 if (err) return next(err);
                 if (!lz) return next(new Error('authed required'));
