@@ -1,6 +1,6 @@
 var async = require('async');
 
-exports = module.exports = function($models, $Ctrler) {     
+exports = module.exports = function($models, $Ctrler) {
 
     var Thread = new $Ctrler($models.thread),
         thread = $models.thread,
@@ -16,7 +16,6 @@ exports = module.exports = function($models, $Ctrler) {
     Thread.create = function(baby, cb) {
         var baby = new thread(baby);
         async.waterfall([
-
             function(callback) {
                 baby.save(function(err) {
                     callback(err, baby);
@@ -24,64 +23,40 @@ exports = module.exports = function($models, $Ctrler) {
             },
             function(baby, callback) {
                 board.findById(baby.board, function(err, b) {
-                    if (!err) {
-                        b.threads.push(baby._id);
-                        b.save(function(err) {
-                            callback(err, baby);
-                        })
-                    } else {
-                        callback(err)
-                    }
+                    if (err) return callback(err);
+                    b.threads.push(baby._id);
+                    b.save(function(err) {
+                        callback(err, baby);
+                    });
                 })
             },
             function(baby, callback) {
                 user.findById(baby.lz, function(err, u) {
-                    if (!err) {
-                        u.threads.push(baby._id);
-                        u.save(function(err) {
-                            callback(err, baby);
-                        })
-                    } else {
-                        callback(err)
-                    }
+                    if (err) return callback(err);
+                    u.threads.push(baby._id);
+                    u.save(function(err) {
+                        callback(err, baby);
+                    });
                 })
             }
         ], cb);
     }
 
     Thread.read = function(id, callback) {
-        if (this.checkId(id)) {
-            thread.findById(id).populate('lz').populate('board').populate('media').exec(callback);
-        } else {
-            cb(new Error('404'));
-        }
+        if (!(this.checkId(id))) return callback(new Error('404'));
+        return thread.findById(id).populate('lz').populate('board').populate('media').exec(callback);
     }
 
-    Thread.checkLz = function(tid, uid, cb) {
+    Thread.checkLz = function(tid, uid, callback) {
         thread.findById(tid).populate('media').exec(function(err, thread) {
-            if (!err) {
-                if (thread) {
-                    if (thread.lz == uid) {
-                        cb(null, true, thread)
-                    } else {
-                        user.checkAdmin(uid, function(err, result) {
-                            if (!err) {
-                                if (result) {
-                                    cb(null, true, thread)
-                                } else {
-                                    cb(null, false)
-                                }
-                            } else {
-                                cb(err)
-                            }
-                        })
-                    }
-                } else {
-                    cb(null, false)
-                }
-            } else {
-                cb(err)
-            }
+            if (err) return callback(err);
+            if (!thread) return callback(null, false);
+            if (thread.lz == uid) return callback(null, true, thread);
+            user.checkAdmin(uid, function(err, result) {
+                if (err) return callback(err);
+                if (result) return callback(null, true, thread);
+                return callback(null, false);
+            });
         });
     }
 

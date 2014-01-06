@@ -31,7 +31,7 @@ module.exports = function(app, $models, $ctrlers, $middlewares) {
 
     // signin & signout
     app.get('/signin', $middlewares.locals.app(app), sign($ctrlers).signin);
-    app.get('/signout', sign($ctrlers).signout);
+    app.get('/signout', $middlewares.passport.signout);
 
     // boards
     // app.resource('boards', board);

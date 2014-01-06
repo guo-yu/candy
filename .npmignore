@@ -10,3 +10,4 @@ sftp-*
 public/uploads
 database.json
 *.getcandy.*
+getcandy.js
