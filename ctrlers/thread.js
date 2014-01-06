@@ -37,7 +37,7 @@ exports = module.exports = function($models, $Ctrler) {
                     u.save(function(err) {
                         callback(err, baby);
                     });
-                })
+                });
             }
         ], cb);
     }
@@ -45,6 +45,13 @@ exports = module.exports = function($models, $Ctrler) {
     Thread.read = function(id, callback) {
         if (!(this.checkId(id))) return callback(new Error('404'));
         return thread.findById(id).populate('lz').populate('board').populate('media').exec(callback);
+    }
+
+    Thread.fetchByPage = function(page, limit, query, callback) {
+        var cursor = this.page(page, limit, query);
+        cursor.query.populate('lz').populate('board').exec(function(err, threads) {
+            callback(err, threads, cursor.pager);
+        });
     }
 
     Thread.checkLz = function(tid, uid, callback) {
