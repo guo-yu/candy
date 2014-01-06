@@ -1,11 +1,3 @@
-// GET     /          ->  index
-// GET     /new       ->  new
-// POST    /          ->  create
-// GET     /:id       ->  show
-// GET     /:id/edit  ->  edit
-// PUT     /:id       ->  update
-// DELETE  /:id       ->  destroy
-
 exports = module.exports = function($ctrlers) {
 
     var media = $ctrlers.media;

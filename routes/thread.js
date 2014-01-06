@@ -13,12 +13,6 @@ exports = module.exports = function($ctrlers) {
     var thread = $ctrlers.thread,
         board = $ctrlers.board;
 
-    // 简单的自增计数
-    var visited = function(thread, cb) {
-        thread.views = thread.views + 1;
-        thread.save(cb);
-    };
-
     return {
         // 列出所有帖子
         index: function(req, res, next) {
@@ -64,7 +58,8 @@ exports = module.exports = function($ctrlers) {
             thread.read(req.params.thread, function(err, t) {
                 if (err) return next(err);
                 if (!t) return next(new Error('404'));
-                visited(t, function(err) {
+                t.views = t.views + 1;
+                t.save(function(err){
                     // 容忍无法自增浏览数的情况出现，暂时不处理error
                     res.render('thread/index', {
                         thread: t,
