@@ -7,13 +7,10 @@ exports = module.exports = function($models, $Ctrler) {
         user = $models.user;
 
     User.checkAdmin = function(uid, callback) {
-        if (this.checkId(uid)) {
-            this.read(uid, function(err, user) {
-                callback(err, (user && user.type == 'admin'))
-            });
-        } else {
-            callback(new Error('ObjectId is required.'))
-        }
+        if (!(this.checkId(uid))) return callback(new Error('ObjectId is required.'));
+        this.read(uid, function(err, user) {
+            callback(err, (user && user.type == 'admin'))
+        });
     }
 
     User.read = function(id, callback) {

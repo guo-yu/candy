@@ -33,37 +33,25 @@ exports = module.exports = function($ctrlers) {
                 boards: boards
             })
         });
-    }
-
-    var update = function(setting, callback) {
-        config.update(setting._id, setting, callback);
     };
 
     return {
         // PAGE: 管理后台首页
         page: function(req, res, next) {
             read(function(err, info) {
-                if (!err) {
-                    res.render('admin/index', info);
-                } else {
-                    next(err)
-                }
+                if (err) return next(err);
+                res.render('admin/index', info);
             })
         },
         // API: 更新网站设置
         update: function(req, res, next) {
-            if (req.body.setting) {
-                update(req.body.setting, function(err, site) {
-                    if (!err) {
-                        res.locals.app.locals.site = site;
-                        res.json(site);
-                    } else {
-                        next(err)
-                    }
-                });
-            } else {
-                next(new Error('缺少表单'))
-            }
+            if (!req.body.setting) return next(new Error('缺少表单'));
+            var setting = req.body.setting;
+            config.update(setting._id, setting, function(err, site) {
+                if (err) return next(err);
+                res.locals.app.locals.site = site;
+                return res.json(site);
+            });
         }
     }
 }

@@ -57,17 +57,14 @@ exports = module.exports = function($models, $Ctrler) {
                 });
             }
         ], function(err, board, threads, pager) {
-            if (!err) {
-                console.log(threads);
-                console.log(pager);
-                cb(null, {
-                    board: board,
-                    threads: threads,
-                    page: pager
-                });
-            } else {
-                cb(err);
-            }
+            if (err) return cb(err);
+            // console.log(threads);
+            // console.log(pager);
+            cb(null, {
+                board: board,
+                threads: threads,
+                page: pager
+            });
         });
     }
 
