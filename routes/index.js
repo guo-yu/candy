@@ -4,6 +4,7 @@ var moment = require('moment'),
     board = require('./board'),
     thread = require('./thread'),
     user = require('./user'),
+    page = require('./page'),
     admin = require('./admin'),
     media = require('./media'),
     cn = require('../libs/zh-cn'),
@@ -30,45 +31,25 @@ module.exports = function(app, $models, $ctrlers, $middlewares) {
     app.get('/page/:page', home($ctrlers).page);
 
     // signin & signout
-    app.get('/signin', $middlewares.locals.app(app), sign($ctrlers).signin);
+    app.get('/signin', sign($ctrlers, app.locals).signin);
     app.get('/signout', $middlewares.passport.signout);
 
-    // boards
-    // app.resource('boards', board);
-    app.get('/board/ls', board($ctrlers).index);
-    app.get('/board/:url', board($ctrlers).show);
-    app.get('/board/:url/page/:page', board($ctrlers).show);
-    app.post('/board/new', check, board($ctrlers).create);
-    app.post('/board/:id', check, board($ctrlers).update);
-    app.delete('/board/:id/remove', check, board($ctrlers).destroy);
+    // board
+    app.resource('board', board($ctrlers))
+       .add(app.resource('page', page($ctrlers)));
 
-    // threads
+    // thread
     app.resource('thread', thread($ctrlers));
-    // app.get('/thread/new', check, thread($ctrlers).new);
-    // app.post('/thread/new', check, thread($ctrlers).create);
-    // app.get('/thread/list', check, thread($ctrlers).index);
-    // app.get('/thread/:id', thread($ctrlers).show);
-    // app.get('/thread/:id/edit', check, thread($ctrlers).edit);
-    // app.post('/thread/:id/update', check, thread($ctrlers).update);
-    // app.delete('/thread/:id/remove', check, thread($ctrlers).destroy);
 
-    // medias
-    // app.resource('medias', thread);
-    app.get('/download/:id', media($ctrlers).show);
-    app.post('/upload', check, media($ctrlers).create);
+    // media
+    app.resource('medias', media($ctrlers));
 
-    // user
-    // app.resource('medias', thread);
-    app.get('/user/:id', user($ctrlers).show);
-    app.post('/user/sync', check, $middlewares.locals.app(app), user($ctrlers).sync);
-    app.post('/user/:id', check, user($ctrlers).update);
-    app.delete('/user/remove', sign($ctrlers).checkAdmin, user($ctrlers).destroy);
-
-    // user center
-    app.get('/member/:id', user($ctrlers).mime);
+    // member
+    app.resource('member', user($ctrlers));
+    app.post('/member/sync', check, user($ctrlers, app.locals).sync);
 
     // admin
     app.get('/admin', sign($ctrlers).checkAdmin, admin($ctrlers).page);
     app.post('/setting', $middlewares.locals.app(app), admin($ctrlers).update);
 
-}
+};

@@ -51,6 +51,7 @@ exports = module.exports = function($models, $Ctrler) {
                 }).populate('bz').exec(callback);
             },
             function(b, callback) {
+                if (!b) return cb(null, null);
                 var cursor = Thread.page(page, limit, {board: b._id});
                 cursor.query.populate('lz').populate('board').exec(function(err, threads){
                     callback(err, b, threads, cursor.pager);
@@ -58,9 +59,7 @@ exports = module.exports = function($models, $Ctrler) {
             }
         ], function(err, board, threads, pager) {
             if (err) return cb(err);
-            // console.log(threads);
-            // console.log(pager);
-            cb(null, {
+            return cb(null, {
                 board: board,
                 threads: threads,
                 page: pager

@@ -1,7 +1,7 @@
 var Duoshuo = require('duoshuo'),
     async = require('async');
 
-exports = module.exports = function($ctrlers) {
+exports = module.exports = function($ctrlers, locals) {
 
     var user = $ctrlers.user;
 
@@ -12,7 +12,7 @@ exports = module.exports = function($ctrlers) {
             if (!req.query.code) return res.render('sign');
 
             var code = req.query.code,
-                duoshuo = new Duoshuo(res.locals.app.locals.site.duoshuo);
+                duoshuo = new Duoshuo(locals.site.duoshuo);
 
             duoshuo.auth(code, function(err, result) {
                 if (err) return next(err);
@@ -20,7 +20,6 @@ exports = module.exports = function($ctrlers) {
                 var result = result.body;
                 // 当返回正确时
                 async.waterfall([
-
                     function(callback) {
                         user.readByDsId(result.user_id, callback);
                     },

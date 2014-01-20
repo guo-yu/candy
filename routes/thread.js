@@ -1,3 +1,11 @@
+// GET     /thread              ->  index
+// GET     /thread/new          ->  new
+// POST    /thread              ->  create
+// GET     /thread/:thread       ->  show
+// GET     /thread/:thread/edit  ->  edit
+// PUT     /thread/:thread       ->  update
+// DELETE  /thread/:thread       ->  destroy
+
 var marked = require('marked'),
     hljs = require('highlight.js');
 
@@ -14,9 +22,9 @@ exports = module.exports = function($ctrlers) {
         board = $ctrlers.board;
 
     return {
-        // 列出所有帖子
+        // PAGE: 列出所有帖子
         index: function(req, res, next) {
-            // 这里还没有做分页
+            // TODO: 这里还没有做分页
             thread.ls(function(err, ths) {
                 if (err) return next(err);
                 res.json({
@@ -25,7 +33,7 @@ exports = module.exports = function($ctrlers) {
                 });
             })
         },
-        // 新增话题页面
+        // PAGE: 新增话题页面
         new: function(req, res, next) {
             if (!res.locals.user) return res.redirect('/signin');
             // 获取默认发帖板块
@@ -45,7 +53,7 @@ exports = module.exports = function($ctrlers) {
                 })
             }
         },
-        // 查看话题页面
+        // PAGE: 查看话题页面
         show: function(req, res, next) {
             if (!req.params.thread) return next(new Error('id required'));
             if (!thread.checkId(req.params.thread)) return next(new Error('404'));
@@ -61,7 +69,7 @@ exports = module.exports = function($ctrlers) {
                 });
             });
         },
-        // 更新帖子页面
+        // PAGE: 更新帖子页面
         edit: function(req, res, next) {
             if (!res.locals.user) return res.redirect('/signin');
             if (!req.params.thread) return next(new Error('id required'));
