@@ -1,56 +1,22 @@
-exports = module.exports = function($ctrlers) {
+// GET     /member/:member       ->  show
+// DELETE  /member/:member       ->  destroy
+
+exports = module.exports = function($ctrlers, locals) {
 
     var user = $ctrlers.user;
 
     return {
         // PAGE: read
         show: function(req, res, next) {
-            user.read(req.params.id, function(err, b) {
-                if (err) return next(err);
-                res.render('user', b);
-            });
-        },
-        // PAGE: mime
-        mime: function(req, res, next) {
-            if (!req.params.id) return next(new Error('404'));
-            // 这里没有做分页
-            user.read(req.params.id, function(err, u) {
+            if (!req.params.member) return next(new Error('404'));
+            user.read(req.params.member, function(err, u) {
                 if (err) return next(err);
                 if (!u) return next(new Error('404'));
-                res.render('mime', {
-                    uu: u
+                res.render('user', {
+                    user: u,
+                    mime: res.locals.user && res.locals.user._id == req.params.member
                 });
             });
-        },
-        // API: update
-        update: function(req, res, next) {
-            user.update(req.params.id, req.body.user, function(err, user) {
-                if (err) return next(err);
-                res.json({
-                    stat: 'ok',
-                    user: user.body
-                });
-            });
-        },
-        // API: create
-        create: function(req, res, next) {
-            user.create(req.body.user, function(err, baby) {
-                if (err) return next(err);
-                res.json({
-                    stat: 'ok',
-                    user: baby
-                });
-            })
-        },
-        // API: remove
-        destroy: function(req, res, next) {
-            user.remove(req.params.id, function(err, uid) {
-                if (err) return next(err);
-                res.json({
-                    stat: 'ok',
-                    user: user.body
-                });
-            })
         },
         // API: Sync to duoshuo
         sync: function(req, res, next) {
@@ -64,7 +30,7 @@ exports = module.exports = function($ctrlers) {
                 u.save(function(err) {
                     if (err) return next(err);
                     // 同步本地用户到多说
-                    user.sync(res.locals.app.locals.site.duoshuo, u, function(err, result) {
+                    user.sync(locals.site.duoshuo, u, function(err, result) {
                         if (err) return next(err);
                         var result = result.body;
                         if (result.code !== 0) return next(new Error('多说用户同步失败，请稍后再试，详细错误：' + result.errorMessage));
@@ -74,6 +40,18 @@ exports = module.exports = function($ctrlers) {
                             user: u
                         });
                     });
+                });
+            });
+        },
+        // API: remove
+        destroy: function(req, res, next) {
+            if (!res.locals.user) return next(new Error('signin required'));
+            if (res.locals.user.type !== 'admin') return next(new Error('signin required'));
+            user.remove(req.params.member, function(err, uid) {
+                if (err) return next(err);
+                res.json({
+                    stat: 'ok',
+                    user: user.body
                 });
             });
         }
