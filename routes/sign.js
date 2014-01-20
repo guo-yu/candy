@@ -7,10 +7,8 @@ exports = module.exports = function($ctrlers) {
     return {
         // PAGE: 登入
         signin: function(req, res, next) {
-
             if (!res.locals.duoshuo) return next(new Error('多说登录失败'));
             var result = res.locals.duoshuo;
-
             // 当返回正确时
             async.waterfall([
                 function(callback) {

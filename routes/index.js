@@ -32,7 +32,7 @@ module.exports = function(app, $models, $ctrlers, $middlewares) {
     app.get('/', home($ctrlers).index);
 
     // signin & signout
-    app.get('/signin', duoshuo.signin, sign($ctrlers));
+    app.get('/signin', duoshuo.signin, sign($ctrlers).signin);
     app.get('/signout', $middlewares.passport.signout);
 
     // board

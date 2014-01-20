@@ -1,0 +1,57 @@
+extends layout
+
+block title
+    | #{member.nickname}@#{site.name}
+
+block banner
+    - if (member.nickname)
+        .banner.clearfix
+            .inner.clearfix.container
+               .row
+                    .col-lg-12
+                        - if (member.avatar)
+                            img.avatar-mid.fn-left(src="#{member.avatar}").fn-left
+                        h2.title #{member.nickname}
+                            - if (member.type == 'admin')
+                                span.admin 
+                                    |( 
+                                    i.icon-user-md
+                                    |管理员 )
+                            span.desc 
+                                - if (member.url)
+                                    a(href="#{member.url}",target="_blank") #{member.url}
+
+block content
+    - if (freshman)
+      #sync.clearfix.mime-block
+        h3.syncing
+            i.icon-spinner.icon-spin.icon-large
+            | 正在同步您的数据，请勿关闭本页面...
+        .ds-demo.fn-clear.fn-hide
+            .ds-thread
+    - else 
+        include recent
+
+block sidebar
+    include signin
+    include widgets/search
+
+block js
+    - if (freshman)
+        script.
+            var duoshuoQuery = {
+                short_name: "#{site.duoshuo.short_name}",
+                sso: { 
+                   login: "#{href}/signin/",
+                   logout: "#{href}/signout/"
+                }
+            };
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+                ds.src = 'http://static.duoshuo.com/embed.js';
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0] 
+                || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+        script(src="/javascripts/mime.js")
