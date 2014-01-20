@@ -25,7 +25,7 @@
   ],
   "dependencies": {
     "express-scaffold": "*",
-    "duoshuo":"*",
+    "duoshuo":"0.1.1",
     "async": "*",
     "underscore" : "*",
     "moment": "*",
