@@ -1,4 +1,4 @@
-var store = angular.module('store', ['ngResource']).factory('Store', function($resource) {
+angular.module('store', ['ngResource']).factory('Store', function($resource) {
     return {
         user: $resource('/user', {}),
         board: $resource('/board', {}),
