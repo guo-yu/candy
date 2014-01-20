@@ -1,7 +1,6 @@
-var Duoshuo = require('duoshuo'),
-    async = require('async');
+var async = require('async');
 
-exports = module.exports = function($ctrlers, locals) {
+exports = module.exports = function($ctrlers) {
 
     var user = $ctrlers.user;
 
@@ -9,44 +8,37 @@ exports = module.exports = function($ctrlers, locals) {
         // PAGE: 登入
         signin: function(req, res, next) {
 
-            if (!req.query.code) return res.render('sign');
+            if (!res.locals.duoshuo) return next(new Error('多说登录失败'));
+            var result = res.locals.duoshuo;
 
-            var code = req.query.code,
-                duoshuo = new Duoshuo(locals.site.duoshuo);
-
-            duoshuo.auth(code, function(err, result) {
+            // 当返回正确时
+            async.waterfall([
+                function(callback) {
+                    user.readByDsId(result.user_id, callback);
+                },
+                function(u, callback) {
+                    if (!u) return user.count(callback);
+                    req.session.user = u;
+                    return res.redirect('back');
+                },
+                function(count, callback) {
+                    if (count == 0) result['type'] = 'admin';
+                    user.create({
+                        type: result.type ? result.type : 'normal',
+                        duoshuo: {
+                            user_id: result.user_id,
+                            access_token: result.access_token
+                        }
+                    }, function(err, baby) {
+                        callback(err, count, baby);
+                    });
+                }
+            ], function(err, count, baby) {
                 if (err) return next(err);
-                if (result.body.code !== 0) return next(new Error('多说登录出错，请稍后再试或者联系管理员，具体错误:' + result.body.errorMessage));
-                var result = result.body;
-                // 当返回正确时
-                async.waterfall([
-                    function(callback) {
-                        user.readByDsId(result.user_id, callback);
-                    },
-                    function(u, callback) {
-                        if (!u) return user.count(callback);
-                        req.session.user = u;
-                        return res.redirect('back');
-                    },
-                    function(count, callback) {
-                        if (count == 0) result['type'] = 'admin';
-                        user.create({
-                            type: result.type ? result.type : 'normal',
-                            duoshuo: {
-                                user_id: result.user_id,
-                                access_token: result.access_token
-                            }
-                        }, function(err, baby) {
-                            callback(err, count, baby);
-                        });
-                    }
-                ], function(err, count, baby) {
-                    if (err) return next(err);
-                    req.session.user = baby;
-                    if (count == 0) return res.redirect('/admin/');
-                    res.redirect('/member/' + req.session.user._id);
-                });
-            })
+                req.session.user = baby;
+                if (count == 0) return res.redirect('/admin/');
+                res.redirect('/member/' + req.session.user._id);
+            });
         },
         // MIDDLEWARE: 检查用户是否管理员用户
         checkAdmin: function(req, res, next) {

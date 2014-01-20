@@ -1,4 +1,5 @@
 var moment = require('moment'),
+    Duoshuo = require('duoshuo'),
     home = require('./home'),
     sign = require('./sign'),
     board = require('./board'),
@@ -15,7 +16,8 @@ moment.lang('zh-cn', cn);
 module.exports = function(app, $models, $ctrlers, $middlewares) {
 
     var passport = $middlewares.passport.check(),
-        check = $middlewares.passport.check(true);
+        check = $middlewares.passport.check(true),
+        duoshuo = new Duoshuo(app.locals.site.duoshuo);
 
     // middlewares
     app.all('*', passport);
@@ -28,18 +30,18 @@ module.exports = function(app, $models, $ctrlers, $middlewares) {
 
     // home
     app.get('/', home($ctrlers).index);
-    app.get('/page/:page', home($ctrlers).page);
 
     // signin & signout
-    app.get('/signin', sign($ctrlers, app.locals).signin);
+    app.get('/signin', duoshuo.signin, sign($ctrlers));
     app.get('/signout', $middlewares.passport.signout);
 
     // board
     app.resource('board', board($ctrlers))
-       .add(app.resource('page', page($ctrlers)));
+        .add(app.resource('page', page($ctrlers)));
 
     // thread
-    app.resource('thread', thread($ctrlers));
+    app.resource('thread', thread($ctrlers))
+        .add(app.resource('page', page($ctrlers)));
 
     // media
     app.resource('medias', media($ctrlers));
