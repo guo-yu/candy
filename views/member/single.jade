@@ -1,4 +1,4 @@
-extends layout
+extends ../layout
 
 block title
     | #{member.nickname}@#{site.name}
@@ -30,11 +30,11 @@ block content
         .ds-demo.fn-clear.fn-hide
             .ds-thread
     - else 
-        include recent
+        include ../recent
 
 block sidebar
-    include signin
-    include widgets/search
+    include ../signin
+    include ../widgets/search
 
 block js
     - if (freshman)

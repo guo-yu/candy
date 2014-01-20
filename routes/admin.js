@@ -6,33 +6,18 @@ exports = module.exports = function($ctrlers) {
         user = $ctrlers.user,
         board = $ctrlers.board;
 
-    var read = function(cb) {
-        async.waterfall([
-            // read configs
-            function(callback) {
-                config.read(function(err, c) {
-                    callback(err, c);
-                })
+    var read = function(callback) {
+        async.parallel({
+            config: function(cb){
+                config.read(cb);
             },
-            // read users
-            function(c, callback) {
-                user.list(function(err, users) {
-                    callback(err, c, users);
-                })
+            users: function(cb){
+                user.list(cb);
             },
-            // read boards
-            function(c, users, callback) {
-                board.ls(function(err, boards) {
-                    callback(err, c, users, boards);
-                })
+            boards: function(cb) {
+                board.ls(cb);
             }
-        ], function(err, c, users, boards) {
-            cb(err, {
-                config: c,
-                users: users,
-                boards: boards
-            })
-        });
+        }, callback);
     };
 
     return {
