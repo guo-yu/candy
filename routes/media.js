@@ -35,7 +35,6 @@ exports = module.exports = function($ctrlers) {
         // FILE: 下载媒体文件
         // TODO: 这里还要控制一个如果保存在云上的话，要重定向到云，或者从云上拿下来返回
         show: function(req, res, next) {
-            console.log(req.params);
             if (!req.params.media) return next(new Error('404'));
             media.findById(req.params.media, function(err, file) {
                 if (err) return next(err);

@@ -12,9 +12,12 @@ exports = module.exports = function($ctrlers, locals) {
             user.read(req.params.member, function(err, u) {
                 if (err) return next(err);
                 if (!u) return next(new Error('404'));
-                res.render('user', {
-                    user: u,
-                    mime: res.locals.user && res.locals.user._id == req.params.member
+                var isMe = res.locals.user && res.locals.user._id == req.params.member;
+                var freshman = isMe && !res.locals.user.nickname
+                res.render('member/single', {
+                    member: u,
+                    isMe: isMe,
+                    freshman: freshman
                 });
             });
         },
