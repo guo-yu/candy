@@ -1,8 +1,8 @@
 #recent.mime-block
     h3.title 最近发布的主题
         .pub-list.clearfix
-            - if (uu.threads.length > 0)
-                - each thread in uu.threads
+            - if (member.threads.length > 0)
+                - each thread in member.threads
                     .single-pub
                         h4.title.clearfix
                             a(href="/thread/#{thread.id}") 
@@ -14,4 +14,4 @@
             - else 
                 h4.no
                     i.icon-ban-circle
-                    | #{uu.nickname ? uu.nickname: uu.duoshuo.user_id} 还没有发布任何话题
+                    | #{member.nickname ? member.nickname: member.duoshuo.user_id} 还没有发布任何话题

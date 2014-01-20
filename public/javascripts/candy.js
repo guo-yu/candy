@@ -16,9 +16,7 @@ candy['ctrlers'] = {
                 if (!$scope.open) {
                     if (!$scope.boards) {
                         $scope.arrow = 'icon-spinner icon-spin';
-                        Store.board.get({
-                            action: 'ls'
-                        }, function(result) {
+                        Store.board.get({}, function(result) {
                             if (result.stat == 'ok') {
                                 $scope.boards = result.boards;
                                 $scope.open = true;
