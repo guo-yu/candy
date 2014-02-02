@@ -41,7 +41,7 @@ module.exports = function(app, $models, $ctrlers, $middlewares) {
     app.locals.sys = sys;
 
     // home
-    app.get('/', routes.home.index);
+    app.get('/', routes.home);
 
     // signin & signout
     app.get('/sign', routes.sign.sign)

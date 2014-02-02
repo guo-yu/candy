@@ -54,7 +54,7 @@ block content
                         //- .desc.col-lg-10 
                             h3.uptime 总话题量 35 帖
                             //- .info 今日新增话题 35 帖
-            #board.tab-pane(ng-controller="candy.ctrlers.admin.board")
+            #board.tab-pane(ng-controller="adminBoard")
                 #board-dash.accordion
                     .accordion-group
                         .accordion-heading
@@ -106,7 +106,7 @@ block content
                                     h3.no 
                                         i.icon-ban-circle
                                         |目前还没有任何讨论节点
-            #user.tab-pane(ng-controller="candy.ctrlers.admin.user")
+            #user.tab-pane
                 .list-group
                     - if (users)
                         - each user in users
@@ -122,7 +122,7 @@ block content
                                     | （#{user.type}）
                                 span.threads
                                     |（发表话题数量：#{user.threads.length}）
-            #setting.tab-pane(ng-controller="candy.ctrlers.admin.setting")
+            #setting.tab-pane(ng-controller="adminSetting")
                 form(name="updateSetting").form-horizontal
                     .form-group
                         label.col-lg-2.control-label 站名

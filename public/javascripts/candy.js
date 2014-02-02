@@ -1,10 +1,9 @@
-
 // global ctrlers
 var candy = angular.module('candy', ['store'])
 
 .controller('search', function($scope, Store) {
     $scope.fetch = function() {
-        console.log($scope.search.keyword)
+        // console.log($scope.search.keyword)
     }
 })
 
