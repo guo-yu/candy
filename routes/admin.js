@@ -31,8 +31,10 @@ exports = module.exports = function($ctrlers, locals) {
         // API: 更新网站设置
         update: function(req, res, next) {
             if (!req.body.setting) return next(new Error('缺少表单'));
-            var setting = req.body.setting;
-            config.update(setting._id, setting, function(err, site) {
+            var id = req.body.setting._id;
+            var settings = req.body.setting;
+            if (settings._id) delete settings._id;
+            config.update(id, settings, function(err, site) {
                 if (err) return next(err);
                 locals.site = site;
                 return res.json(site);
