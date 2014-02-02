@@ -19,6 +19,18 @@ module.exports = function(app, $models, $ctrlers, $middlewares) {
         check = $middlewares.passport.check(true),
         duoshuo = new Duoshuo(app.locals.site.duoshuo);
 
+    var routes = {
+        sign: sign($ctrlers),
+        signout: $middlewares.passport.signout,
+        home: home($ctrlers),
+        board: board($ctrlers),
+        thread: thread($ctrlers),
+        media: media($ctrlers),
+        user: user($ctrlers, app.locals),
+        pager: page($ctrlers),
+        admin: admin($ctrlers, app.locals)
+    };
+
     // middlewares
     app.all('*', passport);
     app.get('*', $middlewares.current);
@@ -29,29 +41,30 @@ module.exports = function(app, $models, $ctrlers, $middlewares) {
     app.locals.sys = sys;
 
     // home
-    app.get('/', home($ctrlers).index);
+    app.get('/', routes.home.index);
 
     // signin & signout
-    app.get('/signin', duoshuo.signin(), sign($ctrlers).signin);
-    app.get('/signout', $middlewares.passport.signout);
+    app.get('/sign', routes.sign.sign)
+    app.get('/signin', duoshuo.signin(), routes.sign.signin);
+    app.get('/signout', routes.signout);
 
     // board
-    app.resource('board', board($ctrlers))
-        .add(app.resource('page', page($ctrlers)));
+    app.resource('board', routes.board)
+        .add(app.resource('page', routes.pager));
 
     // thread
-    app.resource('thread', thread($ctrlers))
-        .add(app.resource('page', page($ctrlers)));
+    app.resource('thread', routes.thread)
+        .add(app.resource('page', routes.pager));
 
     // media
-    app.resource('medias', media($ctrlers));
+    app.resource('medias', routes.media);
 
     // member
-    app.resource('member', user($ctrlers));
-    app.post('/member/sync', check, user($ctrlers, app.locals).sync);
+    app.resource('member', routes.user);
+    app.post('/member/sync', check, routes.user.sync);
 
     // admin
-    app.get('/admin', sign($ctrlers).checkAdmin, admin($ctrlers).page);
-    app.post('/setting', $middlewares.locals.app(app), admin($ctrlers).update);
+    app.get('/admin', routes.sign.checkAdmin, routes.admin.page);
+    app.post('/setting', routes.admin.update);
 
 };

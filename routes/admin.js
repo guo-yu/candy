@@ -1,6 +1,6 @@
 var async = require('async');
 
-exports = module.exports = function($ctrlers) {
+exports = module.exports = function($ctrlers, locals) {
 
     var config = $ctrlers.config,
         user = $ctrlers.user,
@@ -34,7 +34,7 @@ exports = module.exports = function($ctrlers) {
             var setting = req.body.setting;
             config.update(setting._id, setting, function(err, site) {
                 if (err) return next(err);
-                res.locals.app.locals.site = site;
+                locals.site = site;
                 return res.json(site);
             });
         }

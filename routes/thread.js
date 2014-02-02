@@ -35,7 +35,7 @@ exports = module.exports = function($ctrlers) {
         },
         // PAGE: 新增话题页面
         new: function(req, res, next) {
-            if (!res.locals.user) return res.redirect('/signin');
+            if (!res.locals.user) return res.redirect('/sign');
             // 获取默认发帖板块
             if (req.query.bid) {
                 board.findById(req.query.bid, function(err, b) {
@@ -71,7 +71,7 @@ exports = module.exports = function($ctrlers) {
         },
         // PAGE: 更新帖子页面
         edit: function(req, res, next) {
-            if (!res.locals.user) return res.redirect('/signin');
+            if (!res.locals.user) return res.redirect('/sign');
             if (!req.params.thread) return next(new Error('id required'));
             thread.checkLz(req.params.thread, res.locals.user._id, function(err, lz, thread) {
                 if (err) return next(err);
