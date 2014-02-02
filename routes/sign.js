@@ -5,6 +5,11 @@ exports = module.exports = function($ctrlers) {
     var user = $ctrlers.user;
 
     return {
+        // PAGE: 登录页面
+        sign: function(req, res, next) {
+            if (res.locals.user) return res.redirect('/');
+            return res.render('sign');
+        },
         // PAGE: 登入
         signin: function(req, res, next) {
             if (!res.locals.duoshuo) return next(new Error('多说登录失败'));
