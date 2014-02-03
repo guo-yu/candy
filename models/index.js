@@ -1,8 +1,8 @@
 // define modles
-module.exports = function($db, $Schema) {
+module.exports = function(db, Schema) {
 
     // configs
-    var configModel = new $Schema({
+    var configModel = new Schema({
         name: String,
         desc: String,
         url: String,
@@ -21,7 +21,7 @@ module.exports = function($db, $Schema) {
     });
 
     // users
-    var userModel = new $Schema({
+    var userModel = new Schema({
         nickname: String,
         email: String,
         avatar: String,
@@ -37,7 +37,7 @@ module.exports = function($db, $Schema) {
             default: 'normal'
         },
         threads: [{
-            type: $Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: 'thread'
         }],
         duoshuo: {
@@ -50,7 +50,7 @@ module.exports = function($db, $Schema) {
     });
 
     // boards
-    var boardModel = new $Schema({
+    var boardModel = new Schema({
         name: String,
         desc: String,
         banner: String,
@@ -59,17 +59,17 @@ module.exports = function($db, $Schema) {
             unique: true
         },
         threads: [{
-            type: $Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: 'thread'
         }],
         bz: [{
-            type: $Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: 'user'
         }]
     })
 
     // threads
-    var threadModel = new $Schema({
+    var threadModel = new Schema({
         name: String,
         content: String,
         views: {
@@ -81,21 +81,21 @@ module.exports = function($db, $Schema) {
             default: Date.now
         },
         lz: {
-            type: $Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: 'user'
         },
         board: {
-            type: $Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: 'board'
         },
         media: [{
-            type: $Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: 'media'
         }]
     });
 
     // media
-    var mediaModel = new $Schema({
+    var mediaModel = new Schema({
         name: String,
         src: String,
         url: String,
@@ -124,16 +124,16 @@ module.exports = function($db, $Schema) {
             default: Date.now
         },
         user: {
-            type: $Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: 'user'
         }
     });
 
     return {
-        config: $db.model('config', configModel),
-        user: $db.model('user', userModel),
-        board: $db.model('board', boardModel),
-        thread: $db.model('thread', threadModel),
-        media: $db.model('media', mediaModel)
+        config: db.model('config', configModel),
+        user: db.model('user', userModel),
+        board: db.model('board', boardModel),
+        thread: db.model('thread', threadModel),
+        media: db.model('media', mediaModel)
     }
 }

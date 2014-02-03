@@ -24,12 +24,12 @@
     "social"
   ],
   "dependencies": {
-    "express-scaffold": "*",
+    "async": "~0.2.10",
     "duoshuo":"0.1.2",
-    "async": "*",
-    "underscore" : "*",
-    "moment": "*",
-    "marked": "*",
-    "highlight.js": "*"
+    "moment": "~2.5.1",
+    "marked": "~0.3.1",
+    "underscore": "*",
+    "highlight.js": "~8.0.0",
+    "express-scaffold": "~0.2.0",
   }
 }
