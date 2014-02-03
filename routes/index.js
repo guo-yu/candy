@@ -13,28 +13,28 @@ var moment = require('moment'),
 
 moment.lang('zh-cn', cn);
 
-module.exports = function(app, $models, $ctrlers, $middlewares) {
+module.exports = function(app, models, ctrlers, middlewares) {
 
-    var passport = $middlewares.passport.check(),
-        check = $middlewares.passport.check(true),
+    var passport = middlewares.passport.check(),
+        check = middlewares.passport.check(true),
         duoshuo = new Duoshuo(app.locals.site.duoshuo);
 
     var routes = {
-        sign: sign($ctrlers),
-        signout: $middlewares.passport.signout,
-        home: home($ctrlers),
-        board: board($ctrlers),
-        thread: thread($ctrlers),
-        media: media($ctrlers),
-        user: user($ctrlers, app.locals),
-        pager: page($ctrlers),
-        admin: admin($ctrlers, app.locals)
+        sign: sign(ctrlers),
+        signout: middlewares.passport.signout,
+        home: home(ctrlers),
+        board: board(ctrlers),
+        thread: thread(ctrlers),
+        media: media(ctrlers),
+        user: user(ctrlers, app.locals),
+        pager: page(ctrlers),
+        admin: admin(ctrlers, app.locals)
     };
 
     // middlewares
     app.all('*', passport);
-    app.get('*', $middlewares.current);
-    app.get('*', $middlewares.install(app, $models.config));
+    app.get('*', middlewares.current);
+    app.get('*', middlewares.install(app, models.config));
 
     // locals
     app.locals.moment = moment;
