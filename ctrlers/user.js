@@ -33,7 +33,7 @@ exports = module.exports = function($models, $Ctrler) {
     User.sync = function(config, user, callback) {
         var duoshuo = new Duoshuo(config);
         duoshuo.join({
-            access_token: user.duoshuo.access_token
+            access_token: user.duoshuo.access_token,
             info: {
                 user_key: user._id,
                 name: user.nickname,
