@@ -1,0 +1,87 @@
+.threads {
+  background-color: #fff;
+}
+.threads .thread {
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+  position: relative;
+}
+.threads .thread .avatar {
+  float: left;
+  margin: 5px 15px 5px 0px;
+  width: 45px;
+  height: 45px;
+}
+.threads .thread .avatar img {
+  display: block;
+  width: 45px;
+  height: 45px;
+  margin: 0 auto;
+  width: 100%;
+}
+.threads .thread h4.title {
+  font-size: 16px;
+  font-weight: normal;
+  margin-bottom: 8px;
+  line-height: 1.4;
+  margin-top: 3px;
+}
+.threads .thread h4.title a {
+  color: #444;
+}
+.threads .thread h4.title a:hover {
+  color: #999;
+}
+.threads .thread .meta {
+  color: #999;
+  font-size: 12px;
+}
+.threads .thread .meta a {
+  color: #999;
+}
+.threads .thread .meta span {
+  padding: 2px 5px 3px;
+  margin-right: 10px;
+  background-color: #efefef;
+  color: #999;
+}
+.threads .thread .meta .edit {
+  background-color: #efefef;
+  padding: 2px 8px;
+  margin-left: 10px;
+}
+.threads .thread .meta .edit:hover {
+  background-color: #444;
+  color: #fff;
+}
+.threads .thread .meta .name {
+  padding-right: 10px;
+  background-color: #3498db;
+}
+.threads .thread .meta .name a {
+  color: #fff;
+}
+.threads .thread .meta .cat {
+  margin-left: -15px;
+  background-color: #efefef;
+  color: #999;
+}
+.threads .thread .meta .cat i {
+  padding-right: 4px;
+}
+.threads .thread .comments-count {
+  margin-top: 8px;
+  color: #444;
+  padding: 12px 12px;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 14px;
+}
+.threads .thread .comments-count i {
+  color: #999;
+  padding-right: 8px;
+}
+.threads .thread .comments-count a {
+  color: #999;
+  border-radius: 4px;
+}

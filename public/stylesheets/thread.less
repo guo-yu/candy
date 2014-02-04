@@ -1,3 +1,89 @@
-.thread {
+@key-color: #3498DB;
+
+.threads {
     background-color: #fff;
+    .thread {
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0;
+        position: relative;
+        .avatar {
+            float: left;
+            margin: 5px 15px 5px 0px;
+            width: 45px;
+            height: 45px;
+            img {
+                display: block;
+                width: 45px;
+                height: 45px;
+                margin:0 auto;
+                width: 100%;
+            }
+        }
+        h4.title {
+            font-size: 16px;
+            font-weight: normal;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            margin-top: 3px;
+            a {
+                color: #444;
+                &:hover {
+                    color: #999;
+                }
+            }
+        }
+        .meta {
+            color: #999;
+            font-size: 12px;
+            a {
+                color : #999;
+            }
+            span {
+                padding: 2px 5px 3px;
+                margin-right: 10px;
+                background-color: #efefef;
+                color: #999;
+            }
+            .edit {
+                background-color: #efefef;
+                padding: 2px 8px;
+                margin-left: 10px;
+                &:hover {
+                    background-color: #444;
+                    color: #fff;
+                };
+            }
+            .name {
+                padding-right: 10px;
+                background-color: @key-color;
+                a {
+                    color: #fff;
+                }
+            }
+            .cat {
+                margin-left: -15px;
+                background-color: #efefef;
+                color: #999;
+                i {
+                    padding-right: 4px;
+                }
+            }
+        }
+        .comments-count {
+            margin-top: 8px;
+            color: #444;
+            padding: 12px 12px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 14px;
+            i {
+                color: #999;
+                padding-right: 8px;
+            }
+            a {
+                color: #999;
+                border-radius: 4px;
+            }
+        }
+    }
 }

@@ -20,14 +20,9 @@ i {
 }
 /* colors */
 /* background-images */
-.bg {
-  background: #ffffff url('../images/wallpaper/brickwall.png');
-}
 .single-board {
-  border: 1px solid #ddd;
   margin-bottom: 10px;
   min-height: 200px;
-  box-shadow: 0px 0px 10px #ddd;
   background-color: #fff;
   border-radius: 4px;
   -moz-border-radius: 4px;
@@ -102,7 +97,6 @@ i {
 /* basic */
 body {
   color: #444444;
-  background: #ffffff url('../images/wallpaper/brickwall.png');
 }
 a {
   color: #3498db;
@@ -117,38 +111,35 @@ a:hover {
 }
 /* Header */
 #header {
-  background-color: #3498db;
-  box-shadow: 0px 0px 5px #999;
+  border-bottom: 1px solid #ddd;
 }
 #header #ihd {
-  color: #fff;
+  color: #444;
+  padding: 15px 0;
 }
 #header #logo {
   position: relative;
 }
 #header #logo h1 {
   margin-top: 0px;
-  margin-bottom: 0;
+  margin-bottom: 0px;
 }
 #header #logo h1 a.logo {
   padding-top: 12px;
   padding-bottom: 12px;
-  padding-left: 32px;
-  background: url('/images/logo.png') no-repeat left center;
   display: block;
-  font-family: 'Indie Flower', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 20px;
   font-weight: normal;
   text-shadow: 1px 1px 2px #444;
-  color: #fff;
+  color: #444;
   text-shadow: none;
-  letter-spacing: 2px;
   float: left;
 }
 #header #logo h1 a.logo span.desc {
   font-size: 12px;
   padding-left: 10px;
-  color: #fff;
+  color: #444;
 }
 #header .user-nav {
   list-style-type: none;
@@ -180,7 +171,7 @@ a:hover {
   font-size: 18px;
   float: left;
   display: block;
-  color: #fff;
+  color: #444;
   margin-left: 10px;
   padding-top: 15px;
   padding-bottom: 15px;
@@ -189,10 +180,10 @@ a:hover {
 }
 #header .boards-dropdown i {
   display: block;
-  color: #efefef;
+  color: #444;
 }
 #header .boards-dropdown:hover i {
-  color: #fff;
+  color: #444;
   text-shadow: 0px 0px 1px #ddd;
 }
 #header .boards-index {
@@ -352,10 +343,9 @@ a:hover {
   color: #005497;
 }
 .banner {
-  background: #ffffff url('/images/wallpaper/geometry.png') left top;
   width: 100%;
   border-bottom: 1px solid #ddd;
-  box-shadow: 0px 1px 5px #ddd;
+  background: #ffffff url('/images/wallpaper/geometry.png') left top;
 }
 .banner .inner {
   padding: 10px 0;
@@ -537,7 +527,6 @@ a:hover {
   padding-right: 1px;
   border: 1px solid #ddd;
   background: #ffffff url('/images/b.png') repeat-x left bottom;
-  box-shadow: 0px 3px 5px #ddd;
 }
 .index-board {
   margin-bottom: 20px;

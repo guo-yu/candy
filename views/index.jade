@@ -1,30 +1,34 @@
 extends layout
 
+block css
+    link(rel='stylesheet', href='/stylesheets/thread.css')
+
 block content
-     .main-board.index-board.board
+     .board.clearfix
         - if (threads.length > 0)
             - each thread in threads
-                .pub-main.lz-board
-                    .single-pub.clearfix
-                        - if (thread.lz.avatar)
-                            .avatar
-                                a(href="/member/#{thread.lz.id}")
-                                    img(src="#{thread.lz.avatar}")
-                        h4.title
-                            a(href="/thread/#{thread.id}") #{thread.name}
-                        .author
-                            span.name 
-                                a(href="/member/#{thread.lz.id}") #{thread.lz.nickname ? thread.lz.nickname : thread.lz.duoshuo.user_id}
-                            span.cat
-                                i.icon-chevron-right
-                                a(href="/board/#{thread.board.url}") #{thread.board.name}
-                            i.icon-time
-                            != moment(thread.pubdate).fromNow()
-                    .board-meta.clearfix
-                        .num
-                            a(href="/thread/#{thread.id}#comments")
-                                i.icon-comment
-                                span.num.ds-thread-count(data-thread-key="#{thread.id}",data-count-type="comments") 加载中...
+                .threads
+                    .thread.clearfix
+                        .row
+                            .col-lg-10
+                                .avatar
+                                    a(href="/member/#{thread.lz.id}")
+                                        img(src="#{thread.lz.avatar}")
+                                h4.title
+                                    a(href="/thread/#{thread.id}") #{thread.name}
+                                .meta.clearfix
+                                    span.name 
+                                        a(href="/member/#{thread.lz.id}") #{thread.lz.nickname ? thread.lz.nickname : thread.lz.duoshuo.user_id}
+                                    span.cat
+                                        i.icon-chevron-right
+                                        a(href="/board/#{thread.board.url}") #{thread.board.name}
+                                    i.icon-time
+                                    != moment(thread.pubdate).fromNow()
+                            .col-lg-2.pull-right
+                                .comments-count.clearfix
+                                    i.icon-comment
+                                    a.ds-thread-count(href="/thread/#{thread.id}#comments",data-thread-key="#{thread.id}",data-count-type="comments") 加载中...
+                            
         - else
             h4.no
                 i.icon-star
