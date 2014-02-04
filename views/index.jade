@@ -21,9 +21,6 @@ block content
                             i.icon-time
                             != moment(thread.pubdate).fromNow()
                     .board-meta.clearfix
-                        .views
-                            i.icon-eye-open
-                            | #{thread.views}
                         .num
                             a(href="/thread/#{thread.id}#comments")
                                 i.icon-comment
