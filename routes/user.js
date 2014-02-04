@@ -1,6 +1,10 @@
 // GET     /member/:member       ->  show
 // DELETE  /member/:member       ->  destroy
 
+var roles = {
+    'admin': '管理员'
+};
+
 exports = module.exports = function($ctrlers, locals) {
 
     var user = $ctrlers.user;
@@ -14,6 +18,10 @@ exports = module.exports = function($ctrlers, locals) {
                 if (!u) return next(new Error('404'));
                 var isMe = res.locals.user && res.locals.user._id == req.params.member;
                 var freshman = isMe && !res.locals.user.nickname
+                u.showname = u.nickname || '匿名用户';
+                if (!u.avatar) u.avatar = locals.site.url + '/images/avatar.png';
+                if (!u.url) u.url = locals.site.url + '/member/' + u._id;
+                u.role = roles[u.type] || '';
                 res.render('member/single', {
                     member: u,
                     isMe: isMe,

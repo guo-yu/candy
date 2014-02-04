@@ -1,6 +1,13 @@
 var moment = require('moment'),
     Duoshuo = require('duoshuo');
 
+var typeMap = {
+    admin: 'administrator',
+    editor: 'editor',
+    author: 'author',
+    normal: 'user'
+};
+
 exports = module.exports = function($models, $Ctrler) {
 
     var User = new $Ctrler($models.user),
@@ -25,24 +32,16 @@ exports = module.exports = function($models, $Ctrler) {
 
     User.sync = function(config, user, callback) {
         var duoshuo = new Duoshuo(config);
-        var typeMap = {
-            admin: 'administrator',
-            editor: 'editor',
-            author: 'author',
-            normal: 'user'
-        };
-        var u = {
-            user_key: user._id,
-            name: user.nickname,
-            role: typeMap[user.type],
-            avatar_url: user.avatar,
-            url: user.url,
-            created_at: moment(user.created).format('YYYY-MM-DD hh:MM:ss')
-        };
-        // sync user info
         duoshuo.join({
-            info: u,
             access_token: user.duoshuo.access_token
+            info: {
+                user_key: user._id,
+                name: user.nickname,
+                role: typeMap[user.type],
+                avatar_url: user.avatar,
+                url: user.url,
+                created_at: moment(user.created).format('YYYY-MM-DD hh:MM:ss')
+            }
         }, callback);
     }
 

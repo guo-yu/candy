@@ -30,6 +30,6 @@
     "marked": "~0.3.1",
     "underscore": "*",
     "highlight.js": "~8.0.0",
-    "express-scaffold": "~0.2.0",
+    "express-scaffold": "~0.2.1"
   }
 }

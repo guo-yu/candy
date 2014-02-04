@@ -35,8 +35,7 @@ candy.controller('threadCreator', function($scope, Store) {
         if (!thread || !thread.name) return alert('写点什么再提交吧');
         thread['content'] = window.editor.codemirror.getValue();
         if (!thread.content) return alert('写点什么再提交吧');
-        Store.thread.common.save({
-            action: 'new',
+        Store.thread.save({
             thread: $scope.thread
         }, function(result) {
             if (result.stat == 'ok') {
@@ -55,14 +54,11 @@ candy.controller('threadEditor', function($scope, Store) {
     $scope.thread = {};
     $scope.thread['media'] = [];
     var content = angular.element('#edit textarea').text();
-    if (content && window.editor) {
-        window.editor.codemirror.setValue(content);
-    }
+    if (content && window.editor) window.editor.codemirror.setValue(content);
     $scope.update = function() {
         $scope.thread['content'] = window.editor.codemirror.getValue();
-        Store.thread.single.save({
-            tid: $scope.thread.id,
-            action: 'update',
+        Store.thread.put({
+            id: $scope.thread.id,
             thread: $scope.thread
         }, function(result) {
             if (result.stat == 'ok') {
@@ -75,19 +71,18 @@ candy.controller('threadEditor', function($scope, Store) {
         })
     };
     $scope.remove = function(id) {
-        Store.thread.single.remove({
-            action: 'remove',
-            tid: id
+        Store.thread.remove({
+            id: id
         }, function(result) {
             if (result.stat == 'ok') {
                 alert('您已成功删除此帖');
                 window.location = '/';
             } else {
-                alert('出现错误，请查看控制台');
+                alert('出现错误，请稍后再试');
                 console.log(result.error)
             }
         })
-    }
+    };
     uploader('#fileupload', $scope.thread);
 });
 
