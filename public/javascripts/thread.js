@@ -1,6 +1,6 @@
 var uploader = function(dom, thread) {
     $(dom).fileupload({
-        url: '/upload',
+        url: '/medias',
         dataType: 'json',
         done: function(e, data) {
             if (data.result.stat != 'ok') return alert(data.result.error);

@@ -2,7 +2,7 @@
 // DELETE  /member/:member       ->  destroy
 
 var roles = {
-    'admin': '管理员'
+    'admin': '(管理员)'
 };
 
 exports = module.exports = function($ctrlers, locals) {
@@ -19,8 +19,8 @@ exports = module.exports = function($ctrlers, locals) {
                 var isMe = res.locals.user && res.locals.user._id == req.params.member;
                 var freshman = isMe && !res.locals.user.nickname
                 u.showname = u.nickname || '匿名用户';
-                if (!u.avatar) u.avatar = locals.site.url + '/images/avatar.png';
-                if (!u.url) u.url = locals.site.url + '/member/' + u._id;
+                if (!u.avatar) u.avatar = locals.url + '/images/avatar.png';
+                if (!u.url) u.url = locals.url + '/member/' + u._id;
                 u.role = roles[u.type] || '';
                 res.render('member/single', {
                     member: u,

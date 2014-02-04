@@ -10,7 +10,7 @@ block banner
                 .col-lg-12
                     img.avatar-mid.fn-left(src="#{member.avatar}").fn-left
                     h2.title #{member.showname}
-                        span.admin (#{member.role})
+                        span.admin #{member.role}
                         span.desc 
                             a(href="#{member.url}",target="_blank") #{member.url}
 
@@ -18,7 +18,7 @@ block content
     - if (freshman)
       #sync.clearfix.mime-block
         h3.syncing
-            i.icon-spinner.icon-spin.icon-large
+            i.icon-spinner.icon-spin.icon-large 
             | 正在同步您的数据，请勿关闭本页面...
         .ds-demo.fn-clear.fn-hide
             .ds-thread

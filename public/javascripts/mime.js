@@ -1,6 +1,6 @@
 var syncer = function(user, callback) {
     if (user.dom) delete user.dom
-    $.post('/user/sync', {
+    $.post('/member/sync', {
         user: user
     }, callback);
 }
@@ -22,7 +22,7 @@ $(document).ready(function($) {
         var ds = fetch();
         if (!ds.dom.length) return;
         syncer(ds, function(result) {
-            if (result.stat != ok) return;
+            if (result.stat != 'ok') return;
             $('.syncing').text('数据已成功同步，请稍等...')
             setTimeout(function() {
                 window.location.reload();
