@@ -380,154 +380,6 @@ a:hover {
   -webkit-box-shadow: 1px 1px 4px #efefef;
 }
 /* Content */
-.board .pub-main {
-  color: #444;
-  overflow: hidden;
-}
-.board .pub-main .avatar {
-  float: left;
-  margin: 5px 15px 5px 5px;
-  width: 50px;
-  height: 50px;
-}
-.board .pub-main .avatar img {
-  display: block;
-  width: 50px;
-  height: 50px;
-  margin: 0 auto;
-  width: 100%;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.22);
-  border-radius: 3px;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  -o-border-radius: 3px;
-}
-.board .pub-main .avatar img:hover {
-  box-shadow: 0px 1px 3px #999;
-}
-.board .pub-main .single-pub {
-  background-color: #fff;
-  padding: 15px 10px;
-}
-.board .pub-main .single-pub h1 {
-  font-size: 24px;
-}
-.board .pub-main .single-pub h2 {
-  font-size: 20px;
-}
-.board .pub-main .single-pub h3 {
-  font-size: 18px;
-  font-weight: bold;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #ddd;
-}
-.board .pub-main .single-pub h4,
-.board .pub-main .single-pub h5 {
-  color: #444;
-  font-size: 16px;
-}
-.board .pub-main .single-pub img {
-  display: inline-block;
-  height: auto;
-  max-width: 100%;
-}
-.board .pub-main .single-pub code {
-  font-size: 12px;
-}
-.board .pub-main .single-pub p {
-  line-height: 1.8;
-}
-.board .pub-main .single-pub ol {
-  padding-left: 20px;
-}
-.board .pub-main .single-pub pre {
-  margin: 10px 0 14px;
-}
-.board .pub-main .single-pub table {
-  border: 1px solid #ddd;
-  box-shadow: 0px 0px 1px #ddd;
-}
-.board .pub-main .single-pub table th {
-  background-color: #f5f5f5;
-  padding: 3px 8px;
-}
-.board .pub-main .single-pub table td {
-  padding: 5px 8px;
-  border-bottom: 1px dashed #ddd;
-}
-.board .pub-main h4.title {
-  font-size: 18px;
-  font-weight: normal;
-  margin-bottom: 8px;
-  line-height: 1.5;
-  margin-top: 3px;
-}
-.board .pub-main h4.title a {
-  color: #444;
-}
-.board .pub-main h4.title a:hover {
-  color: #999;
-}
-.board .pub-main .author {
-  margin: 0px -12px 10px;
-  padding: 0px 10px 18px;
-  color: #999;
-  border-bottom: 1px solid #ddd;
-  font-size: 12px;
-}
-.board .pub-main .author a {
-  color: #999;
-}
-.board .pub-main .author span {
-  padding: 2px 5px 3px;
-  margin-right: 10px;
-  background-color: #efefef;
-  color: #999;
-  border-radius: 5px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -o-border-radius: 5px;
-}
-.board .pub-main .author .edit {
-  background-color: #efefef;
-  padding: 2px 8px;
-  margin-left: 10px;
-  border-radius: 10px;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -o-border-radius: 10px;
-}
-.board .pub-main .author .edit:hover {
-  background-color: #444;
-  color: #fff;
-}
-.board .pub-main .author .name {
-  padding-right: 10px;
-}
-.board .pub-main .author .cat {
-  margin-left: -15px;
-  background-color: #3498db;
-  color: #fff;
-}
-.board .pub-main .author .cat i {
-  padding-right: 4px;
-}
-.board .pub-main .author .cat a {
-  color: #fff;
-}
-.board .pub-main .desc {
-  font-size: 14px;
-  line-height: 1.8;
-  padding: 0 5px;
-}
-.lz-board {
-  padding-bottom: 5px;
-  padding-left: 1px;
-  padding-right: 1px;
-  border: 1px solid #ddd;
-  background: #ffffff url('/images/b.png') repeat-x left bottom;
-}
 .index-board {
   margin-bottom: 20px;
 }
@@ -579,35 +431,6 @@ a:hover {
 .index-board .board-meta div a:hover {
   color: #000;
 }
-.single-thread .board-meta {
-  text-align: center;
-  padding: 10px 0;
-  font-size: 12px;
-  text-shadow: 1px 1px 1px #fff;
-}
-.single-thread .board-meta span {
-  color: #999;
-  border-radius: 4px;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  -o-border-radius: 4px;
-  padding: 2px 5px;
-  text-shadow: 1px 1px 1px #fff;
-  margin-right: 10px;
-}
-.single-thread .board-meta span a {
-  color: #999;
-}
-.single-thread .board-meta span a:hover {
-  color: #000;
-}
-.single-thread .board-meta i {
-  color: #999;
-  padding-right: 3px;
-}
-.single-thread .board-meta a.edit {
-  color: #999;
-}
 .signin {
   background-color: #fff;
   margin-bottom: 15px;
@@ -657,9 +480,6 @@ a:hover {
   font-size: 16px;
 }
 /* cnt */
-#cnt {
-  margin-top: 20px;
-}
 .archive-title {
   font-size: 14px;
   font-weight: normal;
@@ -1072,11 +892,7 @@ a:hover {
   padding: 4px;
 }
 .comment-board {
-  padding: 10px;
-  border: 1px solid #ddd;
   background-color: #fff;
-  padding: 20px;
-  margin-bottom: 20px;
 }
 .star {
   padding-left: 7px;
@@ -1469,65 +1285,6 @@ h3.syncing {
 .thread-submit a.remove:hover {
   color: red;
 }
-.attachements .single-file {
-  border-top: 1px dashed #ddd;
-  padding: 10px 15px;
-}
-.attachements .single-file .thumb {
-  width: 50px;
-  border: 1px solid #ddd;
-  background-color: #fff;
-  margin-right: 8px;
-  border-radius: 3px;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  -o-border-radius: 3px;
-  box-shadow: 1px 1px 4px #efefef;
-  -moz-box-shadow: 1px 1px 4px #efefef;
-  -webkit-box-shadow: 1px 1px 4px #efefef;
-  border-radius: 0;
-  -moz-border-radius: 0;
-  -webkit-border-radius: 0;
-  -o-border-radius: 0;
-  padding: 1px;
-}
-.attachements .single-file span {
-  font-size: 12px;
-  color: #999;
-  padding-right: 8px;
-}
-.attachements .single-file span.name {
-  padding-bottom: 5px;
-  font-size: 14px;
-  color: #3498db;
-  display: block;
-}
-.attachements .single-file .other-files {
-  display: block;
-  font-size: 30px;
-  border: 1px solid #ddd;
-  padding: 1px;
-  background-color: #fff;
-  margin-right: 8px;
-  border-radius: 3px;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  -o-border-radius: 3px;
-  box-shadow: 1px 1px 4px #efefef;
-  -moz-box-shadow: 1px 1px 4px #efefef;
-  -webkit-box-shadow: 1px 1px 4px #efefef;
-  border-radius: 0;
-  -moz-border-radius: 0;
-  -webkit-border-radius: 0;
-  -o-border-radius: 0;
-  padding: 6px 1px;
-  width: 50px;
-  text-align: center;
-  color: #999;
-}
-.attachements .single-file:hover {
-  background-color: #f5f5f5;
-}
 #boards-dropdown {
   background-color: #fff;
   padding: 20px 0;
@@ -1537,4 +1294,7 @@ h3.syncing {
   background-color: #fff;
   padding-bottom: 10px;
   margin-top: 20px;
+}
+#cnt {
+  padding-top: 20px;
 }
