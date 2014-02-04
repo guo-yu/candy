@@ -19,18 +19,19 @@ html(ng-app="candy")
         #header(ng-controller="boards")
             #ihd.container.clearfix
                 .row
-                    .col-lg-12
-                      #logo.clearfix.fn-left
-                        h1.clearfix
-                            a(href="/").logo #{site.name}
-                                span.desc #{site.desc}
-                            a(ng-click="list()",href="#boards",ng-class="'open-' + open").boards-dropdown
-                                i(ng-class="arrow")
-                        ul.boards-index.clearfix(ng-show="open")
-                            li.board-name(ng-repeat="board in boards")
-                                a(ng-href="/board/{{board.url}}")
-                                    i.icon-chevron-right
-                                    |{{board.name}}
+                    .col-lg-2
+                        #logo.clearfix.fn-left
+                            h1.clearfix
+                                a(href="/").logo #{site.name}
+                                    span.desc #{site.desc}
+                                //- a(ng-click="list()",href="#boards",ng-class="'open-' + open").boards-dropdown
+                                    i(ng-class="arrow")
+                    .col-lg-7
+                        |boards here
+                    .col-lg-3
+                        .search-bar.clearfix
+                            form(action="/search",method="POST")
+                                input(type="text",name="search",id="search")
     block banner
         include banner
     #cnt
@@ -43,9 +44,9 @@ html(ng-app="candy")
                     block sidebar
                         include sidebar
     block footer
-      #footer
-        #ft.clearfix
-            #ift.container.clearfix.copyright &copy; #{new Date().getFullYear()} #{site.name} #{site.desc} | Powered by 
+        #footer.footer
+            #ft.clearfix
+                #ift.container.clearfix.copyright &copy; #{new Date().getFullYear()} #{site.name} #{site.desc}. Powered by 
                     a(href="https://github.com/turingou/candy",title="npm install candy").candy #{sys.name} 
                     |@ #{sys.version}
 
