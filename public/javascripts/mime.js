@@ -1,12 +1,8 @@
-var syncer = function(user, cb) {
-    if (user.dom) {
-        delete user.dom
-    }
+var syncer = function(user, callback) {
+    if (user.dom) delete user.dom
     $.post('/user/sync', {
         user: user
-    }, function(stat) {
-        cb(stat);
-    });
+    }, callback);
 }
 
 var fetch = function() {
@@ -24,16 +20,14 @@ var fetch = function() {
 $(document).ready(function($) {
     var check = setInterval(function() {
         var ds = fetch();
-        if (ds.dom.length) {
-            syncer(ds, function(result) {
-                if (result.stat == 'ok') {
-                    $('.syncing').text('数据已成功同步，请稍等...')
-                    setTimeout(function(){
-                        window.location.reload();                        
-                    },600);
-                }
-            });
-            clearInterval(check);
-        }
+        if (!ds.dom.length) return;
+        syncer(ds, function(result) {
+            if (result.stat != ok) return;
+            $('.syncing').text('数据已成功同步，请稍等...')
+            setTimeout(function() {
+                window.location.reload();
+            }, 600);
+        });
+        clearInterval(check);
     }, 1000);
 });
