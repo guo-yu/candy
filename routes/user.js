@@ -22,10 +22,13 @@ exports = module.exports = function($ctrlers, locals) {
                 if (!u.avatar) u.avatar = locals.url + '/images/avatar.png';
                 if (!u.url) u.url = locals.url + '/member/' + u._id;
                 u.role = roles[u.type] || '';
-                res.render('member/single', {
+                theme.render('flat/member/single', {
                     member: u,
                     isMe: isMe,
                     freshman: freshman
+                }, function(err, html){
+                    if (err) return next(err);
+                    return res.send(html);
                 });
             });
         },

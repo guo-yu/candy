@@ -17,8 +17,9 @@ exports = module.exports = function($models, $Ctrler) {
     }
 
     // read default board (001)
-    Board.readDefault = function(callback) {
-        board.findOne({}).exec(callback);
+    Board.readDefault = function(id, callback) {
+        if (!id) return board.findOne({}).exec(callback);
+        return this.findById(id).exec(callback);
     }
 
     // read full board

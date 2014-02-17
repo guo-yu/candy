@@ -1,7 +1,4 @@
-var async = require('async'),
-    Theme = require('theme');
-
-var themes = new Theme;
+var async = require('async');
 
 exports = module.exports = function(ctrlers, locals, theme) {
 
@@ -21,7 +18,7 @@ exports = module.exports = function(ctrlers, locals, theme) {
                 board.ls(cb);
             },
             themes: function(cb) {
-                themes.list(cb);
+                theme.list(cb);
             }
         }, callback);
     };

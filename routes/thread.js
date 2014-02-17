@@ -36,22 +36,15 @@ exports = module.exports = function(ctrlers, theme) {
         // PAGE: 新增话题页面
         new: function(req, res, next) {
             if (!res.locals.user) return res.redirect('/sign');
-            // 获取默认发帖板块
-            if (req.query.bid) {
-                board.findById(req.query.bid, function(err, b) {
+            board.readDefault(req.query.bid, function(err, b) {
+                if (err) return next(err);
+                theme.render('flat/thread/new', {
+                    board: b
+                }, function(err, html) {
                     if (err) return next(err);
-                    res.render('thread/new', {
-                        board: b
-                    });
-                })
-            } else {
-                board.readDefault(function(err, b) {
-                    if (err) return next(err);
-                    res.render('thread/new', {
-                        board: b
-                    });
-                })
-            }
+                    return res.send(html);
+                });
+            });
         },
         // PAGE: 查看话题页面
         show: function(req, res, next) {
@@ -61,10 +54,13 @@ exports = module.exports = function(ctrlers, theme) {
                 if (err) return next(err);
                 if (!t) return next(new Error('404'));
                 t.views = t.views + 1;
-                t.save(function(err){
-                    res.render('thread/index', {
+                t.save(function(err) {
+                    theme.render('flat/thread/index', {
                         thread: t,
                         marked: marked
+                    }, function(err, html) {
+                        if (err) return next(err);
+                        return res.send(html);
                     });
                 });
             });
@@ -76,8 +72,11 @@ exports = module.exports = function(ctrlers, theme) {
             thread.checkLz(req.params.thread, res.locals.user._id, function(err, lz, thread) {
                 if (err) return next(err);
                 if (!lz) return next(new Error('404'));
-                res.render('thread/edit', {
+                theme.render('flat/thread/edit', {
                     thread: thread
+                }, function(err, html) {
+                    if (err) return next(err);
+                    return res.send(html);
                 });
             })
         },
