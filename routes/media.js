@@ -1,9 +1,9 @@
 // POST    /media              ->  create
 // GET     /media/:media       ->  show
 
-exports = module.exports = function($ctrlers) {
+exports = module.exports = function(ctrlers, theme) {
 
-    var media = $ctrlers.media;
+    var media = ctrlers.media;
 
     return {
         // API: 创建媒体文件

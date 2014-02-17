@@ -16,13 +16,13 @@ marked.setOptions({
     }
 });
 
-exports = module.exports = function($ctrlers) {
+exports = module.exports = function(ctrlers, theme) {
 
-    var thread = $ctrlers.thread,
-        board = $ctrlers.board;
+    var thread = ctrlers.thread,
+        board = ctrlers.board;
 
     return {
-        // PAGE: 列出所有帖子
+        // API: 列出所有帖子
         index: function(req, res, next) {
             // TODO: 这里还没有做分页
             thread.ls(function(err, ths) {

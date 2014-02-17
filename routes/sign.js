@@ -1,8 +1,8 @@
 var async = require('async');
 
-exports = module.exports = function($ctrlers) {
+exports = module.exports = function(ctrlers, theme) {
 
-    var user = $ctrlers.user;
+    var user = ctrlers.user;
 
     return {
         // PAGE: 登录页面

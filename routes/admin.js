@@ -1,10 +1,13 @@
-var async = require('async');
+var async = require('async'),
+    Theme = require('theme');
 
-exports = module.exports = function($ctrlers, locals) {
+var themes = new Theme;
 
-    var config = $ctrlers.config,
-        user = $ctrlers.user,
-        board = $ctrlers.board;
+exports = module.exports = function(ctrlers, locals, theme) {
+
+    var config = ctrlers.config,
+        user = ctrlers.user,
+        board = ctrlers.board;
 
     var read = function(callback) {
         async.parallel({
@@ -16,6 +19,9 @@ exports = module.exports = function($ctrlers, locals) {
             },
             boards: function(cb) {
                 board.ls(cb);
+            },
+            themes: function(cb) {
+                themes.list(cb);
             }
         }, callback);
     };
