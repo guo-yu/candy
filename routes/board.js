@@ -11,11 +11,11 @@ exports = module.exports = function(ctrlers, theme) {
     var board = ctrlers.board;
 
     return {
-        // PAGE: 列出所有板块
+        // API: 列出所有板块
         index: function(req, res, next) {
             board.lsName(function(err, boards) {
                 if (err) return next(err);
-                res.json({
+                return res.json({
                     stat: 'ok',
                     boards: boards
                 });
@@ -26,10 +26,13 @@ exports = module.exports = function(ctrlers, theme) {
             board.readByUrl(req.params.board, 1, function(err, b) {
                 if (err) return next(err);
                 if (!b) return next(new Error('404'));
-                res.render('board', {
+                theme.render('flat/board/index', {
                     board: b.board,
                     threads: b.threads,
                     page: b.page
+                }, function(err, html){
+                    if (err) return next(err);
+                    return res.send(html);
                 });
             });
         },

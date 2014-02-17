@@ -18,10 +18,13 @@ exports = module.exports = function(ctrlers, theme) {
                 board.readByUrl(req.params.board, page, function(err, b) {
                     if (err) return next(err);
                     if (!b) return next(new Error('404'));
-                    res.render('board', {
+                    theme.render('flat/board', {
                         board: b.board,
                         threads: b.threads,
                         page: b.page
+                    }, function(err, html) {
+                        if (err) return next(err);
+                        return res.send(html);
                     });
                 });
             } else {
@@ -30,9 +33,12 @@ exports = module.exports = function(ctrlers, theme) {
                     if (err) return next(err);
                     if (!threads) return next(new Error('404'));
                     if (threads.length === 0) return next(new Error('404'));
-                    res.render('index', {
+                    theme.render('flat/index', {
                         threads: threads,
                         pager: pager
+                    }, function(err, html) {
+                        if (err) return next(err);
+                        return res.send(html);
                     });
                 });
             }
