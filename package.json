@@ -24,6 +24,7 @@
     "social"
   ],
   "dependencies": {
+    "theme": "*",
     "async": "~0.2.10",
     "duoshuo":"0.1.2",
     "moment": "~2.5.1",

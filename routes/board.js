@@ -6,9 +6,9 @@
 // PUT     /board/:board       ->  update
 // DELETE  /board/:board       ->  destroy
 
-exports = module.exports = function($ctrlers) {
+exports = module.exports = function(ctrlers, theme) {
 
-    var board = $ctrlers.board;
+    var board = ctrlers.board;
 
     return {
         // PAGE: 列出所有板块

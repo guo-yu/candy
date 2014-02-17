@@ -1,8 +1,8 @@
 // GET     /page/:page       ->  show
-exports = module.exports = function($ctrlers) {
+exports = module.exports = function(ctrlers, theme) {
 
-    var board = $ctrlers.board,
-        thread = $ctrlers.thread;
+    var board = ctrlers.board,
+        thread = ctrlers.thread;
 
     return {
         // PAGE: show selected page

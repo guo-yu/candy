@@ -1,4 +1,6 @@
-var moment = require('moment'),
+var path = require('path'),
+    moment = require('moment'),
+    Theme = require('theme'),
     Duoshuo = require('duoshuo'),
     home = require('./home'),
     sign = require('./sign'),
@@ -19,26 +21,31 @@ module.exports = function(app, models, ctrlers, middlewares) {
         check = middlewares.passport.check(true),
         duoshuo = new Duoshuo(app.locals.site.duoshuo);
 
+    var theme = app.locals.site.theme || 'flat',
+        themes = new Theme(path.resolve(__dirname, '../'), theme);
+
+    // locals
+    themes.locals.sys = sys;
+    themes.locals.moment = moment;
+    themes.locals.site = app.locals.site;
+
+    // routes
     var routes = {
-        sign: sign(ctrlers),
+        sign: sign(ctrlers, themes),
         signout: middlewares.passport.signout,
-        home: home(ctrlers),
-        board: board(ctrlers),
-        thread: thread(ctrlers),
-        media: media(ctrlers),
-        user: user(ctrlers, app.locals),
-        pager: page(ctrlers),
-        admin: admin(ctrlers, app.locals)
+        home: home(ctrlers, themes),
+        board: board(ctrlers, themes),
+        thread: thread(ctrlers, themes),
+        media: media(ctrlers, themes),
+        user: user(ctrlers, app.locals, themes),
+        pager: page(ctrlers, themes),
+        admin: admin(ctrlers, app.locals, themes)
     };
 
     // middlewares
     app.all('*', passport);
     app.get('*', middlewares.current);
     app.get('*', middlewares.install(app, models.config));
-
-    // locals
-    app.locals.moment = moment;
-    app.locals.sys = sys;
 
     // home
     app.get('/', routes.home);

@@ -122,6 +122,13 @@ block content
                                     | （#{user.type}）
                                 span.threads
                                     |（发表话题数量：#{user.threads.length}）
+            #themes.tab-pane
+                .list-group
+                    - if (themes)
+                        - each theme in themes
+                            .list-group-item.user.clearfix(data-id="#{theme.id}")
+                                span.name #{theme.name}
+                                span.version #{theme.version}
             #setting.tab-pane(ng-controller="adminSetting")
                 form(name="updateSetting").form-horizontal
                     .form-group
