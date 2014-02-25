@@ -21,13 +21,14 @@ module.exports = function(app, models, ctrlers, middlewares) {
         check = middlewares.passport.check(true),
         duoshuo = new Duoshuo(app.locals.site.duoshuo);
 
-    var theme = app.locals.site.theme || 'flat',
-        themes = new Theme(path.resolve(__dirname, '../'), theme);
-
     // locals
-    themes.locals.sys = sys;
-    themes.locals.moment = moment;
-    themes.locals.site = app.locals.site;
+    var locals = {};
+    locals.sys = sys;
+    locals.moment = moment;
+    locals.site = app.locals.site;
+
+    var theme = app.locals.site.theme || 'flat',
+        themes = new Theme(path.resolve(__dirname, '../'), theme, locals);
 
     // routes
     var routes = {
