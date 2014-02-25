@@ -1,7 +1,7 @@
 {
     "name": "Candy",
     "url": "http://candy.com",
-    "desc": "some desc",
+    "desc": "简单优雅的次世代论坛",
     "views": "./views",
     "public": "./public",
     "uploads": "./public/uploads",

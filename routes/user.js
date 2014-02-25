@@ -5,7 +5,7 @@ var roles = {
     'admin': '(管理员)'
 };
 
-exports = module.exports = function($ctrlers, locals) {
+exports = module.exports = function($ctrlers, locals, theme) {
 
     var user = $ctrlers.user;
 
