@@ -28,7 +28,10 @@ exports = module.exports = function(ctrlers, locals, theme) {
         page: function(req, res, next) {
             read(function(err, info) {
                 if (err) return next(err);
-                res.render('admin/index', info);
+                theme.render('flat/admin/index', info, function(err, html) {
+                    if (err) return next(err);
+                    res.send(html);
+                });
             })
         },
         // API: 更新网站设置
