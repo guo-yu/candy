@@ -1,4 +1,4 @@
-![logo](http://ww1.sinaimg.cn/large/61ff0de3gw1e7d9luh49bj201201bdfm.jpg) [Candy](http://getcandy.org) ![](https://badge.fury.io/js/candy.png)
+![Candy](./public/images/logo.jpg) ![](https://badge.fury.io/js/candy.png)
 ---
 
 基于多说社交评论的社会化论坛系统，采用 Node.js/Mongodb 构建
