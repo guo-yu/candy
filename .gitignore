@@ -13,3 +13,4 @@ database.json
 *.getcandy.*
 getcandy.js
 public/candy-theme-flat
+.idea/
