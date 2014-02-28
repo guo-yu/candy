@@ -53,7 +53,7 @@ module.exports = function(app, models, ctrlers, middlewares) {
     // middlewares
     app.all('*', passport);
     app.all('*', function(req, res, next){
-        themes.locals.user = res.locals.user;
+        if (themes.locals) themes.locals.user = res.locals.user;
         next();
     });
     app.get('*', middlewares.current);
