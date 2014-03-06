@@ -59,10 +59,8 @@ exports = module.exports = function($models, $Ctrler) {
             if (err) return callback(err);
             if (!thread) return callback(null, false);
             if (thread.lz == uid) return callback(null, true, thread);
-            user.checkAdmin(uid, function(err, result) {
-                if (err) return callback(err);
-                if (result) return callback(null, true, thread);
-                return callback(null, false);
+            return user.findById(uid).exec(function(err, u){
+                return callback(err, (u && u.type == 'admin'), thread);
             });
         });
     }
