@@ -50,6 +50,9 @@ exports = module.exports = function($models, $Ctrler) {
     Thread.fetchByPage = function(page, limit, query, callback) {
         var cursor = this.page(page, limit, query);
         cursor.query.populate('lz').populate('board').exec(function(err, threads) {
+            // mongo 是正序，论坛一般是时间倒序
+            threads = threads.reverse();
+
             callback(err, threads, cursor.pager);
         });
     }
