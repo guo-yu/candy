@@ -28,7 +28,7 @@ exports = module.exports = function(ctrlers, theme) {
                 if (!b) return next(new Error('404'));
                 theme.render('flat/board/index', {
                     board: b.board,
-                    threads: b.threads,
+                    threads: b.threads.reverse(),
                     page: b.page
                 }, function(err, html){
                     if (err) return next(err);
