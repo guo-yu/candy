@@ -7,12 +7,6 @@ exports = module.exports = function($models, $Ctrler) {
         board = $models.board,
         user = $models.user;
 
-    Thread.lsByBoardId = function(bid, params, callback) {
-        thread.find({
-            board: bid
-        }).skip(params.from).limit(params.limit).sort('-pubdate').populate('lz').populate('board').exec(callback);
-    }
-
     Thread.create = function(baby, cb) {
         var baby = new thread(baby);
         async.waterfall([
@@ -49,7 +43,6 @@ exports = module.exports = function($models, $Ctrler) {
 
     Thread.fetch = function(page, limit, query, callback) {
         var cursor = this.page(page, limit, query);
-<<<<<<< HEAD
         // 这里有冗余查询逻辑
         cursor.count.exec(function(err, count){
             if (err) return callback(err);
@@ -57,13 +50,6 @@ exports = module.exports = function($models, $Ctrler) {
             cursor.query.populate('lz').populate('board').sort('-pubdate').exec(function(err, threads) {
                 callback(err, threads, cursor.pager);
             });
-=======
-        cursor.query.populate('lz').populate('board').exec(function(err, threads) {
-            // mongo 是正序，论坛一般是时间倒序
-            threads = threads.reverse();
-
-            callback(err, threads, cursor.pager);
->>>>>>> FETCH_HEAD
         });
     }
 

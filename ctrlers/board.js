@@ -36,11 +36,6 @@ exports = module.exports = function($models, $Ctrler) {
         board.find({}).populate('bz').populate('threads').exec(callback);
     }
 
-    // List board IDs
-    Board.lsId = function(params, callback) {
-        board.find({}).select('_id').limit(params.limit).exec(callback);
-    }
-
     // fetch board by query
     Board.fetch = function(page, limit, query, callback) {
         board.findOne(query).populate('bz').exec(function(err, target){
