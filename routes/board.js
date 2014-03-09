@@ -21,21 +21,6 @@ exports = module.exports = function(ctrlers, theme) {
                 });
             })
         },
-        // PAGE: 列出单个板块
-        show: function(req, res, next) {
-            board.readByUrl(req.params.board, 1, function(err, b) {
-                if (err) return next(err);
-                if (!b) return next(new Error('404'));
-                theme.render('flat/board/index', {
-                    board: b.board,
-                    threads: b.threads,
-                    page: b.page
-                }, function(err, html){
-                    if (err) return next(err);
-                    return res.send(html);
-                });
-            });
-        },
         // API: 创建板块
         create: function(req, res, next) {
             if (!res.locals.user) return next(new Error('signin required'));

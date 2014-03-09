@@ -1,4 +1,3 @@
-var async = require('async');
 
 exports = module.exports = function($models, $Ctrler) {
 
@@ -42,28 +41,23 @@ exports = module.exports = function($models, $Ctrler) {
         board.find({}).select('_id').limit(params.limit).exec(callback);
     }
 
-    // fetch board by url
-    Board.readByUrl = function(url, page, cb) {
-        var limit = 10;
-        async.waterfall([
-            function(callback) {
-                board.findOne({
-                    url: url
-                }).populate('bz').exec(callback);
-            },
-            function(b, callback) {
-                if (!b) return cb(null, null);
-                var cursor = Thread.page(page, limit, {board: b._id});
+    // fetch board by query
+    Board.fetch = function(page, limit, query, callback) {
+        board.findOne(query).populate('bz').exec(function(err, target){
+            if (!target) return callback(null, null);
+            var q = {}
+            q.board = target._id;
+            var cursor = Thread.page(page, limit, q);
+            return cursor.count.exec(function(err, count){
+                if (err) return callback(err);
+                cursor.pager.max = Math.round(count / limit);
                 cursor.query.populate('lz').populate('board').exec(function(err, threads){
-                    callback(err, b, threads, cursor.pager);
+                    var result = {}
+                    result.board = target;
+                    result.threads = threads;
+                    result.page = cursor.pager;
+                    return callback(err, result);
                 });
-            }
-        ], function(err, board, threads, pager) {
-            if (err) return cb(err);
-            return cb(null, {
-                board: board,
-                threads: threads,
-                page: pager
             });
         });
     }

@@ -2,7 +2,6 @@ var path = require('path'),
     moment = require('moment'),
     Theme = require('theme'),
     Duoshuo = require('duoshuo'),
-    home = require('./home'),
     sign = require('./sign'),
     board = require('./board'),
     thread = require('./thread'),
@@ -41,7 +40,6 @@ module.exports = function(app, models, ctrlers, middlewares) {
     var routes = {
         sign: sign(ctrlers, themes),
         signout: middlewares.passport.signout,
-        home: home(ctrlers, themes),
         board: board(ctrlers, themes),
         thread: thread(ctrlers, themes),
         media: media(ctrlers, themes),
@@ -49,6 +47,8 @@ module.exports = function(app, models, ctrlers, middlewares) {
         pager: page(ctrlers, themes),
         admin: admin(ctrlers, app.locals, themes)
     };
+
+    routes.board.show = routes.pager.show;
 
     // middlewares
     app.all('*', passport);
@@ -60,7 +60,8 @@ module.exports = function(app, models, ctrlers, middlewares) {
     app.get('*', middlewares.install(app, models.config));
 
     // home
-    app.get('/', routes.home);
+    app.get('/', routes.pager.show);
+    app.get('/page/:page', routes.pager.show);
 
     // signin & signout
     app.get('/sign', routes.sign.sign)
@@ -72,8 +73,7 @@ module.exports = function(app, models, ctrlers, middlewares) {
         .add(app.resource('page', routes.pager));
 
     // thread
-    app.resource('thread', routes.thread)
-        .add(app.resource('page', routes.pager));
+    app.resource('thread', routes.thread);
 
     // media
     app.resource('medias', routes.media);

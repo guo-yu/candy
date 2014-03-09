@@ -2,7 +2,7 @@
     "name": "Candy",
     "url": "http://candy.com",
     "desc": "简单优雅的次世代论坛",
-    "views": "./views",
+    "views": "./node_modules/candy-theme-flat",
     "public": "./public",
     "uploads": "./public/uploads",
     "database": {
