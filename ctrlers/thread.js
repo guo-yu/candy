@@ -47,9 +47,9 @@ exports = module.exports = function($models, $Ctrler) {
         return thread.findById(id).populate('lz').populate('board').populate('media').exec(callback);
     }
 
-    Thread.fetchByPage = function(page, limit, query, callback) {
+    Thread.fetch = function(page, limit, query, callback) {
         var cursor = this.page(page, limit, query);
-        cursor.query.populate('lz').populate('board').exec(function(err, threads) {
+        cursor.query.populate('lz').populate('board').sort('-pubdate').exec(function(err, threads) {
             callback(err, threads, cursor.pager);
         });
     }
