@@ -1,4 +1,4 @@
-![Candy](./public/images/logo.jpg) ![](https://badge.fury.io/js/candy.png)
+![Candy](./public/logo.jpg) ![](https://badge.fury.io/js/candy.png)
 ---
 
 基于多说社交评论的社会化论坛系统，采用 Node.js/Mongodb 构建
