@@ -29,7 +29,7 @@ exports = module.exports = function(ctrlers, theme) {
                 });
             } else {
                 // pager of thread
-                thread.fetchByPage(page, 20, {}, function(err, threads, pager) {
+                thread.fetch(page, 20, {}, function(err, threads, pager) {
                     if (err) return next(err);
                     if (!threads) return next(new Error('404'));
                     if (threads.length === 0) return next(new Error('404'));
