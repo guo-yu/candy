@@ -45,7 +45,7 @@ exports = module.exports = function($models, $Ctrler) {
             var cursor = Thread.page(page, limit, q);
             return cursor.count.exec(function(err, count){
                 if (err) return callback(err);
-                cursor.pager.max = Math.round(count / limit);
+                cursor.pager.max = Math.round((count + limit - 1) / limit);
                 cursor.query.populate('lz').populate('board').exec(function(err, threads){
                     var result = {}
                     result.board = target;

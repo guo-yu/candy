@@ -25,7 +25,7 @@ exports = module.exports = function(ctrlers, theme) {
                 board.fetch(page, perpage, query, function(err, result) {
                     if (err) return next(err);
                     if (!result) return next(new Error('404'));
-                    console.log(result.pager)
+                    if (result.page.max > 1 && result.threads.length === 0) return next(new Error('404'));
                     theme.render('flat/board/index', result, function(err, html) {
                         if (err) return next(err);
                         return res.send(html);
