@@ -1,3 +1,12 @@
+var perpage = 10;
+
+var isPage = function(p) {
+    if (!p) return false;
+    var n = parseInt(p);
+    if (isNaN(n)) return false;
+    return n;
+}
+
 // GET     /page/:page       ->  show
 exports = module.exports = function(ctrlers, theme) {
 
@@ -7,35 +16,30 @@ exports = module.exports = function(ctrlers, theme) {
     return {
         // PAGE: show selected page
         show: function(req, res, next) {
-            if (!req.params.page) return next(new Error('404'));
-            if (!isNaN(parseInt(req.params.page))) return next(new Error('404'));
-            if (!req.params.thread) return next(new Error('404'));
-            if (!req.params.board) return next(new Error('404'));
-            var page = parseInt(req.params.page);
-            if (req.params.board) {
+            var alias = req.params.board;
+            var page = isPage(req.params.page) || 1;
+            if (alias) {
                 // pager of board
-                if (!board.checkId(req.params.board)) return next(new Error('404'));
-                board.readByUrl(req.params.board, page, function(err, b) {
+                var query = {}
+                query.url = alias;
+                board.fetch(page, perpage, query, function(err, result) {
                     if (err) return next(err);
-                    if (!b) return next(new Error('404'));
-                    theme.render('flat/board', {
-                        board: b.board,
-                        threads: b.threads,
-                        page: b.page
-                    }, function(err, html) {
+                    if (!result) return next(new Error('404'));
+                    console.log(result.pager)
+                    theme.render('flat/board/index', result, function(err, html) {
                         if (err) return next(err);
                         return res.send(html);
                     });
                 });
             } else {
                 // pager of thread
-                thread.fetch(page, 20, {}, function(err, threads, pager) {
+                thread.fetch(page, perpage, {}, function(err, threads, pager) {
                     if (err) return next(err);
                     if (!threads) return next(new Error('404'));
-                    if (threads.length === 0) return next(new Error('404'));
+                    if (pager.max > 1 && threads.length === 0) return next(new Error('404'));
                     theme.render('flat/index', {
                         threads: threads,
-                        pager: pager
+                        page: pager
                     }, function(err, html) {
                         if (err) return next(err);
                         return res.send(html);
