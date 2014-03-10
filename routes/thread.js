@@ -101,7 +101,7 @@ exports = module.exports = function(ctrlers, theme) {
             thread.checkLz(tid, user._id, function(err, lz, th) {
                 if (err) return next(err);
                 if (!lz) return next(new Error('authed required'));
-                if (req.body.pined) {
+                if (req.body.pin) {
                     if (user.type !== 'admin') return next(new Error('authed required'));
                     return thread.update(tid, {
                         pined: req.body.pined,

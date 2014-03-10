@@ -1,4 +1,3 @@
-
 exports = module.exports = function($models, $Ctrler) {
 
     var Board = new $Ctrler($models.board),
@@ -6,16 +5,16 @@ exports = module.exports = function($models, $Ctrler) {
         board = $models.board,
         thread = $models.thread
 
-    // create board
-    Board.create = function(bzid, baby, cb) {
-        var baby = new board(baby);
-        baby.bz.push(bzid);
-        baby.save(function(err) {
-            cb(err, baby);
-        });
-    }
+        // create board
+        Board.create = function(bzid, baby, cb) {
+            var baby = new board(baby);
+            baby.bz.push(bzid);
+            baby.save(function(err) {
+                cb(err, baby);
+            });
+        }
 
-    // read default board (001)
+        // read default board (001)
     Board.readDefault = function(id, callback) {
         if (!id) return board.findOne({}).exec(callback);
         return this.findById(id).exec(callback);
@@ -38,21 +37,24 @@ exports = module.exports = function($models, $Ctrler) {
 
     // fetch board by query
     Board.fetch = function(page, limit, query, callback) {
-        board.findOne(query).populate('bz').exec(function(err, target){
+        board.findOne(query).populate('bz').exec(function(err, target) {
             if (!target) return callback(null, null);
             var q = {}
             q.board = target._id;
             var cursor = Thread.page(page, limit, q);
-            return cursor.count.exec(function(err, count){
+            return cursor.count.exec(function(err, count) {
                 if (err) return callback(err);
                 cursor.pager.max = Math.round((count + limit - 1) / limit);
-                cursor.query.populate('lz').populate('board').exec(function(err, threads){
-                    var result = {}
-                    result.board = target;
-                    result.threads = threads;
-                    result.page = cursor.pager;
-                    return callback(err, result);
-                });
+                cursor.query
+                    .populate('lz').populate('board')
+                    .sort('-pined').sort('-pubdate')
+                    .exec(function(err, threads) {
+                        var result = {}
+                        result.board = target;
+                        result.threads = threads;
+                        result.page = cursor.pager;
+                        return callback(err, result);
+                    });
             });
         });
     }
