@@ -44,12 +44,15 @@ exports = module.exports = function($models, $Ctrler) {
     Thread.fetch = function(page, limit, query, callback) {
         var cursor = this.page(page, limit, query);
         // 这里有冗余查询逻辑
-        cursor.count.exec(function(err, count){
+        cursor.count.exec(function(err, count) {
             if (err) return callback(err);
             cursor.pager.max = Math.round((count + limit - 1) / limit);
-            cursor.query.populate('lz').populate('board').sort('-pubdate').exec(function(err, threads) {
-                callback(err, threads, cursor.pager);
-            });
+            cursor.query
+                .populate('lz').populate('board')
+                .sort('-pined').sort('-pubdate')
+                .exec(function(err, threads) {
+                    callback(err, threads, cursor.pager);
+                });
         });
     }
 
@@ -58,7 +61,7 @@ exports = module.exports = function($models, $Ctrler) {
             if (err) return callback(err);
             if (!thread) return callback(null, false);
             if (thread.lz == uid) return callback(null, true, thread);
-            return user.findById(uid).exec(function(err, u){
+            return user.findById(uid).exec(function(err, u) {
                 return callback(err, (u && u.type == 'admin'), thread);
             });
         });

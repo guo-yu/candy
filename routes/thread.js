@@ -96,9 +96,24 @@ exports = module.exports = function(ctrlers, theme) {
         update: function(req, res, next) {
             if (!res.locals.user) return next(new Error('signin required'));
             if (!req.params.thread) return next(new Error('id required'));
-            thread.checkLz(req.params.thread, res.locals.user._id, function(err, lz, th) {
+            var tid = req.params.thread;
+            var user = res.locals.user;
+            thread.checkLz(tid, user._id, function(err, lz, th) {
                 if (err) return next(err);
                 if (!lz) return next(new Error('authed required'));
+                if (req.body.pined) {
+                    if (user.type !== 'admin') return next(new Error('authed required'));
+                    return thread.update(tid, {
+                        pined: req.body.pined,
+                        level: req.body.level || 0
+                    }, function(err, thread) {
+                        if (err) return next(err);
+                        return res.json({
+                            stat: 'ok',
+                            thread: thread
+                        })
+                    })
+                }
                 var updatedThread = {
                     name: req.body.thread.name,
                     content: req.body.thread.content,
@@ -108,7 +123,7 @@ exports = module.exports = function(ctrlers, theme) {
                     lz: th.lz
                 };
                 if (req.body.thread.media) updatedThread.media = req.body.thread.media;
-                thread.update(req.params.thread, updatedThread, function(err, thread) {
+                thread.update(tid, updatedThread, function(err, thread) {
                     if (err) return next(err);
                     res.json({
                         stat: 'ok',

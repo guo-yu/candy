@@ -72,6 +72,14 @@ module.exports = function(db, Schema) {
     var threadModel = new Schema({
         name: String,
         content: String,
+        pined:  {
+            type: Boolean,
+            default: false
+        },
+        level: {
+            type: Number,
+            default: 0
+        },
         views: {
             type: Number,
             default: 0
