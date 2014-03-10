@@ -1,4 +1,4 @@
-var perpage = 10;
+var perpage = 20;
 
 var isPage = function(p) {
     if (!p) return false;
