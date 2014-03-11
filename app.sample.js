@@ -1,4 +1,6 @@
-{
+var candy = require('candy');
+
+candy({
     "name": "Candy",
     "port": 3000,
     "desc": "简单优雅的次世代论坛",
@@ -15,4 +17,4 @@
         "short_name": "candydemo",
         "secret": "055834753bf452f248602e26221a8345"
     }
-}
+})

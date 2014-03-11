@@ -1,124 +1,136 @@
-![Candy](./public/logo.jpg) ![](https://badge.fury.io/js/candy.png)
+[![Candy](./public/logo.jpg)](http://getcandy.org)
 ---
+![](https://badge.fury.io/js/candy.png)
 
-基于多说社交评论的社会化论坛系统，采用 Node.js/Mongodb 构建
+[Candy](http://getcandy.org) 是基于多说社交评论的社会化论坛系统，采用 Node.js/Mongodb 构建。营造简洁、实用、具有人情味的下一代论坛系统，是 Candy 的设计目标。
 
-- [Getcandy.org: 全新Candy官方社区](http://getcandy.org)
-- [Candy introduction in English](https://github.com/turingou/candy/blob/master/README.en.md)
+![screenshot@0.1.7](http://ww3.sinaimg.cn/large/61ff0de3gw1eecbmchccdj20zq0nwtcu.jpg)
 
-![screenshot](http://ww2.sinaimg.cn/large/61ff0de3gw1e7gysyptnkj20wf0nj0wu.jpg)
+### 安装 Candy
 
-### 如何安装
-````
-$ npm install candy
-````
+你可以选择两种方式安装 Candy，将 Candy 视为一个 NPM 模块，在外部使用启动脚本启动。或者将整个仓库复制到本地直接运行启动文件。
+这两种方式各有各的好处，如果你是个谨慎的使用者，并不希望频繁升级 Candy 核心文件，我推荐你采用第二种方式安装。
 
-### 尝试使用 Candy
-我们推荐，把 Candy 当做一个普通模块来看待，通过 `npm install candy` 安装后，在模块外部新建一个启动脚本的方式运行candy的服务，这样，你就可以方便的通过这个命令再次更新candy的主程序，而不影响原有配置，达到无缝升级的目的。
-
-#### 如何开始
-我们来试试看用这种方式启动 candy，仓库里有一份为你准备好的启动服务脚本，我们可以把他复制到candy的父目录，然后运行这个文件以启动服务。
+1. 将 Candy 仓库复制到本地并运行启动脚本
+```
+$ git clone https://github.com/turingou/candy.git
+$ cd candy
+$ node app.js
+```
+2. 将 Candy 视为 NPM 模块安装，在外部使用启动脚本启动，我已经为你准备了一个现成的启动脚本：
 ````
 $ mkdir candy && cd candy
 $ npm install candy
 $ cp node_modules/candy/app.sample.js ./app.js
-$ vi app.js
+$ node app.js
 ````
-#### 配置启动脚本
-打开 `app.js` 这个文件，我们可以看到如下配置：
+无论你以何种方式启动，你将在默认的端口看到一个全新的 Candy 正在静候你的初次访问。现在，使用浏览器访问 [localhost:3000](http://localhost:3000) 你将能看到一个全新的 Candy Demo。
 
+### 升级 Candy
+
+无论你使用何种方式安装 Candy，都可以使用 NPM 或 Git 方便地进行升级。升级操作通常需要在 Candy 的安装目录进行，我们架设你的安装目录是 `/www/candy`，让我们将 Candy 升级到最新版本吧：
+
+如果你使用 Git clone Candy：
+```
+$ cd /www/candy
+$ git pull
+```
+
+如果你使用 NPM 安装 Candy，采用这种方法升级可能会导致你在 `/www/candy/node_modules/candy/node_modules` 文件夹下的自定义主题被覆盖，所以应确保在升级之前，备份你的自定义主题。
+```
+$ cd /www/candy
+$ npm install candy@latest
+```
+
+### 配置 Candy
+
+配置 Candy 是一条必经之路，没有一个主题或者配置清单可以适应所有的使用环境。因此，在将你的论坛搭建上生产环境服务器之前，确保通读这份配置指引。
+
+#### 管理员用户
+第一个登录的用户会是 Candy 的管理员用户，确保你使用正确的社交网络账户登录 Candy，就可以开始自定义论坛了。
+你可以在登录后的右侧菜单找到进入 管理面板 的入口，或者访问 [localhost:3000/admin](http://localhost:3000/admin) 进入管理面板。
+
+#### 启动脚本 `app.js`
+
+配置脚本负责启动你的 Candy 论坛。这意味着在变更某些配置之后，你可能需要重新启动配置脚本。这个文件通常是 `app.js`。
+
+#### 配置文件 `configs.json`
+
+配置文件是启动脚本使用的初始配置，Candy 使用一个 `json` 文件当做配置文件。这个文件里规定了论坛初始化时的名字，简介，永久链接，运行环境，数据库信息等等内容。
+
+如果你采用直接 clone 仓库的方式安装 Candy，配置文件为 `./configs.json`，当然，你也可以将 Candy 视为 NPM 模块安装。这样的话，你可以在启动文件中传入配置参数，这里的配置参数与配置文件中的参数名称、规则相同。
+
+这是配置文件 `configs.json` 的范例：
 ````javascript
-var Candy = require('candy');
-
-new Candy({
-    // 站点名称
-    name: 'Mycandy',
-    // 站点介绍
-    desc: 'some desc',
-    // 站点永久链接（线上环境使用）
-    url: 'http://abc.com',
-    // 可选：当设置为production时，站点首页会被指向到上方设置的url
-    env: 'production', 
-    // 数据库配置
-    database: {
-        // 数据库名
-        name: 'mycandyDB',
-        // 可选：数据库地址，默认为Localhost
-        host: 'http://abc.com',
-        // 可选：默认为27017
-        port: 23333,
-        // 可选：填入数据库用户名密码等设置
-        options: {
-            // 请查看moogoose文档
-        }
-    },
-    // 多说配置
-    duoshuo: { 
-        // 你的多说 [short_name]
-        short_name: 'xxx',
-        // 你的多说 [secret]
-        secret: 'xxx'
-    }
+{
+  "name": 'Candy',
+  "port": 3000,
+  "desc": 'some description for your very new Candy forum',
+  "public": "./public",
+  "uploads": "./public/uploads",
+  "views": "./node_modules/candy-theme-flat",
+  "database": {
+    "name": 'candy'
+  },
+  "session": {
+    "store": true
+  },
+  "duoshuo": {
+    "short_name": 'xxx',
+    "secret": 'xxx'
+  }
 });
-
-myCandy.run(9999); // 在特定端口启动服务
 ````
-由于默认启动脚本中已经配置了用于测试的多说站点，所以我们可以直接启动服务，
-使用 `node app.js` 方式直接启动服务
+让我们来看看配置文件 `configs.json` 中的具体参数
 
-````
-$ node app.js // 或者使用 forever, pm2 之类的守护程序来启动永久服务
-````
-使用 `pm2` 或者 `forever` 等守护程序保持服务的持久化：
+##### configs#name [String] 站点名称
+##### configs#desc [String] 站点介绍
+##### configs#port [Number] 运行端口 (默认为 3000)
+##### configs#public [String] 静态资源目录 (默认为 `./public`)
+##### configs#uploads [String] 附件上传目录 (默认为 `./public/uploads`)
+##### configs#views [String] 默认主题目录 (默认为 `./node_modules/candy-theme-flat`)
+##### configs#url [String] 站点永久链接
+这是一个以 http 或 https 开头的 URL，这个 URL 只有在你将站点的运行环境设定为 `production` 时才会变成站点的根。
 
-````
-$ forever start app.js // 或者 pm2 start app.js -i max
-````
-#### 升级 Candy
-在Candy启动脚本的同级目录，运行 `$ npm install candy` 会自动安装最新版本的 Candy 程序
+##### configs#env [String] 站点运行环境 `development`(默认) 或 `production`
+这个键指定了 Candy 的运行环境，当设定为 `production` 时将启动生产环境缓存策略，日志方案和压缩方案，并使用指定的 `configs#url` 作为站点根。
 
-#### 定制属于你自己的 candy
+##### configs#database [Object] 数据库信息
+Candy 采用 Mongodb 构建。这是储存论坛数据库信息的对象。包括
+- database.name [String] 数据库名称（必要）
+- database.host [String] 数据库地址
+- database.port [Number] 数据库运行端口
+- database.options [Object] 数据库配置选项（参见 [moogoose 文档](http://mongoosejs.com/docs/connections.html)）
 
-- 1. 找到 `/public` 文件夹，这个文件夹中的文件都是静态资源文件，你可以先把 `logo.png` 换成自己的，然后慢慢修改样式表
-- 2. 访问网站，使用一个社交网络账户登录，第一个登录的账户会被跳转到 `/admin` 管理后台。
-- 3. 点击我的#{site.name}，会自动同步该用户的社交网络信息。
-- 2. 再次访问 `/admin` 管理面板，如果你要修改默认配置的站点名称，或者描述的话
-    - 新增一个板块
-    - 开始新建帖子吧
-    - 探索一下这个小程序，然后给我提个bug或者建议 ~
+##### configs#session [Object] session 持久化相关信息
+- session.store [Boolean] 是否使用 Conenct-Mongo 做 session 持久化 (默认为 `false`)
 
-### Candy 特色
+##### configs#duoshuo [Object] 多说相关信息
+Candy 基于多说社交评论构建，因此，你需要提供一个多说 `short_name` 和相应的 `secret`
 
-- 响应式设计，移动优先
-- 极其容易安装
-- 存在云上的评论（不用担心评论丢失）
-- 用户可以关注自己感兴趣的板块或，帖子，或者其他用户（正在编码）
-- 丰富的界面和良好的用户体验
+- duoshuo.short_name [String] 多说 `short_name` (必要)
+- duoshuo.secret [String] 多说 `secret`（必要）
 
-### Demo 网站
+### Candy 主题系统
 
-- [Candy 官方社区](http://getcandy.org)
+Candy 构建于 Theme 主题系统之上。这意味着你可以编写 NPM 模块，作为 Candy 的主题，并发布到 NPM，使所有使用 Candy 的用户受益。
 
-### 截图
+- 所有主题遵守一套命名约定，必须采用 `candy-theme-xxx` 的命名规则进行命名，并发布到 NPM。
+- 所有主题都必须按照一定规范书写 `package.json` 可以参照 Candy 的默认主题 [candy-theme-flat](https://github.com/turingou/candy-theme-flat) 书写你的主题描述文件。
+- 所有主题的静态资源文件夹都推荐放置于主题文件夹下的 `static` 目录。
+- 所有主题模块均应位于 './node_modules' 文件夹内，小心升级模块时造成的文件覆盖。
 
-#### 首页
-![](http://ww2.sinaimg.cn/large/61ff0de3gw1e7gyt8g45pj20wf0njwid.jpg)
+### 欢迎提交 Pull Request
 
-#### 管理面板
-![](http://ww4.sinaimg.cn/large/61ff0de3jw1e7fos2mr2wj20ur0oln18.jpg)
+Candy 仍未达到我们期望的完善程度，欢迎一起来完善这个有趣的社会化论坛实验。
 
-#### 附件上传界面
-![](http://ww2.sinaimg.cn/large/61ff0de3gw1e81cdo3ibij20vs0p4djx.jpg)
-
-### 欢迎提交 Pull Request !
-
-- fork 这个仓库
-- 添加自己想要的功能，在不破坏基本结构的情况下
-- 确保自己添加的功能已经经过 人工/单元 测试!
-- 然后给我提交 Pull Request 就行啦!
+- Fork Candy
+- 在不破坏基本结构的情况下，添加功能。
+- 确保自己添加的功能经过 人工 或者 单元测试
+- 发起 Pull Request
 
 ### MIT license
-Copyright (c) 2013 turing
+Copyright (c) 2013 turing &lt;o.u.turing@gmail.com&gt;
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -2,7 +2,7 @@
   "name": "candy",
   "version": "0.1.7",
   "description": "a micro bbs system based on duoshuo.com apis",
-  "main": "server.js",
+  "main": "index.js",
   "author": "turing",
   "license": "MIT",
   "scripts": {

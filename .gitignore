@@ -13,8 +13,5 @@ database.json
 *.getcandy.*
 getcandy.js
 public/candy-theme-flat
-<<<<<<< HEAD
 *_old
-=======
 .idea/
->>>>>>> FETCH_HEAD
