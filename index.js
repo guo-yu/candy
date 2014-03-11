@@ -14,9 +14,12 @@ var server = require('express-scaffold'),
     ctrlers = require('./ctrlers/index'),
     routes = require('./routes/index');
 
-// init a new server running on default port 3000
-new server(configs)
-    .models(models)
-    .ctrlers(ctrlers)
-    .routes(routes)
-    .run();
+var Candy = function(params) {
+    this.server = new server(params || configs)
+        .models(models)
+        .ctrlers(ctrlers)
+        .routes(routes)
+        .run();
+};
+
+exports = module.exports = Candy;
