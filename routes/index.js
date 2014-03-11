@@ -27,14 +27,7 @@ module.exports = function(app, models, ctrlers, middlewares) {
     locals.site = app.locals.site;
     locals.url = app.locals.url;
 
-    // load default theme: candy-theme-flat
-    var defaultTheme = {};
-    defaultTheme.name =  'candy-theme-flat';
-    defaultTheme.realPath = path.join(__dirname, '../', 'node_modules', defaultTheme.name);
-    defaultTheme.static = './static';
-
-    var theme = app.locals.site.theme || defaultTheme,
-        themes = new Theme(path.resolve(__dirname, '../'), theme, locals);
+    var themes = new Theme(path.resolve(__dirname, '../'), locals);
 
     // routes
     var routes = {
@@ -52,10 +45,7 @@ module.exports = function(app, models, ctrlers, middlewares) {
 
     // middlewares
     app.all('*', passport);
-    app.all('*', function(req, res, next){
-        if (themes.locals) themes.locals.user = res.locals.user;
-        next();
-    });
+    app.all('*', themes.local('user'));
     app.get('*', middlewares.current);
     app.get('*', middlewares.install(app, models.config));
 
