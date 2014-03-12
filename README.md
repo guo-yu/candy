@@ -10,14 +10,17 @@
 
 你可以选择两种方式安装 Candy，将 Candy 视为一个 NPM 模块，在外部使用启动脚本启动。或者将整个仓库复制到本地直接运行启动文件。
 这两种方式各有各的好处，如果你是个谨慎的使用者，并不希望频繁升级 Candy 核心文件，我推荐你采用第二种方式安装。
+> 在尝试下面两种安装方式前，您首先需要安装Node.js和MongoDB到本地
 
-1. 将 Candy 仓库复制到本地并运行启动脚本
+1.将 Candy 仓库复制到本地并运行启动脚本
 ```
 $ git clone https://github.com/turingou/candy.git
 $ cd candy
+$ npm install
 $ node app.js
 ```
-2. 将 Candy 视为 NPM 模块安装，在外部使用启动脚本启动，我已经为你准备了一个现成的启动脚本：
+
+2.将 Candy 视为 NPM 模块安装，在外部使用启动脚本启动，我已经为你准备了一个现成的启动脚本：
 ````
 $ mkdir candy && cd candy
 $ npm install candy
