@@ -1,8 +1,8 @@
-[![Candy](./public/logo.jpg)](http://candy.app.menkr.com)
+[![Candy](./public/logo.jpg)](http://getcandy.org)
 ---
 ![](https://badge.fury.io/js/candy.png)
 
-[Candy](http://candy.app.menkr.com) 是基于多说社交评论的社会化论坛系统，采用 Node.js/Mongodb 构建。营造简洁、实用、具有人情味的下一代论坛系统，是 Candy 的设计目标。
+[Candy](http://getcandy.org) 是基于多说社交评论的社会化论坛系统，采用 Node.js/Mongodb 构建。营造简洁、实用、具有人情味的下一代论坛系统，是 Candy 的设计目标。
 
 ![screenshot@0.1.7](http://ww3.sinaimg.cn/large/61ff0de3gw1eecbmchccdj20zq0nwtcu.jpg)
 
