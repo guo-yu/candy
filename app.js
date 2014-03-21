@@ -8,11 +8,11 @@
 // @brief  : a micro bbs system based on duoshuo.com apis
 // @author : 新浪微博@郭宇 [turing](http://guoyu.me)
 
-var server = require('express-scaffold'),
-    configs = require('./configs.json'),
-    models = require('./models/index'),
-    ctrlers = require('./ctrlers/index'),
-    routes = require('./routes/index');
+var server = require('express-scaffold');
+var configs = require('./configs.json');
+var models = require('./models/index');
+var ctrlers = require('./ctrlers/index');
+var routes = require('./routes/index');
 
 // init a new server running on default port 3000
 new server(configs)
