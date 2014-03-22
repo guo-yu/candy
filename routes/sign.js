@@ -8,7 +8,7 @@ module.exports = function(ctrlers, theme) {
     // PAGE: 登录页面
     sign: function(req, res, next) {
       if (res.locals.user) return res.redirect('/');
-      theme.render('flat/sign', {}, function(err, html) {
+      theme.render('/sign', {}, function(err, html) {
         if (err) return next(err);
         return res.send(html);
       });

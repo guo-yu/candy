@@ -5,8 +5,8 @@ var roles = {
   'admin': '(管理员)'
 };
 
-module.exports = function($ctrlers, locals, theme) {
-  var user = $ctrlers.user;
+module.exports = function(ctrlers, locals, theme) {
+  var user = ctrlers.user;
   return {
     // PAGE: read
     show: function(req, res, next) {
@@ -20,7 +20,7 @@ module.exports = function($ctrlers, locals, theme) {
         if (!u.avatar) u.avatar = locals.url + '/images/avatar.png';
         if (!u.url) u.url = locals.url + '/member/' + u._id;
         u.role = roles[u.type] || '';
-        theme.render('flat/member/single', {
+        theme.render('/member/single', {
           member: u,
           isMe: isMe,
           freshman: freshman

@@ -8,18 +8,10 @@ module.exports = function(ctrlers, locals, theme) {
 
   var read = function(callback) {
     async.parallel({
-      config: function(cb) {
-        config.read(cb);
-      },
-      users: function(cb) {
-        user.list(cb);
-      },
-      boards: function(cb) {
-        board.ls(cb);
-      },
-      themes: function(cb) {
-        theme.list(cb);
-      }
+      config: config.read,
+      users: user.list,
+      boards: board.ls,
+      themes: theme.list
     }, callback);
   };
 

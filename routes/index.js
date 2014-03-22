@@ -11,6 +11,7 @@ var admin = require('./admin');
 var media = require('./media');
 var cn = require('../libs/zh-cn');
 var sys = require('../package.json');
+var home = path.resolve(__dirname, '../');
 
 moment.lang('zh-cn', cn);
 
@@ -27,7 +28,8 @@ module.exports = function(app, models, ctrlers, middlewares) {
   locals.site = app.locals.site;
   locals.url = app.locals.url;
 
-  var themes = new Theme(path.resolve(__dirname, '../'), locals);
+  // init themes
+  var themes = new Theme(home, locals, locals.site.theme || 'flat');
 
   // routes
   var routes = {

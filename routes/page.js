@@ -26,7 +26,7 @@ module.exports = function(ctrlers, theme) {
           if (err) return next(err);
           if (!result) return next(new Error('404'));
           if (result.page.max > 1 && result.threads.length === 0) return next(new Error('404'));
-          theme.render('flat/board/index', result, function(err, html) {
+          theme.render('/board/index', result, function(err, html) {
             if (err) return next(err);
             return res.send(html);
           });
@@ -37,7 +37,7 @@ module.exports = function(ctrlers, theme) {
           if (err) return next(err);
           if (!threads) return next(new Error('404'));
           if (pager.max > 1 && threads.length === 0) return next(new Error('404'));
-          theme.render('flat/index', {
+          theme.render('/index', {
             threads: threads,
             page: pager
           }, function(err, html) {
