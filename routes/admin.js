@@ -8,10 +8,18 @@ module.exports = function(ctrlers, locals, theme) {
 
   var read = function(callback) {
     async.parallel({
-      config: config.read,
-      users: user.list,
-      boards: board.ls,
-      themes: theme.list
+      config: function(cb) {
+        config.read(cb);
+      },
+      users: function(cb) {
+        user.list(cb);
+      },
+      boards: function(cb) {
+        board.ls(cb);
+      },
+      themes: function(cb) {
+        theme.list(cb);
+      }
     }, callback);
   };
 
@@ -20,12 +28,6 @@ module.exports = function(ctrlers, locals, theme) {
     page: function(req, res, next) {
       read(function(err, info) {
         if (err) return next(err);
-        if (info.themes && info.themes.name) {
-          var themes = {}
-          themes[info.themes.name] = info.themes;
-          info.themes = themes;
-        }
-        console.log(info.themes)
         theme.render('flat/admin/index', info, function(err, html) {
           if (err) return next(err);
           res.send(html);
