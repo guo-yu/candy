@@ -5,6 +5,7 @@ module.exports = function(ctrlers, locals, theme) {
   var config = ctrlers.config;
   var user = ctrlers.user;
   var board = ctrlers.board;
+  var thread = ctrlers.thread;
 
   var read = function(callback) {
     async.parallel({
@@ -16,6 +17,9 @@ module.exports = function(ctrlers, locals, theme) {
       },
       boards: function(cb) {
         board.ls(cb);
+      },
+      threads: function(cb) {
+        thread.list(cb);
       },
       themes: function(cb) {
         theme.list(cb);
