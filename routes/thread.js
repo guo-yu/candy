@@ -36,7 +36,7 @@ module.exports = function(ctrlers, theme) {
       if (!res.locals.user) return res.redirect('/sign');
       board.readDefault(req.query.bid, function(err, b) {
         if (err) return next(err);
-        theme.render('flat/thread/new', {
+        theme.render('/thread/new', {
           board: b
         }, function(err, html) {
           if (err) return next(err);
@@ -53,7 +53,7 @@ module.exports = function(ctrlers, theme) {
         if (!t) return next(new Error('404'));
         t.views = t.views + 1;
         t.save(function(err) {
-          theme.render('flat/thread/index', {
+          theme.render('/thread/index', {
             thread: t,
             marked: marked
           }, function(err, html) {
@@ -70,7 +70,7 @@ module.exports = function(ctrlers, theme) {
       thread.checkLz(req.params.thread, res.locals.user._id, function(err, lz, thread) {
         if (err) return next(err);
         if (!lz) return next(new Error('404'));
-        theme.render('flat/thread/edit', {
+        theme.render('/thread/edit', {
           thread: thread
         }, function(err, html) {
           if (err) return next(err);

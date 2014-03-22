@@ -5,6 +5,7 @@
   "views": "./node_modules/candy-theme-flat",
   "public": "./public",
   "uploads": "./public/uploads",
+  "theme": "flat",
   "database": {
     "name": "candy"
   },
