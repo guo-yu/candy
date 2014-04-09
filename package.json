@@ -32,6 +32,6 @@
     "underscore": "*",
     "highlight.js": "~8.0.0",
     "express-scaffold": "~0.2.1",
-    "candy-theme-flat": "*"
+    "candy-theme-flat": "git://github.com/turingou/candy-theme-flat.git"
   }
 }
