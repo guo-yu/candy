@@ -46,7 +46,7 @@ module.exports = function(models, Ctrler) {
     // 这里有冗余查询逻辑
     cursor.count.exec(function(err, count) {
       if (err) return callback(err);
-      cursor.pager.max = Math.round((count + limit - 1) / limit);
+      cursor.pager.max = Math.ceil(count / limit);
       cursor.query
         .populate('lz').populate('board')
         .sort('-pined').sort('-pubdate')
