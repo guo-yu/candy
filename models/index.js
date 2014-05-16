@@ -8,7 +8,7 @@ module.exports = function(db, Schema) {
     url: String,
     theme: {
       type: String,
-      default: 'candy'
+      default: 'flat'
     },
     duoshuo: {
       short_name: String,
@@ -109,10 +109,7 @@ module.exports = function(db, Schema) {
     url: String,
     cdn: String,
     type: String,
-    meta: {
-      size: Number,
-      lastModifiedDate: Date
-    },
+    size: Number,
     count: {
       download: {
         type: Number,

@@ -32,7 +32,7 @@ module.exports = function(deps) {
       if (settings._id) delete settings._id;
       config.update(id, settings, function(err, site) {
         if (err) return next(err);
-        locals.site = site;
+        deps.locals.site = site;
         return res.json(site);
       });
     });

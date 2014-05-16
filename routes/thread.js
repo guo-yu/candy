@@ -18,17 +18,6 @@ module.exports = function(deps) {
 
   // => /thread
   Thread.route('/')
-    // API: 列出所有帖子
-    .get(function(req, res, next){
-      // TODO: 这里还没有做分页
-      thread.ls(function(err, ths) {
-        if (err) return next(err);
-        res.json({
-          stat: 'ok',
-          threads: ths
-        });
-      })
-    })
     // API：创建话题
     .post(function(req, res, next){
       if (!res.locals.user) return next(new Error('signin required'));
@@ -41,6 +30,21 @@ module.exports = function(deps) {
         });
       })
     });
+
+  // => /thread/new
+  // PAGE: 查看话题页面
+  Thread.get('/new', function(req, res, next) {
+    if (!res.locals.user) return res.redirect('/sign');
+    board.readDefault(req.query.bid, function(err, b) {
+      if (err) return next(err);
+      theme.render('/thread/new', {
+        board: b
+      }, function(err, html) {
+        if (err) return next(err);
+        return res.send(html);
+      });
+    });
+  });
 
   // => /thread/:thread
   Thread.route('/:thread')
@@ -130,21 +134,6 @@ module.exports = function(deps) {
       if (!lz) return next(new Error('404'));
       theme.render('/thread/edit', {
         thread: thread
-      }, function(err, html) {
-        if (err) return next(err);
-        return res.send(html);
-      });
-    });
-  });
-
-  // => /thread/new
-  // PAGE: 查看话题页面
-  Thread.get('/new', function(req, res, next) {
-    if (!res.locals.user) return res.redirect('/sign');
-    board.readDefault(req.query.bid, function(err, b) {
-      if (err) return next(err);
-      theme.render('/thread/new', {
-        board: b
       }, function(err, html) {
         if (err) return next(err);
         return res.send(html);
