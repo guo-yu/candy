@@ -12,7 +12,7 @@ module.exports = function(deps) {
 
   // => /board
   Board.route('/')
-    // API: 列出所有板块
+    // API: list all public board
     .get(function(req, res, next) {
       board.lsName(function(err, boards) {
         if (err) return next(err);
@@ -22,7 +22,7 @@ module.exports = function(deps) {
         });
       })
     })
-    // API: 创建板块
+    // API: create a baby board
     .post(function(){
       if (!res.locals.user) return next(new Error('signin required'));
       board.create(res.locals.user._id, req.body.board, function(err, baby) {
@@ -36,7 +36,9 @@ module.exports = function(deps) {
 
   // => /board/:board
   Board.route('/:board')
-    // API: 更新板块信息
+    // PAGE: show the query board
+    .get(readBoard)
+    // API: update board infomation
     .put(function(req, res, next){
       if (!res.locals.user) return next(new Error('signin required'));
       board.update(req.params.board, req.body.board, function(err, board) {
@@ -47,7 +49,7 @@ module.exports = function(deps) {
         });
       });
     })
-    // API: 删除板块
+    // API: remove target board
     .delete(function(req, res, next){
       if (!res.locals.user) return next(new Error('signin required'));
       board.remove(req.params.board, function(err, bid) {
@@ -60,7 +62,11 @@ module.exports = function(deps) {
     });
 
   // => /board/:board/page/:page
-  Board.get('/:board/page/:page', function(req, res, next){
+  Board.get('/:board/page/:page', readBoard);
+
+  return Board;
+
+  function readBoard(req, res, next) {
     var page = isPage(req.params.page) || 1;
     // pager of board
     var query = {}
@@ -74,9 +80,7 @@ module.exports = function(deps) {
         return res.send(html);
       });
     });
-  });
-
-  return Board;
+  }
 
 }
 
