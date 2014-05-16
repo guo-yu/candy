@@ -7,25 +7,21 @@ module.exports = function(deps) {
   var media = ctrlers.media;
 
   // => /media
-  // API: 创建媒体文件
+  // API: create media file
   Media.post('/', function(req, res, next) {
     if (!res.locals.user) return next(new Error('signin required'));
     if (!req.files.media) return next(new Error('404'));
-    // 能否将这个path更友好的组织起来？
-    var originFile = req.files.media,
-      path = originFile.path;
-    var file = {
-      name: originFile.name,
-      type: originFile.type,
-      src: path,
-      url: path.substr(path.lastIndexOf('/uploads')),
+    // TODO: 能否将这个path更友好的组织起来？
+    var file = req.files.media;
+    console.log(file);
+    media.create({
+      name: file.name,
+      type: file.mimetype,
+      src: file.path,
+      url: file.path.substr(file.path.lastIndexOf('/uploads')),
       user: res.locals.user._id,
-      meta: {
-        size: originFile.size,
-        lastModifiedDate: originFile.lastModifiedDate
-      }
-    };
-    media.create(file, function(err, baby) {
+      size: file.size
+    }, function(err, baby) {
       if (err) return next(err);
       res.json({
         stat: 'ok',
@@ -35,7 +31,6 @@ module.exports = function(deps) {
   });
 
   // => /media/:media
-  // FILE: 下载媒体文件
   // TODO: 这里还要控制一个如果保存在云上的话，要重定向到云，或者从云上拿下来返回
   Media.get('/:media', function(req, res, next){
     if (!req.params.media) return next(new Error('404'));
@@ -49,7 +44,7 @@ module.exports = function(deps) {
         });
       } else {
         // 这里要扩充判断逻辑
-        // 比如需要注册分享，需要分享分享等等
+        // 比如需要注册分享，需要分享等等
         if (!res.locals.user) return next(new Error('403'));
         media.countDownload(file, function(err, f) {
           if (err) return next(err);

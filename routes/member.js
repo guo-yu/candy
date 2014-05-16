@@ -59,7 +59,7 @@ module.exports = function(deps) {
       u.avatar = uu.avatar;
       u.save(function(err) {
         if (err) return next(err);
-        // 同步本地用户到多说
+        // sync a member infomation to Duoshuo
         user.sync(locals.site.duoshuo, u, function(err, result) {
           if (err) return next(err);
           var result = result.body;

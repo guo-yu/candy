@@ -22,7 +22,7 @@ module.exports = function(deps) {
   });
 
   // => /sign/in
-  // PAGE: 登入 via duoshuo
+  // PAGE: signin via duoshuo
   Sign.get('/in', duoshuo.signin(), function(req, res, next) {
     if (!res.locals.duoshuo) return next(new Error('多说登录失败'));
     var result = res.locals.duoshuo;

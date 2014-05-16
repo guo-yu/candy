@@ -56,27 +56,24 @@ module.exports = function(app, models, ctrlers, middlewares, express) {
   // middlewares
   app.all('*', middlewares.passport.sign());
   app.all('*', theme.local('user'));
+  // BUG：需要统一一下 app.locals 与 theme.locals
+  // 现在 installer module 导致 res.render 与 theme.render 获得的 locals 不一致。导致 error 页面的信息不同。
+  // error 页面获得 的site 是数据库中的，但是theme.locals是初始化时配置文件中的。
   app.get('*', installer(app, models.config));
   app.get('*', current);
 
   // home
   app.use('/', routes.home);
-
   // signin && signout
   app.use('/sign', routes.sign);
-
   // board
   app.use('/board', routes.board);
-
   // thread
   app.use('/thread', routes.thread);
-
   // media
   app.use('/media', routes.media);
-
   // member
   app.use('/member', routes.member);
-
   // admin
   app.use('/admin', routes.admin);
 
