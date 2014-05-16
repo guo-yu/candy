@@ -60,7 +60,7 @@ module.exports = function(app, models, ctrlers, middlewares, express) {
   app.get('*', current);
 
   // home
-  app.route('/', routes.home);
+  app.use('/', routes.home);
 
   // signin && signout
   app.use('/sign', routes.sign);

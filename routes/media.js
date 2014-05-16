@@ -1,4 +1,4 @@
-module.exports = function(ctrlers, express) {
+module.exports = function(deps) {
 
   var ctrlers = deps.ctrlers;
   var express = deps.express;

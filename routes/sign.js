@@ -57,7 +57,7 @@ module.exports = function(deps) {
   });
   
   // => /sign/out
-  Sign.get('/out', middlewares.passport.signout);
+  Sign.get('/out', deps.middlewares.passport.signout);
 
   return Sign;
 
