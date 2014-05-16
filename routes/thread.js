@@ -1,27 +1,25 @@
-// GET     /thread              ->  index
-// GET     /thread/new          ->  new
-// POST    /thread              ->  create
-// GET     /thread/:thread       ->  show
-// GET     /thread/:thread/edit  ->  edit
-// PUT     /thread/:thread       ->  update
-// DELETE  /thread/:thread       ->  destroy
-
 var marked = require('marked');
 var hljs = require('highlight.js');
 
 marked.setOptions({
   sanitize: true,
-  highlight: function(code, lang) {
-    return hljs.highlightAuto(code).value;
-  }
+  highlight: function(code, lang) { return hljs.highlightAuto(code).value; }
 });
 
-module.exports = function(ctrlers, theme) {
+module.exports = function(deps) {
+
+  var ctrlers = deps.ctrlers;
+  var express = deps.express;
+  var theme = deps.theme;
+
+  var Thread = express.Router();
   var thread = ctrlers.thread;
   var board = ctrlers.board;
-  return {
+
+  // => /thread
+  Thread.route('/')
     // API: 列出所有帖子
-    index: function(req, res, next) {
+    .get(function(req, res, next){
       // TODO: 这里还没有做分页
       thread.ls(function(err, ths) {
         if (err) return next(err);
@@ -30,22 +28,24 @@ module.exports = function(ctrlers, theme) {
           threads: ths
         });
       })
-    },
-    // PAGE: 新增话题页面
-    new: function(req, res, next) {
-      if (!res.locals.user) return res.redirect('/sign');
-      board.readDefault(req.query.bid, function(err, b) {
+    })
+    // API：创建话题
+    .post(function(req, res, next){
+      if (!res.locals.user) return next(new Error('signin required'));
+      if (!req.body.thread) return next(new Error('id required'));
+      thread.create(req.body.thread, function(err, baby) {
         if (err) return next(err);
-        theme.render('/thread/new', {
-          board: b
-        }, function(err, html) {
-          if (err) return next(err);
-          return res.send(html);
+        res.json({
+          stat: 'ok',
+          thread: baby
         });
-      });
-    },
+      })
+    });
+
+  // => /thread/:thread
+  Thread.route('/:thread')
     // PAGE: 查看话题页面
-    show: function(req, res, next) {
+    .get(function(req, res, next){
       if (!req.params.thread) return next(new Error('id required'));
       if (!thread.checkId(req.params.thread)) return next(new Error('404'));
       thread.read(req.params.thread, function(err, t) {
@@ -62,36 +62,9 @@ module.exports = function(ctrlers, theme) {
           });
         });
       });
-    },
-    // PAGE: 更新帖子页面
-    edit: function(req, res, next) {
-      if (!res.locals.user) return res.redirect('/sign');
-      if (!req.params.thread) return next(new Error('id required'));
-      thread.checkLz(req.params.thread, res.locals.user._id, function(err, lz, thread) {
-        if (err) return next(err);
-        if (!lz) return next(new Error('404'));
-        theme.render('/thread/edit', {
-          thread: thread
-        }, function(err, html) {
-          if (err) return next(err);
-          return res.send(html);
-        });
-      })
-    },
-    // API：创建话题
-    create: function(req, res, next) {
-      if (!res.locals.user) return next(new Error('signin required'));
-      if (!req.body.thread) return next(new Error('id required'));
-      thread.create(req.body.thread, function(err, baby) {
-        if (err) return next(err);
-        res.json({
-          stat: 'ok',
-          thread: baby
-        });
-      })
-    },
+    })
     // API：更新话题
-    update: function(req, res, next) {
+    .put(function(req, res, next){
       if (!res.locals.user) return next(new Error('signin required'));
       if (!req.params.thread) return next(new Error('id required'));
       var tid = req.params.thread;
@@ -129,9 +102,9 @@ module.exports = function(ctrlers, theme) {
           });
         });
       })
-    },
+    })
     // API：删除话题
-    destroy: function(req, res, next) {
+    .delete(function(req, res, next){
       if (!res.locals.user) return next(new Error('signin required'));
       if (!req.params.thread) return next(new Error('id required'));
       thread.checkLz(req.params.thread, res.locals.user._id, function(err, lz, th) {
@@ -145,6 +118,40 @@ module.exports = function(ctrlers, theme) {
           });
         });
       })
-    }
-  }
+    });
+
+  // => /thread/:thread/edit
+  // PAGE: 更新帖子页面
+  Thread.get('/:thread/edit', function(req, res, next){
+    if (!res.locals.user) return res.redirect('/sign');
+    if (!req.params.thread) return next(new Error('id required'));
+    thread.checkLz(req.params.thread, res.locals.user._id, function(err, lz, thread) {
+      if (err) return next(err);
+      if (!lz) return next(new Error('404'));
+      theme.render('/thread/edit', {
+        thread: thread
+      }, function(err, html) {
+        if (err) return next(err);
+        return res.send(html);
+      });
+    });
+  });
+
+  // => /thread/new
+  // PAGE: 查看话题页面
+  Thread.get('/new', function(req, res, next) {
+    if (!res.locals.user) return res.redirect('/sign');
+    board.readDefault(req.query.bid, function(err, b) {
+      if (err) return next(err);
+      theme.render('/thread/new', {
+        board: b
+      }, function(err, html) {
+        if (err) return next(err);
+        return res.send(html);
+      });
+    });
+  });
+
+  return Thread;
+
 }

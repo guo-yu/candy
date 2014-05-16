@@ -1,81 +1,83 @@
+/**
+*
+* Global Dependencies
+*
+**/
 var path = require('path');
-var moment = require('moment');
 var Theme = require('theme');
-var Duoshuo = require('duoshuo');
-var sign = require('./sign');
-var board = require('./board');
-var thread = require('./thread');
-var user = require('./user');
-var page = require('./page');
-var admin = require('./admin');
-var media = require('./media');
-var cn = require('../libs/zh-cn');
-var sys = require('../package.json');
+var moment = require('moment');
+var current = require('express-current');
+var installer = require('express-installer');
+
+/**
+*
+* Local Dependencies
+*
+**/
+var routers = {};
+routers.home = require('./home');
+routers.sign = require('./sign');
+routers.media = require('./media');
+routers.board = require('./board');
+routers.thread = require('./thread');
+routers.member = require('./member');
+routers.admin = require('./admin');
+
+var pkg = require('../package.json');
 var home = path.resolve(__dirname, '../');
 
-moment.lang('zh-cn', cn);
+moment.lang('zh-cn', require('../libs/zh-cn'));
 
-module.exports = function(app, models, ctrlers, middlewares) {
+module.exports = function(app, models, ctrlers, middlewares, express) {
 
-  var passport = middlewares.passport.check();
-  var check = middlewares.passport.check(true);
-  var duoshuo = new Duoshuo(app.locals.site.duoshuo);
+  var routes = {};
+  var locals = {};
 
   // locals
-  var locals = {};
-  locals.sys = sys;
+  locals.sys = pkg;
   locals.moment = moment;
-  locals.site = app.locals.site;
   locals.url = app.locals.url;
+  locals.site = app.locals.site;
 
-  // init themes
-  var themes = new Theme(home, locals, locals.site.theme || 'flat');
+  // init themeloader
+  var theme = new Theme(home, locals, locals.site.theme || 'flat');
 
-  // routes
-  var routes = {
-    sign: sign(ctrlers, themes),
-    signout: middlewares.passport.signout,
-    board: board(ctrlers, themes),
-    thread: thread(ctrlers, themes),
-    media: media(ctrlers, themes),
-    user: user(ctrlers, app.locals, themes),
-    pager: page(ctrlers, themes),
-    admin: admin(ctrlers, app.locals, themes)
-  };
-
-  routes.board.show = routes.pager.show;
+  // init routes
+  Object.keys(routers).forEach(function(route){
+    routes[route] = routers[route]({
+      ctrlers: ctrlers,
+      theme: theme,
+      locals: app.locals,
+      express: express,
+      middlewares: middlewares
+    });
+  });
 
   // middlewares
-  app.all('*', passport);
-  app.all('*', themes.local('user'));
-  app.get('*', middlewares.current);
-  app.get('*', middlewares.install(app, models.config));
+  app.all('*', middlewares.passport.sign());
+  app.all('*', theme.local('user'));
+  app.get('*', installer(app, models.config));
+  app.get('*', current);
 
   // home
-  app.get('/', routes.pager.show);
-  app.get('/page/:page', routes.pager.show);
+  app.route('/', routes.home);
 
-  // signin & signout
-  app.get('/sign', routes.sign.sign)
-  app.get('/signin', duoshuo.signin(), routes.sign.signin);
-  app.get('/signout', routes.signout);
+  // signin && signout
+  app.use('/sign', routes.sign);
 
   // board
-  app.resource('board', routes.board)
-    .add(app.resource('page', routes.pager));
+  app.use('/board', routes.board);
 
   // thread
-  app.resource('thread', routes.thread);
+  app.use('/thread', routes.thread);
 
   // media
-  app.resource('medias', routes.media);
+  app.use('/media', routes.media);
 
   // member
-  app.resource('member', routes.user);
-  app.post('/member/sync', check, routes.user.sync);
+  app.use('/member', routes.member);
 
   // admin
-  app.get('/admin', routes.sign.checkAdmin, routes.admin.page);
-  app.post('/setting', routes.admin.update);
+  app.use('/admin', routes.admin);
 
 };

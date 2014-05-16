@@ -1,6 +1,6 @@
 {
   "name": "candy",
-  "version": "0.1.8",
+  "version": "0.2.0",
   "description": "a micro bbs system based on duoshuo.com apis",
   "main": "index.js",
   "author": "turing",
@@ -24,14 +24,16 @@
     "social"
   ],
   "dependencies": {
-    "theme": "~0.0.6",
+    "duoshuo":"0.2.3",
     "async": "~0.2.10",
-    "duoshuo":"0.1.2",
     "moment": "~2.5.1",
     "marked": "~0.3.1",
     "underscore": "*",
     "highlight.js": "~8.0.0",
-    "express-scaffold": "~0.2.1",
+    "theme": "~0.0.6",
+    "express-scaffold": "~0.3.1",
+    "express-installer": "*",
+    "express-current": "*",
     "candy-theme-flat": "git://github.com/turingou/candy-theme-flat.git"
   }
 }
