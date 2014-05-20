@@ -1,8 +1,8 @@
 /**
-*
-* Global Dependencies
-*
-**/
+ *
+ * Global Dependencies
+ *
+ **/
 var path = require('path');
 var Theme = require('theme');
 var moment = require('moment');
@@ -10,10 +10,10 @@ var current = require('express-current');
 var installer = require('express-installer');
 
 /**
-*
-* Local Dependencies
-*
-**/
+ *
+ * Local Dependencies
+ *
+ **/
 var routers = {};
 routers.home = require('./home');
 routers.sign = require('./sign');
@@ -30,36 +30,34 @@ moment.lang('zh-cn', require('../libs/zh-cn'));
 
 module.exports = function(app, models, ctrlers, middlewares, express) {
 
-  var routes = {};
   var locals = {};
 
-  // locals
+  // Ensure res.render output correct `sys` locals
+  app.locals.sys = pkg;
+  // Ensure theme.render output correct `sys` locals
   locals.sys = pkg;
   locals.moment = moment;
+  // This URL will be changed in different environment:
+  // In Dev env , it will be http://localhost:[port]
+  // In Production mode, It will be `app.locals.url`
   locals.url = app.locals.url;
-  locals.site = app.locals.site;
 
-  // init themeloader
-  var theme = new Theme(home, locals, locals.site.theme || 'flat');
+  // Init themeloader
+  var theme = new Theme(home, locals, app.locals.site.theme || 'flat');
 
-  // init routes
-  Object.keys(routers).forEach(function(route){
-    routes[route] = routers[route]({
-      ctrlers: ctrlers,
-      theme: theme,
-      locals: app.locals,
-      express: express,
-      middlewares: middlewares
-    });
+  // Init routes
+  var routes = initRoutes({
+    theme: theme,
+    express: express,
+    ctrlers: ctrlers,
+    locals: app.locals, // BUG: 这样多说ID就无法在Web后台进行变更
+    middlewares: middlewares
   });
 
-  // middlewares
+  // Middlewares
+  app.all('*', installer(app, models.config, rewriteConfigs));
   app.all('*', middlewares.passport.sign());
   app.all('*', theme.local('user'));
-  // BUG：需要统一一下 app.locals 与 theme.locals
-  // 现在 installer module 导致 res.render 与 theme.render 获得的 locals 不一致。导致 error 页面的信息不同。
-  // error 页面获得 的site 是数据库中的，但是theme.locals是初始化时配置文件中的。
-  app.get('*', installer(app, models.config));
   app.get('*', current);
 
   // home
@@ -77,4 +75,21 @@ module.exports = function(app, models, ctrlers, middlewares, express) {
   // admin
   app.use('/admin', routes.admin);
 
-};
+  // Every time the app restart, this middleware checks configs once.
+  // When the very first time app.enable('configed') occurs,
+  // theme.locals will be rewited.
+  function rewriteConfigs(configsInDatabase) {
+    theme.locals.site = configsInDatabase;
+    // theme.defaultTheme = configsInDatabase.theme;
+  }
+
+  // return single route
+  function initRoutes(deps) {
+    var routes = {};
+    Object.keys(routers).forEach(function(route) {
+      routes[route] = routers[route](deps);
+    });
+    return routes;
+  }
+
+}

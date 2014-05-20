@@ -5,7 +5,6 @@ module.exports = function(db, Schema) {
   var configModel = new Schema({
     name: String,
     desc: String,
-    url: String,
     theme: {
       type: String,
       default: 'flat'
