@@ -11,9 +11,8 @@ module.exports = function(deps) {
   Media.post('/', function(req, res, next) {
     if (!res.locals.user) return next(new Error('signin required'));
     if (!req.files.media) return next(new Error('404'));
-    // TODO: 能否将这个path更友好的组织起来？
     var file = req.files.media;
-    console.log(file);
+    // console.log(file);
     media.create({
       name: file.name,
       type: file.mimetype,
