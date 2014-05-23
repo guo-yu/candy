@@ -31,9 +31,8 @@
     "underscore": "*",
     "highlight.js": "~8.0.0",
     "theme": "~0.0.7",
-    "express-scaffold": "~0.3.4",
+    "express-scaffold": "~0.3.5",
     "express-installer": "~0.0.3",
-    "express-current": "*",
     "candy-theme-flat": "git://github.com/turingou/candy-theme-flat.git"
   }
 }

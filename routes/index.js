@@ -6,7 +6,6 @@
 var path = require('path');
 var Theme = require('theme');
 var moment = require('moment');
-var current = require('express-current');
 var installer = require('express-installer');
 
 /**
@@ -55,10 +54,9 @@ module.exports = function(app, models, ctrlers, middlewares, express) {
   });
 
   // Middlewares
-  app.all('*', installer(app, models.config, rewriteConfigs));
-  app.all('*', middlewares.passport.sign());
-  app.all('*', theme.local('user'));
-  app.get('*', current);
+  app.use('*', installer(app, models.config, rewriteConfigs));
+  app.use('*', middlewares.passport.sign());
+  app.use('*', theme.local('user'));
 
   // home
   app.use('/', routes.home);
