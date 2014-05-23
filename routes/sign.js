@@ -6,6 +6,7 @@ module.exports = function(deps) {
   var ctrlers = deps.ctrlers;
   var locals = deps.locals;
   var express = deps.express;
+  var theme = deps.theme;
 
   var Sign = express.Router();
   var user = ctrlers.user;
@@ -31,20 +32,35 @@ module.exports = function(deps) {
       function(callback) {
         user.readByDsId(result.user_id, callback);
       },
-      function(u, callback) {
-        if (!u) return user.count(callback);
-        req.session.user = u;
+      // check if a vaild exist user.
+      function(exist, callback) {
+        if (!exist) return callback(null);
+        req.session.user = exist;
         return res.redirect('back');
       },
+      // fetch new uses' infomation
+      function(callback) {
+        // just return for a while
+        return user.count(callback);
+        if (!result.access_token) return user.count(callback);
+        var ds = duoshuo.getClient(result.access_token);
+        // if access_token vaild
+        // this api return a 404 error
+        ds.userProfile({}, function(err, body) {
+          console.log(err);
+          if (err) return user.count(callback);
+          console.log(body);
+          return user.count(callback);
+        });
+      },
+      // make a user born
       function(count, callback) {
-        if (count == 0) result['type'] = 'admin';
-        user.create({
-          type: result.type ? result.type : 'normal',
-          duoshuo: {
-            user_id: result.user_id,
-            access_token: result.access_token
-          }
-        }, function(err, baby) {
+        var newbie = {};
+        newbie.duoshuo = {};
+        if (result.user_id) newbie.duoshuo.user_id = result.user_id;
+        if (result.access_token) newbie.duoshuo.access_token = result.access_token;
+        newbie.type = (count == 0) ? 'admin' : 'normal';
+        user.create(newbie, function(err, baby) {
           callback(err, count, baby);
         });
       }

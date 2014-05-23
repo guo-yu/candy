@@ -61,9 +61,10 @@ module.exports = function(deps) {
         if (err) return next(err);
         // sync a member infomation to Duoshuo
         user.sync(locals.site.duoshuo, u, function(err, result) {
-          if (err) return next(err);
-          var result = result.body;
-          if (result.code !== 0) return next(new Error('多说用户同步失败，请稍后再试，详细错误：' + result.errorMessage));
+          // just ignore the sync error for a while.
+          // cause api 404.
+          // var result = result.body;
+          // if (result.code !== 0) return next(new Error('多说用户同步失败，请稍后再试，详细错误：' + result.errorMessage));
           req.session.user = u;
           res.json({
             stat: 'ok',

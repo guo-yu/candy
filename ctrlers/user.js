@@ -8,19 +8,20 @@ var typeMap = {
   normal: 'user'
 };
 
-module.exports = function($models, $Ctrler) {
+module.exports = function(models, Ctrler) {
 
-  var User = new $Ctrler($models.user);
-  var user = $models.user;
+  var User = new Ctrler(models.user);
+  var user = models.user;
 
   User.checkAdmin = function(uid, callback) {
-    if (!(this.checkId(uid))) return callback(new Error('ObjectId is required.'));
+    if (!(this.checkId(uid))) return callback(new Error('vaildID is required.'));
     this.read(uid, function(err, user) {
       callback(err, (user && user.type == 'admin'))
     });
   }
 
   User.read = function(id, callback) {
+    if (!(this.checkId(id))) return callback(new Error('vaildID is required.'));
     user.findById(id).populate('threads').exec(callback);
   }
 
@@ -32,15 +33,17 @@ module.exports = function($models, $Ctrler) {
 
   User.sync = function(config, user, callback) {
     var duoshuo = new Duoshuo(config);
-    duoshuo.join({
-      access_token: user.duoshuo.access_token,
-      info: {
-        user_key: user._id,
-        name: user.nickname,
-        role: typeMap[user.type],
-        avatar_url: user.avatar,
-        url: user.url,
-        created_at: moment(user.created).format('YYYY-MM-DD hh:MM:ss')
+    var ds = duoshuo.getClient(user.duoshuo.access_token);
+    ds.join({
+      form: {
+        info: {
+          user_key: user._id,
+          name: user.nickname,
+          role: typeMap[user.type],
+          avatar_url: user.avatar,
+          url: user.url,
+          created_at: moment(user.created).format('YYYY-MM-DD hh:MM:ss')
+        }
       }
     }, callback);
   }

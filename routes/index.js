@@ -36,6 +36,7 @@ module.exports = function(app, models, ctrlers, middlewares, express) {
   // Ensure theme.render output correct `sys` locals
   locals.sys = pkg;
   locals.moment = moment;
+  locals.site = app.locals.site;
   // This URL will be changed in different environment:
   // In Dev env , it will be http://localhost:[port]
   // In Production mode, It will be `app.locals.url`
