@@ -23,7 +23,7 @@ module.exports = function(deps) {
       })
     })
     // API: create a baby board
-    .post(function(){
+    .post(function(req, res, next) {
       if (!res.locals.user) return next(new Error('signin required'));
       board.create(res.locals.user._id, req.body.board, function(err, baby) {
         if (err) return next(err);
