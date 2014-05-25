@@ -6,17 +6,15 @@ module.exports = function(Schema) {
     cdn: String,
     type: String,
     size: Number,
-    count: {
-      download: {
-        type: Number,
-        default: 0
-      },
-      share: {
-        type: Number,
-        default: 0
-      }
+    download: {
+      type: Number,
+      default: 0
     },
-    stat: {
+    share: {
+      type: Number,
+      default: 0
+    },
+    status: {
       type: String,
       default: 'public'
     },
