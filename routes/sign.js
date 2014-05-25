@@ -27,6 +27,7 @@ module.exports = function(deps) {
   Sign.get('/in', duoshuo.signin(), function(req, res, next) {
     if (!res.locals.duoshuo) return next(new Error('多说登录失败'));
     var result = res.locals.duoshuo;
+    var isValidUser = result.access_token && result.user_id;
     // 当返回正确时
     async.waterfall([
       function(callback) {
@@ -40,26 +41,40 @@ module.exports = function(deps) {
       },
       // fetch new uses' infomation
       function(callback) {
-        // just return for a while
-        return user.count(callback);
-        if (!result.access_token) return user.count(callback);
-        var ds = duoshuo.getClient(result.access_token);
+        if (!isValidUser) return user.count(callback);
         // if access_token vaild
-        // this api return a 404 error
-        ds.userProfile({}, function(err, body) {
-          console.log(err);
+        var ds = duoshuo.getClient(result.access_token);
+        ds.userProfile({
+          user_id: result.user_id
+        }, function(err, body) {
           if (err) return user.count(callback);
-          console.log(body);
-          return user.count(callback);
+          if (body.code !== 0) return user.count(callback);
+          var userinfo = body.response;
+          if (!userinfo) return user.count(callback);
+          return user.count(function(err, c){
+            return callback(err, c, userinfo);
+          });
         });
       },
       // make a user born
-      function(count, callback) {
+      function(count, userinfo, callback) {
         var newbie = {};
-        newbie.duoshuo = {};
-        if (result.user_id) newbie.duoshuo.user_id = result.user_id;
-        if (result.access_token) newbie.duoshuo.access_token = result.access_token;
         newbie.type = (count == 0) ? 'admin' : 'normal';
+        console.log(userinfo);
+        if (isValidUser) {
+          newbie.duoshuo = {};
+          newbie.duoshuo.user_id = result.user_id;
+          newbie.duoshuo.access_token = result.access_token;
+        }
+        if (userinfo) {
+          newbie.nickname = userinfo.name;
+          newbie.url = userinfo.url;
+          newbie.avatar = userinfo.avatar_url;
+          newbie.email_notification = userinfo.email_notification;
+          if (userinfo.social_uid && userinfo.connected_services) {
+            newbie.social_networks = mergeSameNetwork(userinfo.social_uid, userinfo.connected_services);
+          }
+        }
         user.create(newbie, function(err, baby) {
           callback(err, count, baby);
         });
@@ -76,5 +91,13 @@ module.exports = function(deps) {
   Sign.get('/out', deps.middlewares.passport.signout);
 
   return Sign;
+
+  function mergeSameNetwork(social_uid, connected_services) {
+    Object.keys(connected_services).forEach(function(item){
+      if (!social_uid[item]) return;
+      connected_services[item]['social_uid'] = social_uid[item];
+    });
+    return connected_services;
+  }
 
 }

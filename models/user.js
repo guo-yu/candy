@@ -1,11 +1,13 @@
 module.exports = function(Schema) {
   return new Schema({
-    nickname: String,
-    email: String,
-    avatar: String,
-    password: String,
-    phone: String,
     url: String,
+    email: String,
+    phone: String,
+    avatar: String,
+    nickname: String,
+    password: String,
+    email_notification: String,
+    social_networks: {},
     created: {
       type: Date,
       default: Date.now
