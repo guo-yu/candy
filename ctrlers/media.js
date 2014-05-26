@@ -9,10 +9,12 @@ module.exports = function(models, Ctrler) {
 
   // 需要使用inc修改
   Media.countDownload = function(file, callback) {
-    file.count.download = file.count.download + 1;
-    file.save(function(err) {
-      callback(err, file);
-    });
+    if (file.count) {
+      file.count.download ++;
+    } else {
+      file.download ++;
+    }
+    return file.save(callback);
   };
 
   return Media;
