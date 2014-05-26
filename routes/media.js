@@ -12,7 +12,6 @@ module.exports = function(deps) {
     if (!res.locals.user) return next(new Error('signin required'));
     if (!req.files.media) return next(new Error('404'));
     var file = req.files.media;
-    // console.log(file);
     media.create({
       name: file.name,
       type: file.mimetype,
@@ -36,20 +35,13 @@ module.exports = function(deps) {
     media.findById(req.params.media, function(err, file) {
       if (err) return next(err);
       if (!file) return next(new Error('404'));
-      if (file.stat == 'public') {
-        media.countDownload(file, function(err, f) {
-          if (err) return next(err);
-          res.download(file.src, file.name);
-        });
-      } else {
-        // 这里要扩充判断逻辑
-        // 比如需要注册分享，需要分享等等
-        if (!res.locals.user) return next(new Error('403'));
-        media.countDownload(file, function(err, f) {
-          if (err) return next(err);
-          res.download(file.src);
-        });
-      }
+      console.log(file);
+      var isPublicFile = (file.status && file.status === 'public') || (file.stat && file.stat === 'public');
+      if (!isPublicFile) return next(new Error('抱歉，此文件不公开...'));
+      media.countDownload(file, function(err) {
+        if (err) return next(err);
+        res.download(file.src, file.name);
+      });
     });
   });
 
