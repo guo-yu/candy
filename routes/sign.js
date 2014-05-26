@@ -27,8 +27,7 @@ module.exports = function(deps) {
   Sign.get('/in', duoshuo.signin(), function(req, res, next) {
     if (!res.locals.duoshuo) return next(new Error('多说登录失败'));
     var result = res.locals.duoshuo;
-    var isValidUser = result.access_token && result.user_id;
-    // 当返回正确时
+    var isValidUser = !!(result.access_token && result.user_id);
     async.waterfall([
       function(callback) {
         user.readByDsId(result.user_id, callback);
@@ -41,26 +40,25 @@ module.exports = function(deps) {
       },
       // fetch new uses' infomation
       function(callback) {
-        if (!isValidUser) return user.count(callback);
+        if (!isValidUser) return countUser(null, callback);
         // if access_token vaild
         var ds = duoshuo.getClient(result.access_token);
         ds.userProfile({
-          user_id: result.user_id
+          qs: {
+            user_id: result.user_id
+          }
         }, function(err, body) {
-          if (err) return user.count(callback);
-          if (body.code !== 0) return user.count(callback);
+          if (err) return countUser(null, callback);
+          if (body.code !== 0) return countUser(null, callback);
           var userinfo = body.response;
-          if (!userinfo) return user.count(callback);
-          return user.count(function(err, c){
-            return callback(err, c, userinfo);
-          });
+          if (!userinfo) return countUser(null, callback);
+          return countUser(userinfo, callback);
         });
       },
-      // make a user born
+      // born a user
       function(count, userinfo, callback) {
         var newbie = {};
         newbie.type = (count == 0) ? 'admin' : 'normal';
-        console.log(userinfo);
         if (isValidUser) {
           newbie.duoshuo = {};
           newbie.duoshuo.user_id = result.user_id;
@@ -98,6 +96,12 @@ module.exports = function(deps) {
       connected_services[item]['social_uid'] = social_uid[item];
     });
     return connected_services;
+  }
+
+  function countUser(userinfo, callback) {
+    return user.count(function(err, counts){
+      return callback(err, counts, userinfo);
+    });
   }
 
 }
