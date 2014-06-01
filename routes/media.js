@@ -35,7 +35,6 @@ module.exports = function(deps) {
     media.findById(req.params.media, function(err, file) {
       if (err) return next(err);
       if (!file) return next(new Error('404'));
-      console.log(file);
       var isPublicFile = (file.status && file.status === 'public') || (file.stat && file.stat === 'public');
       if (!isPublicFile) return next(new Error('抱歉，此文件不公开...'));
       media.countDownload(file, function(err) {

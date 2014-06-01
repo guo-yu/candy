@@ -67,6 +67,12 @@ module.exports = function(models, Ctrler) {
     });
   }
 
+  Thread.newbies = function(date, callback) {
+    var query = {};
+    query.$lte = date || new Date;
+    return thread.count(query).exec(callback);
+  }
+
   return Thread;
 
 }

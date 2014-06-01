@@ -48,6 +48,12 @@ module.exports = function(models, Ctrler) {
     }, callback);
   }
 
+  User.newbies = function(date, callback) {
+    var query = {};
+    query.$lte = date || new Date;
+    return user.count(query).exec(callback);
+  }
+
   return User;
 
 }

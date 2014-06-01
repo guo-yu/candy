@@ -59,6 +59,12 @@ module.exports = function(models, Ctrler) {
     });
   }
 
+  Board.newbies = function(date, callback) {
+    var query = {};
+    query.$lte = date || new Date;
+    return board.count(query).exec(callback);
+  }
+
   return Board;
 
 }
