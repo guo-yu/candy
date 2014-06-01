@@ -29,8 +29,9 @@ module.exports = function(deps) {
     var result = res.locals.duoshuo;
     var isValidUser = !!(result.access_token && result.user_id);
     async.waterfall([
+      // read a user by duoshuo.user_id
       function(callback) {
-        user.readByDsId(result.user_id, callback);
+        user.read(result.user_id, callback);
       },
       // check if a vaild exist user.
       function(exist, callback) {
