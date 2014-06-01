@@ -13,6 +13,7 @@ module.exports = function(models, Ctrler) {
   var User = new Ctrler(models.user);
   var user = models.user;
 
+  // Check if a user is Admin user.
   User.checkAdmin = function(uid, callback) {
     if (!(this.checkId(uid))) return callback(new Error('vaildID is required.'));
     this.read(uid, function(err, user) {
@@ -20,17 +21,16 @@ module.exports = function(models, Ctrler) {
     });
   }
 
+  // Read a user by its ObjectID.
+  // If fails, query id by duoshuo.user_id
   User.read = function(id, callback) {
-    if (!(this.checkId(id))) return callback(new Error('vaildID is required.'));
-    user.findById(id).populate('threads').exec(callback);
-  }
-
-  User.readByDsId = function(id, callback) {
-    user.findOne({
+    if ((this.checkId(id))) return user.findById(id).populate('threads').exec(callback);
+    return user.findOne({
       'duoshuo.user_id': id
     }).exec(callback);
   }
 
+  // Sync a user to duoshuo's database
   User.sync = function(config, user, callback) {
     var duoshuo = new Duoshuo(config);
     var ds = duoshuo.getClient(user.duoshuo.access_token);
@@ -48,6 +48,7 @@ module.exports = function(models, Ctrler) {
     }, callback);
   }
 
+  // Fetch a group of newbie users.
   User.newbies = function(date, callback) {
     var query = {};
     query.$lte = date || new Date;

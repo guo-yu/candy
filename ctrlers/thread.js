@@ -7,6 +7,7 @@ module.exports = function(models, Ctrler) {
   var board = models.board;
   var user = models.user;
 
+  // Create a baby thread
   Thread.create = function(baby, cb) {
     var baby = new thread(baby);
     async.waterfall([
@@ -73,7 +74,7 @@ module.exports = function(models, Ctrler) {
     });
   }
 
-  // Fetch a group of newbie user.
+  // Fetch a group of newbie threads.
   Thread.newbies = function(date, callback) {
     var query = {};
     query.$lte = date || new Date;

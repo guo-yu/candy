@@ -21,7 +21,7 @@ module.exports = function(models, Ctrler) {
     board.findById(id).populate('threads').populate('bz').exec(callback);
   }
 
-  // list all boards
+  // List all boards or list selected params board.
   Board.list = function(selects, callback) {
     if (!selects || selects === 'all') {
       return board.find({}).populate('bz').populate('threads').exec(callback);
@@ -29,7 +29,7 @@ module.exports = function(models, Ctrler) {
     return board.find({}).select(selects).exec(callback);
   }
 
-  // fetch board by query
+  // Fetch board by query
   Board.fetch = function(page, limit, query, callback) {
     board.findOne(query).populate('bz').exec(function(err, target) {
       if (!target) return callback(null, null);
@@ -53,6 +53,7 @@ module.exports = function(models, Ctrler) {
     });
   }
 
+  // Fetch a group of newbie board.
   Board.newbies = function(date, callback) {
     var query = {};
     query.$lte = date || new Date;
