@@ -55,6 +55,15 @@ module.exports = function(deps) {
       },
       themes: function(cb) {
         theme.list(cb);
+      },
+      userNewbies: function(cb) {
+        user.newbies(cb)
+      },
+      boardNewbies: function(cb) {
+        board.newbies(cb)
+      },
+      threadNewbies: function(cb) {
+        thread.newbies(cb)
       }
     }, callback);
   }
