@@ -5,7 +5,7 @@ module.exports = function(models, Ctrler) {
   var board = models.board;
   var thread = models.thread;
 
-  // create board
+  // Create a baby board
   Board.create = function(bzid, baby, cb) {
     var baby = new board(baby);
     baby.bz.push(bzid);
@@ -14,25 +14,19 @@ module.exports = function(models, Ctrler) {
     });
   }
 
-  // read default board (001)
-  Board.readDefault = function(id, callback) {
-    if (!id) return board.findOne({}).exec(callback);
-    return this.findById(id).exec(callback);
-  }
-
-  // read full board
+  // Read a selected board or default board
   Board.read = function(id, callback) {
+    if (!id) return board.findOne({}).exec(callback);
+    if (!this.checkId(id)) return callback(new Error('404'));
     board.findById(id).populate('threads').populate('bz').exec(callback);
   }
 
-  // list all boards' name
-  Board.lsName = function(callback) {
-    board.find({}).select('name url').exec(callback);
-  }
-
   // list all boards
-  Board.ls = function(callback) {
-    board.find({}).populate('bz').populate('threads').exec(callback);
+  Board.list = function(selects, callback) {
+    if (!selects || selects === 'all') {
+      return board.find({}).populate('bz').populate('threads').exec(callback);
+    }
+    return board.find({}).select(selects).exec(callback);
   }
 
   // fetch board by query

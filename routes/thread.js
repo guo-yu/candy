@@ -35,7 +35,7 @@ module.exports = function(deps) {
   // PAGE: 查看话题页面
   Thread.get('/new', function(req, res, next) {
     if (!res.locals.user) return res.redirect('/sign');
-    board.readDefault(req.query.bid, function(err, b) {
+    board.read(req.query.bid, function(err, b) {
       if (err) return next(err);
       theme.render('/thread/new', {
         board: b
