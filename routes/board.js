@@ -14,7 +14,7 @@ module.exports = function(deps) {
   Board.route('/')
     // API: list all public board
     .get(function(req, res, next) {
-      board.lsName(function(err, boards) {
+      board.list('name url', function(err, boards) {
         if (err) return next(err);
         return res.json({
           stat: 'ok',

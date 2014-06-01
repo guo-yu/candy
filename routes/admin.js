@@ -16,7 +16,7 @@ module.exports = function(deps) {
   Admin.route('/')
     // PAGE: Home of Admin panel
     .get(checkAdmin, function(req, res, next) {
-      read(function(err, info) {
+      fetchData(function(err, info) {
         if (err) return next(err);
         theme.render('flat/admin/index', info, function(err, html) {
           if (err) return next(err);
@@ -39,7 +39,7 @@ module.exports = function(deps) {
 
   return Admin;
 
-  function read(callback) {
+  function fetchData(callback) {
     async.parallel({
       config: function(cb) {
         config.read(cb);
@@ -48,7 +48,7 @@ module.exports = function(deps) {
         user.list(cb);
       },
       boards: function(cb) {
-        board.ls(cb);
+        board.list('all', cb);
       },
       threads: function(cb) {
         thread.list(cb);
