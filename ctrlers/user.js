@@ -48,20 +48,6 @@ module.exports = function(models, Ctrler) {
     }, callback);
   }
 
-  // Fetch a group of newbie users.
-  User.newbies = function(callback) {
-    var d = new Date();
-    var month = d.getMonth();
-    var year = d.getFullYear();
-    var day = d.getDate();
-    return user.count({
-      created: {
-        $lt: new Date(),
-        $gt: new Date(year + ',' + month + ',' + day)
-      }
-    }).exec(callback);
-  }
-
   return User;
 
 }
