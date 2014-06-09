@@ -59,13 +59,13 @@ module.exports = function(deps) {
       newbies: function(cb) {
         async.parallel({
           user: function(done){
-            user.newbies(done);
+            user.newbies('created', 'day', done);
           },
           board: function(done){
-            board.newbies(done);
+            board.newbies('created', 'day', done);
           },
           thread: function(done) {
-            thread.newbies(done);
+            thread.newbies('pubdate', 'day', done);
           }
         }, cb);
       }

@@ -3,6 +3,10 @@ module.exports = function(Schema) {
     name: String,
     desc: String,
     banner: String,
+    created: {
+      type: Date,
+      default: Date.now
+    },
     url: {
       type: String,
       unique: true
