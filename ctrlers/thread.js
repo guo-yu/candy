@@ -75,10 +75,17 @@ module.exports = function(models, Ctrler) {
   }
 
   // Fetch a group of newbie threads.
-  Thread.newbies = function(date, callback) {
-    var query = {};
-    query.$lte = date || new Date;
-    return thread.count(query).exec(callback);
+  Thread.newbies = function(callback) {
+    var d = new Date();
+    var month = d.getMonth();
+    var year = d.getFullYear();
+    var day = d.getDate();
+    return thread.count({
+      created: {
+        $lt: new Date(),
+        $gt: new Date(year + ',' + month + ',' + day)
+      }
+    }).exec(callback);
   }
 
   return Thread;

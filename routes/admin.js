@@ -56,14 +56,18 @@ module.exports = function(deps) {
       themes: function(cb) {
         theme.list(cb);
       },
-      userNewbies: function(cb) {
-        user.newbies(cb)
-      },
-      boardNewbies: function(cb) {
-        board.newbies(cb)
-      },
-      threadNewbies: function(cb) {
-        thread.newbies(cb)
+      newbies: function(cb) {
+        async.parallel({
+          user: function(done){
+            user.newbies(done);
+          },
+          board: function(done){
+            board.newbies(done);
+          },
+          thread: function(done) {
+            thread.newbies(done);
+          }
+        }, cb);
       }
     }, callback);
   }
