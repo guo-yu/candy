@@ -39,37 +39,37 @@ module.exports = function(deps) {
 
   return Admin;
 
-  function fetchData(callback) {
+  function fetchData(done) {
     async.parallel({
-      config: function(cb) {
-        config.read(cb);
+      config: function(callback) {
+        config.read(callback);
       },
-      users: function(cb) {
-        user.list(cb);
+      users: function(callback) {
+        user.list(callback);
       },
-      boards: function(cb) {
-        board.list('all', cb);
+      boards: function(callback) {
+        board.list('all', callback);
       },
-      threads: function(cb) {
-        thread.list(cb);
+      threads: function(callback) {
+        thread.list(callback);
       },
-      themes: function(cb) {
-        theme.list(cb);
+      themes: function(callback) {
+        theme.list(callback);
       },
-      newbies: function(cb) {
+      newbies: function(callback) {
         async.parallel({
-          user: function(done){
-            user.newbies('created', 'day', done);
+          user: function(cb){
+            user.newbies('created', 'day', cb);
           },
-          board: function(done){
-            board.newbies('created', 'day', done);
+          board: function(cb){
+            board.newbies('created', 'day', cb);
           },
-          thread: function(done) {
-            thread.newbies('pubdate', 'day', done);
+          thread: function(cb) {
+            thread.newbies('pubdate', 'day', cb);
           }
-        }, cb);
+        }, callback);
       }
-    }, callback);
+    }, done);
   }
 
   function checkAdmin(req, res, next) {
