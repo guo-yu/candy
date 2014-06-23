@@ -31,7 +31,7 @@ $ node app.js
 
 ### 升级 Candy
 
-无论你使用何种方式安装 Candy，都可以使用 NPM 或 Git 方便地进行升级。升级操作通常需要在 Candy 的安装目录进行，我们架设你的安装目录是 `/www/candy`，让我们将 Candy 升级到最新版本吧：
+无论你使用何种方式安装 Candy，都可以使用 NPM 或 Git 方便地进行升级。升级操作通常需要在 Candy 的安装目录进行，我们假设你的安装目录是 `/www/candy`，让我们将 Candy 升级到最新版本吧：
 
 如果你使用 Git clone Candy：
 ```
