@@ -24,6 +24,7 @@ routers.admin = require('./admin');
 
 var pkg = require('../package.json');
 var home = path.resolve(__dirname, '../');
+var debug = require('../libs/debug');
 
 moment.lang('zh-cn', require('../libs/zh-cn'));
 
@@ -73,6 +74,10 @@ module.exports = function(app, models, ctrlers, middlewares, express) {
   app.use('/member', routes.member);
   // admin
   app.use('/admin', routes.admin);
+
+  debug(app.locals.site.name + ' is Running on: ' + app.locals.url);
+  debug('NODE_ENV: ' + app.get('env'));
+  debug('PORT: ' + app.get('port'));
 
   // Every time the app restart, this middleware checks configs once.
   // When the very first time app.enable('configed') occurs,

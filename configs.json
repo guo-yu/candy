@@ -1,6 +1,7 @@
 {
   "name": "Candy",
   "desc": "简单优雅的次世代论坛",
+  "url": "http://yourCandyApp.com",
   "views": "./node_modules/candy-theme-flat",
   "public": "./public",
   "uploads": "./public/uploads",
