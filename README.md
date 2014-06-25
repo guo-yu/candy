@@ -17,7 +17,7 @@
 $ git clone https://github.com/turingou/candy.git
 $ cd candy
 $ npm install
-$ node app.js
+$ PORT=3001 node app.js
 ```
 
 2.将 Candy 视为 NPM 模块安装，在外部使用启动脚本启动，我已经为你准备了一个现成的启动脚本：
@@ -25,7 +25,7 @@ $ node app.js
 $ mkdir candy && cd candy
 $ npm install candy
 $ cp node_modules/candy/app.sample.js ./app.js
-$ node app.js
+$ PORT=3001 node app.js
 ````
 无论你以何种方式启动，你将在默认的端口看到一个全新的 Candy 正在静候你的初次访问。现在，使用浏览器访问 [localhost:3000](http://localhost:3000) 你将能看到一个全新的 Candy Demo。
 
@@ -57,6 +57,22 @@ $ npm install candy@latest
 
 配置脚本负责启动你的 Candy 论坛。这意味着在变更某些配置之后，你可能需要重新启动配置脚本。这个文件通常是 `app.js`。
 
+**注意**： 在生产环境启动 candy 时，请配置相应的环境变量以启动服务：
+
+```
+// 在 3001 端口启动服务，配置当前环境为 test:
+$ PORT=3001 NODE_ENV='test' node app.js
+```
+
+#### 测试 Candy (Debug 模式)
+
+如果你启动的 Candy 实例遇到问题，可以开启 Debug 模式边运行边打印测试结果。你可以通过这样的方式启动 debug 模式：
+
+```
+// 在 3001 端口启动 debug 模式的 candy 实例：
+$ DEBUG=* PORT=3001 node app.js
+```
+
 #### 配置文件 `configs.json`
 
 配置文件是启动脚本使用的初始配置，Candy 使用一个 `json` 文件当做配置文件。这个文件里规定了论坛初始化时的名字，简介，永久链接，运行环境，数据库信息等等内容。
@@ -67,7 +83,6 @@ $ npm install candy@latest
 ````javascript
 {
   "name": 'Candy',
-  "port": 3000,
   "desc": 'some description for your very new Candy forum',
   "public": "./public",
   "uploads": "./public/uploads",
@@ -88,15 +103,11 @@ $ npm install candy@latest
 
 ##### configs#name [String] 站点名称
 ##### configs#desc [String] 站点介绍
-##### configs#port [Number] 运行端口 (默认为 3000)
 ##### configs#public [String] 静态资源目录 (默认为 `./public`)
 ##### configs#uploads [String] 附件上传目录 (默认为 `./public/uploads`)
 ##### configs#views [String] 默认主题目录 (默认为 `./node_modules/candy-theme-flat`)
 ##### configs#url [String] 站点永久链接
 这是一个以 http 或 https 开头的 URL，这个 URL 只有在你将站点的运行环境设定为 `production` 时才会变成站点的根。
-
-##### configs#env [String] 站点运行环境 `development`(默认) 或 `production`
-这个键指定了 Candy 的运行环境，当设定为 `production` 时将启动生产环境缓存策略，日志方案和压缩方案，并使用指定的 `configs#url` 作为站点根。
 
 ##### configs#database [Object] 数据库信息
 Candy 采用 Mongodb 构建。这是储存论坛数据库信息的对象。包括

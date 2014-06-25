@@ -1,6 +1,5 @@
 {
   "name": "Candy",
-  "port": 3000,
   "desc": "简单优雅的次世代论坛",
   "views": "./node_modules/candy-theme-flat",
   "public": "./public",

@@ -28,11 +28,14 @@
     "async": "~0.2.10",
     "moment": "~2.5.1",
     "marked": "~0.3.1",
+    "theme": "~0.0.7",
     "underscore": "*",
     "highlight.js": "~8.0.0",
-    "theme": "~0.0.7",
-    "express-scaffold": "0.3.8",
+    "express-scaffold": "0.4.0",
     "express-installer": "~0.0.3",
     "candy-theme-flat": "git://github.com/turingou/candy-theme-flat.git"
+  },
+  "devDependencies": {
+    "debug": "*"
   }
 }
