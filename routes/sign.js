@@ -1,5 +1,6 @@
 var async = require('async');
 var Duoshuo = require('duoshuo');
+var debug = require('../libs/debug');
 
 module.exports = function(deps) {
 
@@ -28,6 +29,10 @@ module.exports = function(deps) {
     if (!res.locals.duoshuo) return next(new Error('多说登录失败'));
     var result = res.locals.duoshuo;
     var isValidUser = !!(result.access_token && result.user_id);
+
+    debug(result);
+    debug(isValidUser);
+    
     async.waterfall([
       // read a user by duoshuo.user_id
       function(callback) {

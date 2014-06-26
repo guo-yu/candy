@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node app.js",
-    "test": "./node_modules/mocha/bin/mocha ./test/test.js"
+    "test": "DEBUG=candy node app.js"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,7 @@
     "social"
   ],
   "dependencies": {
-    "duoshuo":"~0.2",
+    "duoshuo": "0.2.6",
     "async": "~0.2.10",
     "moment": "~2.5.1",
     "marked": "~0.3.1",

@@ -75,7 +75,7 @@ module.exports = function(app, models, ctrlers, middlewares, express) {
   // admin
   app.use('/admin', routes.admin);
 
-  debug(app.locals.site.name + ' is Running on: ' + app.locals.url);
+  debug('is running on: ' + app.locals.url);
   debug('NODE_ENV: ' + app.get('env'));
   debug('PORT: ' + app.get('port'));
 

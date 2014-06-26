@@ -70,7 +70,10 @@ $ PORT=3001 NODE_ENV='test' node app.js
 
 ```
 // 在 3001 端口启动 debug 模式的 candy 实例：
-$ DEBUG=candy PORT=3001 node app.js
+$ DEBUG=candy PORT=3000 node app.js
+// 或者直接使用快捷方式
+$ cd candy
+$ npm test
 ```
 
 #### 配置文件 `configs.json`
