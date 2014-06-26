@@ -34,8 +34,5 @@
     "express-scaffold": "0.4.0",
     "express-installer": "~0.0.3",
     "candy-theme-flat": "git://github.com/turingou/candy-theme-flat.git"
-  },
-  "devDependencies": {
-    "debug": "*"
   }
 }
