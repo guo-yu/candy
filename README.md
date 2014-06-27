@@ -31,7 +31,7 @@ $ PORT=3001 node app.js
 
 ### 升级 Candy
 
-无论你使用何种方式安装 Candy，都可以使用 NPM 或 Git 方便地进行升级。升级操作通常需要在 Candy 的安装目录进行，我们架设你的安装目录是 `/www/candy`，让我们将 Candy 升级到最新版本吧：
+无论你使用何种方式安装 Candy，都可以使用 NPM 或 Git 方便地进行升级。升级操作通常需要在 Candy 的安装目录进行，我们假设你的安装目录是 `/www/candy`，让我们将 Candy 升级到最新版本吧：
 
 如果你使用 Git clone Candy：
 ```
@@ -62,6 +62,28 @@ $ npm install candy@latest
 ```
 // 在 3001 端口启动服务，配置当前环境为 test:
 $ PORT=3001 NODE_ENV='test' node app.js
+```
+
+#### 使用 Docker build 启动镜像
+
+Candy 提供了一份 Dockerfile 以便于使用 Docker 部署服务的使用者可以快速根据 ubuntu:14.04 的原始镜像编译出一份在 3000 端口暴露服务的 Docker Container: 
+
+1. 通过 Candy 提供的 Dockerfile 编译镜像
+```
+$ sudo docker build -t <your username>/candy
+```
+2. 启动镜像
+```
+// 在宿主机上绑定 8080 端口到此容器的 3000 端口，也就是 Candy 服务的端口
+$ sudo docker run -p 8080:3000 -d <your username>/candy
+```
+3. 找到镜像 ID （一串哈希或它的前三位）
+```
+$ sudo docker ps -l
+```
+4. 打印镜像活动日志
+```
+$ sudo docker logs <container id>
 ```
 
 #### 测试 Candy (Debug 模式)
