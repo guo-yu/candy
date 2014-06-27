@@ -4,9 +4,10 @@ FROM ubuntu:14.04
 
 # install nodejs and npm
 RUN apt-get update
-RUN apt-get install -y nodejs
+RUN apt-get install -y nodejs-legacy
 RUN apt-get install -y npm
 RUN apt-get install -y git
+RUN apt-get install -y gcc-4.8
 
 # add src code to this image
 RUN mkdir /var/www
