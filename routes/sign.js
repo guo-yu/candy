@@ -47,9 +47,7 @@ function signRouter(deps) {
         // if access_token vaild
         var ds = duoshuo.getClient(result.access_token);
         ds.userProfile({
-          qs: {
-            user_id: result.user_id
-          }
+          user_id: result.user_id
         }, function(err, body) {
           if (err) return countUser(null, callback);
           if (body.code !== 0) return countUser(null, callback);

@@ -34,15 +34,13 @@ function userCtrler(models, Ctrler) {
     var duoshuo = new Duoshuo(config);
     var ds = duoshuo.getClient(user.duoshuo.access_token);
     ds.join({
-      form: {
-        info: {
-          user_key: user._id,
-          name: user.nickname,
-          role: typeMap[user.type],
-          avatar_url: user.avatar,
-          url: user.url,
-          created_at: moment(user.created).format('YYYY-MM-DD hh:MM:ss')
-        }
+      info: {
+        user_key: user._id,
+        name: user.nickname,
+        role: typeMap[user.type],
+        avatar_url: user.avatar,
+        url: user.url,
+        created_at: moment(user.created).format('YYYY-MM-DD hh:MM:ss')
       }
     }, callback);
   }
