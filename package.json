@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node app.js",
-    "test": "DEBUG=candy node app.js"
+    "test": "DEBUG=candy:*,Candy:* node app.js"
   },
   "repository": {
     "type": "git",
@@ -31,7 +31,7 @@
     "marked": "~0.3.1",
     "underscore": "*",
     "highlight.js": "~8.0.0",
-    "express-scaffold": "0.4.0",
+    "express-scaffold": "0.4.2",
     "express-installer": "~0.0.3",
     "candy-theme-flat": "0.1.0"
   }
