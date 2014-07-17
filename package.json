@@ -25,10 +25,10 @@
   ],
   "dependencies": {
     "duoshuo": "0.3",
+    "theme": "0.0.8",
     "async": "~0.2.10",
     "moment": "~2.5.1",
     "marked": "~0.3.1",
-    "theme": "~0.0.7",
     "underscore": "*",
     "highlight.js": "~8.0.0",
     "express-scaffold": "0.4.0",
