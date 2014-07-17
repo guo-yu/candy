@@ -1,4 +1,6 @@
-module.exports = function(deps) {
+module.exports = mediaRouter;
+
+function mediaRouter(deps) {
 
   var ctrlers = deps.ctrlers;
   var express = deps.express;

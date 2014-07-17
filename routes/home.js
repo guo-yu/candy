@@ -1,4 +1,6 @@
-module.exports = function(deps) {
+module.exports = homeRouter;
+
+function homeRouter(deps) {
 
   var ctrlers = deps.ctrlers;
   var express = deps.express;

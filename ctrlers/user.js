@@ -1,6 +1,5 @@
 var moment = require('moment');
 var Duoshuo = require('duoshuo');
-
 var typeMap = {
   admin: 'administrator',
   editor: 'editor',
@@ -8,11 +7,13 @@ var typeMap = {
   normal: 'user'
 };
 
-module.exports = function(models, Ctrler) {
+moment.lang('zh-cn');
 
+module.exports = userCtrler;
+
+function userCtrler(models, Ctrler) {
   var User = new Ctrler(models.user);
   var user = models.user;
-
   // Check if a user is Admin user.
   User.checkAdmin = function(uid, callback) {
     if (!(this.checkId(uid))) return callback(new Error('vaildID is required.'));
@@ -20,7 +21,6 @@ module.exports = function(models, Ctrler) {
       callback(err, (user && user.type == 'admin'))
     });
   }
-
   // Read a user by its ObjectID.
   // If fails, query id by duoshuo.user_id
   User.read = function(id, callback) {
@@ -29,7 +29,6 @@ module.exports = function(models, Ctrler) {
       'duoshuo.user_id': id
     }).exec(callback);
   }
-
   // Sync a user to duoshuo's database
   User.sync = function(config, user, callback) {
     var duoshuo = new Duoshuo(config);
@@ -47,7 +46,5 @@ module.exports = function(models, Ctrler) {
       }
     }, callback);
   }
-
   return User;
-
 }

@@ -1,7 +1,9 @@
 var async = require('async');
 var Duoshuo = require('duoshuo');
 
-module.exports = function(deps) {
+module.exports = signRouter;
+
+function signRouter(deps) {
 
   var ctrlers = deps.ctrlers;
   var locals = deps.locals;

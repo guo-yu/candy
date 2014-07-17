@@ -1,5 +1,7 @@
 // define ctrlers
-module.exports = function(models, Ctrler) {
+module.exports = Ctrlers;
+
+function Ctrlers(models, Ctrler) {
   return {
     user: require('./user')(models, Ctrler),
     thread: require('./thread')(models, Ctrler),

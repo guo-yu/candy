@@ -8,6 +8,8 @@ var Theme = require('theme');
 var moment = require('moment');
 var installer = require('express-installer');
 
+moment.lang('zh-cn');
+
 /**
  *
  * Local Dependencies
@@ -25,9 +27,9 @@ routers.admin = require('./admin');
 var pkg = require('../package.json');
 var home = path.resolve(__dirname, '../');
 
-moment.lang('zh-cn', require('../libs/zh-cn'));
+module.exports = Routers;
 
-module.exports = function(app, models, ctrlers, middlewares, express) {
+function Routers(app, models, ctrlers, middlewares, express) {
 
   var locals = {};
 

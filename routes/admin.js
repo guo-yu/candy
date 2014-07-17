@@ -1,6 +1,8 @@
 var async = require('async');
 
-module.exports = function(deps) {
+module.exports = adminRouter;
+
+function adminRouter(deps) {
   
   var ctrlers = deps.ctrlers;
   var express = deps.express;

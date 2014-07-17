@@ -1,7 +1,9 @@
 var roles = {};
 roles.admin = '(管理员)';
 
-module.exports = function(deps) {
+module.exports = memberRouter;
+
+function memberRouter(deps) {
 
   var ctrlers = deps.ctrlers;
   var express = deps.express;

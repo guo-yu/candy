@@ -1,10 +1,10 @@
-module.exports = function(models, Ctrler) {
+module.exports = boardCtrler;
 
+function boardCtrler(models, Ctrler) {
   var Board = new Ctrler(models.board);
   var Thread = new Ctrler(models.thread);
   var board = models.board;
   var thread = models.thread;
-
   // Create a baby board
   Board.create = function(bzid, baby, cb) {
     var baby = new board(baby);
@@ -13,14 +13,12 @@ module.exports = function(models, Ctrler) {
       cb(err, baby);
     });
   }
-
   // Read a selected board or default board
   Board.read = function(id, callback) {
     if (!id) return board.findOne({}).exec(callback);
     if (!this.checkId(id)) return callback(new Error('404'));
     board.findById(id).populate('threads').populate('bz').exec(callback);
   }
-
   // List all boards or list selected params board.
   Board.list = function(selects, callback) {
     if (!selects || selects === 'all') {
@@ -28,7 +26,6 @@ module.exports = function(models, Ctrler) {
     }
     return board.find({}).select(selects).exec(callback);
   }
-
   // Fetch board by query
   Board.fetch = function(page, limit, query, callback) {
     board.findOne(query).populate('bz').exec(function(err, target) {
@@ -52,7 +49,5 @@ module.exports = function(models, Ctrler) {
       });
     });
   }
-
   return Board;
-
 }

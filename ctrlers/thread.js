@@ -1,12 +1,12 @@
 var async = require('async');
 
-module.exports = function(models, Ctrler) {
+module.exports = threadCtrler;
 
+function threadCtrler(models, Ctrler) {
   var Thread = new Ctrler(models.thread);
   var thread = models.thread;
   var board = models.board;
   var user = models.user;
-
   // Create a baby thread
   Thread.create = function(baby, cb) {
     var baby = new thread(baby);
@@ -39,13 +39,11 @@ module.exports = function(models, Ctrler) {
       }
     ], cb);
   }
-
   // Read a thread by its ObjectID
   Thread.read = function(id, callback) {
     if (!(this.checkId(id))) return callback(new Error('404'));
     return thread.findById(id).populate('lz').populate('board').populate('media').exec(callback);
   }
-
   // Fetch a targeted group of threads.
   Thread.fetch = function(page, limit, query, callback) {
     var cursor = this.page(page, limit, query);
@@ -61,7 +59,6 @@ module.exports = function(models, Ctrler) {
         });
     });
   }
-
   // Check if a thread is belongs to selected user.
   Thread.checkLz = function(tid, uid, callback) {
     thread.findById(tid).populate('media').exec(function(err, thread) {
@@ -73,7 +70,5 @@ module.exports = function(models, Ctrler) {
       });
     });
   }
-
   return Thread;
-
 }

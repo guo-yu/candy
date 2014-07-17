@@ -6,7 +6,9 @@ marked.setOptions({
   highlight: function(code, lang) { return hljs.highlightAuto(code).value; }
 });
 
-module.exports = function(deps) {
+module.exports = threadRouter;
+
+function threadRouter(deps) {
 
   var ctrlers = deps.ctrlers;
   var express = deps.express;
