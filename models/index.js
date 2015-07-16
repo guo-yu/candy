@@ -1,15 +1,16 @@
-var models = {};
-models.user = require('./user');
-models.board = require('./board');
-models.thread = require('./thread');
-models.media = require('./media');
-models.config = require('./config');
+import mongoose from 'mongoose'
+import Promise from 'bluebird'
 
-// define modles
-module.exports = function(db, Schema) {
-  var schemas = {};
-  Object.keys(models).forEach(function(model){
-    schemas[model] = db.model(model, models[model](Schema));
-  });
-  return schemas;
+Promise.promisifyAll(mongoose)
+
+const models = {}
+const files = ['user', 'board', 'thread', 'media', 'config'] 
+
+files.forEach(item =>
+  models[item] = mongoose.model(toUpperCase(item), require(`./${item}`)))
+
+function toUpperCase(str) {
+  return str.charAt(0).toUpperCase() + str.substr(1)
 }
+
+export default models
