@@ -6,8 +6,8 @@
   "author": "turing <o.u.turing@Gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "node app.js",
-    "test": "DEBUG=candy:*,Candy:* node app.js"
+    "start": "node_modules/.bin/babel-node app.js",
+    "test": "DEBUG=candy:*,candy:* node_modules/.bin/babel-node app.js"
   },
   "repository": {
     "type": "git",

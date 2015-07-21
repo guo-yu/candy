@@ -3,12 +3,12 @@
  * Global Dependencies
  *
  **/
-var path = require('path');
-var Theme = require('theme');
-var moment = require('moment');
-var installer = require('express-installer');
+var path = require('path')
+var Theme = require('theme')
+var moment = require('moment')
+var installer = require('express-installer')
 
-moment.lang('zh-cn');
+moment.lang('zh-cn')
 
 /**
  *

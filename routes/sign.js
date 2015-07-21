@@ -1,35 +1,39 @@
-var async = require('async');
-var Duoshuo = require('duoshuo');
+var async = require('async')
+var Duoshuo = require('duoshuo')
 
-module.exports = signRouter;
+export default function(deps) {
+  var ctrlers = deps.ctrlers
+  var locals = deps.locals
+  var express = deps.express
+  var theme = deps.theme
 
-function signRouter(deps) {
-
-  var ctrlers = deps.ctrlers;
-  var locals = deps.locals;
-  var express = deps.express;
-  var theme = deps.theme;
-
-  var Sign = express.Router();
-  var user = ctrlers.user;
-  var duoshuo = new Duoshuo(locals.site.duoshuo);
+  var Sign = express.Router()
+  var user = ctrlers.user
+  var duoshuo = new Duoshuo(locals.site.duoshuo)
 
   // => /sign
   // PAGE: show sign in page.
   Sign.get('/', function(req, res, next){
-    if (res.locals.user) return res.redirect('/');
+    if (res.locals.user) 
+      return res.redirect('/')
+
     theme.render('/sign', {}, function(err, html) {
-      if (err) return next(err);
-      return res.send(html);
-    });
-  });
+      if (err) 
+        return next(err)
+
+      return res.send(html)
+    })
+  })
 
   // => /sign/in
   // PAGE: signin via duoshuo
   Sign.get('/in', duoshuo.signin(), function(req, res, next) {
-    if (!res.locals.duoshuo) return next(new Error('多说登录失败'));
-    var result = res.locals.duoshuo;
-    var isValidUser = !!(result.access_token && result.user_id);    
+    if (!res.locals.duoshuo) 
+      return next(new Error('多说登录失败'))
+
+    var result = res.locals.duoshuo
+    var isValidUser = !!(result.access_token && result.user_id)
+
     async.waterfall([
       // read a user by duoshuo.user_id
       function(callback) {
@@ -39,7 +43,7 @@ function signRouter(deps) {
       function(exist, callback) {
         if (!exist) return callback(null);
         req.session.user = exist;
-        return res.redirect('back');
+        return res.redirect('back')
       },
       // fetch new uses' infomation
       function(callback) {
@@ -89,20 +93,22 @@ function signRouter(deps) {
   // => /sign/out
   Sign.get('/out', deps.middlewares.passport.signout);
 
-  return Sign;
+  return Sign
 
   function mergeSameNetwork(social_uid, connected_services) {
     Object.keys(connected_services).forEach(function(item){
-      if (!social_uid[item]) return;
-      connected_services[item]['social_uid'] = social_uid[item];
-    });
-    return connected_services;
+      if (!social_uid[item]) 
+        return
+
+      connected_services[item]['social_uid'] = social_uid[item]
+    })
+
+    return connected_services
   }
 
   function countUser(userinfo, callback) {
-    return user.count(function(err, counts){
-      return callback(err, counts, userinfo);
-    });
+    return user.count(function(err, counts) {
+      return callback(err, counts, userinfo)
+    })
   }
-
 }

@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose'
 
-export default const new Schema({
+const Config = new Schema({
   name: String,
   desc: String,
   theme: {
@@ -15,4 +15,6 @@ export default const new Schema({
     type: Date,
     default: Date.now
   }
-});
+})
+
+export default Config

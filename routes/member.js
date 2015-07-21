@@ -1,10 +1,8 @@
-var roles = {};
-roles.admin = '(管理员)';
+const roles = {
+  admin: '(管理员)'
+}
 
-module.exports = memberRouter;
-
-function memberRouter(deps) {
-
+export default function(deps) {
   var ctrlers = deps.ctrlers;
   var express = deps.express;
   var theme = deps.theme;
@@ -17,50 +15,76 @@ function memberRouter(deps) {
   Member.route('/:member')
     // PAGE: show a member's homepage
     .get(function(req, res, next) {
-      if (!req.params.member) return next(new Error('404'));
+      if (!req.params.member) 
+        return next(new Error('404'));
+
       user.read(req.params.member, function(err, u) {
-        if (err) return next(err);
-        if (!u) return next(new Error('404'));
+        if (err) 
+          return next(err)
+        if (!u) 
+          return next(new Error('404'))
+
         var isMe = res.locals.user && res.locals.user._id == req.params.member;
         var freshman = isMe && !res.locals.user.nickname
+
         u.showname = u.nickname || '匿名用户';
-        if (!u.avatar) u.avatar = locals.url + '/images/avatar.png';
-        if (!u.url) u.url = locals.url + '/member/' + u._id;
-        u.role = roles[u.type] || '';
+        if (!u.avatar) 
+          u.avatar = locals.url + '/images/avatar.png';
+
+        if (!u.url) 
+          u.url = locals.url + '/member/' + u._id;
+
+        u.role = roles[u.type] || ''
+
         theme.render('/member/single', {
           member: u,
           isMe: isMe,
           freshman: freshman
         }, function(err, html) {
-          if (err) return next(err);
-          return res.send(html);
-        });
-      });
+          if (err) 
+            return next(err)
+
+          return res.send(html)
+        })
+      })
     })
     // API: remove a vaild user.
     .delete(function(req, res, next) {
-      if (!res.locals.user) return next(new Error('signin required'));
-      if (res.locals.user.type !== 'admin') return next(new Error('signin required'));
+      if (!res.locals.user) 
+        return next(new Error('signin required'))
+      if (res.locals.user.type !== 'admin') 
+        return next(new Error('signin required'))
+
       user.remove(req.params.member, function(err, uid) {
-        if (err) return next(err);
+        if (err) 
+          return next(err)
+
         res.json({
           stat: 'ok',
           user: user.body
-        });
-      });
-    });
+        })
+      })
+    })
 
   // => /member/sync
   Member.post('/sync', function(req, res, next){
-    var uu = req.body.user;
-    if (!(uu && typeof(uu) == 'object')) return next(new Error('user required'));
+    var uu = req.body.user
+
+    if (!(uu && typeof(uu) == 'object')) 
+      return next(new Error('user required'))
+
     user.findById(req.session.user._id, function(err, u) {
-      if (err) return next(err);
-      u.nickname = uu.name;
-      u.url = uu.url;
-      u.avatar = uu.avatar;
+      if (err) 
+        return next(err)
+
+      u.nickname = uu.name
+      u.url = uu.url
+      u.avatar = uu.avatar
+
       u.save(function(err) {
-        if (err) return next(err);
+        if (err) 
+          return next(err)
+
         // sync a member infomation to Duoshuo
         user.sync(locals.site.duoshuo, u, function(err, result) {
           // just ignore the sync error for a while.
@@ -71,12 +95,11 @@ function memberRouter(deps) {
           res.json({
             stat: 'ok',
             user: u
-          });
-        });
-      });
-    });
-  });
+          })
+        })
+      })
+    })
+  })
 
-  return Member;
-  
+  return Member
 }

@@ -1,94 +1,120 @@
-module.exports = boardRouter;
+import express from 'express'
+import { Board } from './models'
 
-function boardRouter(deps) {
+export default function(deps) {
+  var ctrlers = deps.ctrlers
+  var theme = deps.theme
+  var locals = deps.locals
 
-  var ctrlers = deps.ctrlers;
-  var express = deps.express;
-  var theme = deps.theme;
-  var locals = deps.locals;
+  var Route = express.Router()
+  var board = ctrlers.board
 
-  var Board = express.Router();
-  var board = ctrlers.board;
-
-  var pagelimit = locals.site.pagelimit || 20;
+  var pagelimit = locals.site.pagelimit || 20
 
   // => /board
-  Board.route('/')
+  Route.route('/')
     // API: list all public board
     .get(function(req, res, next) {
       board.list('name url', function(err, boards) {
-        if (err) return next(err);
+        if (err) 
+          return next(err)
+
         return res.json({
           stat: 'ok',
           boards: boards
-        });
+        })
       })
     })
     // API: create a baby board
     .post(function(req, res, next) {
-      if (!res.locals.user) return next(new Error('signin required'));
+      if (!res.locals.user) 
+        return next(new Error('signin required'))
+
       board.create(res.locals.user._id, req.body.board, function(err, baby) {
-        if (err) return next(err);
+        if (err) 
+          return next(err)
+
         res.json({
           stat: 'ok',
           board: baby
-        });
-      });
-    });
+        })
+      })
+    })
 
   // => /board/:board
-  Board.route('/:board')
+  Route.route('/:board')
     // PAGE: show the query board
     .get(readBoard)
     // API: update board infomation
     .put(function(req, res, next){
-      if (!res.locals.user) return next(new Error('signin required'));
+      if (!res.locals.user) 
+        return next(new Error('signin required'))
+
       board.update(req.params.board, req.body.board, function(err, board) {
-        if (err) return next(err);
+        if (err) 
+          return next(err)
+
         res.json({
           stat: 'ok',
           board: board
-        });
-      });
+        })
+      })
     })
     // API: remove target board
     .delete(function(req, res, next){
-      if (!res.locals.user) return next(new Error('signin required'));
+      if (!res.locals.user) 
+        return next(new Error('signin required'))
+
       board.remove(req.params.board, function(err, bid) {
-        if (err) return next(err);
+        if (err) 
+          return next(err)
+
         res.json({
           stat: 'ok',
           bid: bid
-        });
+        })
       })
-    });
+    })
 
   // => /board/:board/page/:page
-  Board.get('/:board/page/:page', readBoard);
+  Route.get('/:board/page/:page', readBoard)
 
-  return Board;
+  return Board
 
   function readBoard(req, res, next) {
-    var page = isPage(req.params.page) || 1;
+    var page = isPage(req.params.page) || 1
     // pager of board
-    var query = {}
-    query.url = req.params.board;
+    const query = {
+      url: req.params.board
+    }
+
     board.fetch(page, pagelimit, query, function(err, result) {
-      if (err) return next(err);
-      if (!result) return next(new Error('404'));
-      if (result.page.max > 1 && result.threads.length === 0) return next(new Error('404'));
+      if (err) 
+        return next(err)
+      if (!result) 
+        return next(new Error('404'))
+      if (result.page.max > 1 && result.threads.length === 0) 
+        return next(new Error('404'))
+
       theme.render('/board/index', result, function(err, html) {
-        if (err) return next(err);
-        return res.send(html);
-      });
-    });
+        if (err) 
+          return next(err)
+
+        return res.send(html)
+      })
+    })
   }
 
 }
 
 function isPage(p) {
-  if (!p) return false;
-  var n = parseInt(p);
-  if (isNaN(n)) return false;
-  return n;
+  if (!p) 
+    return false
+
+  var n = parseInt(p)
+
+  if (isNaN(n)) 
+    return false
+
+  return n
 }
