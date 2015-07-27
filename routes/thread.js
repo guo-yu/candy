@@ -1,96 +1,125 @@
-var marked = require('marked');
-var hljs = require('highlight.js');
+import marked from 'marked'
+import hljs from 'highlight.js'
 
 marked.setOptions({
   sanitize: true,
-  highlight: function(code, lang) { return hljs.highlightAuto(code).value; }
-});
+  highlight: function(code, lang) { 
+    return hljs.highlightAuto(code).value
+  }
+})
 
-module.exports = threadRouter;
-
-function threadRouter(deps) {
-
-  var ctrlers = deps.ctrlers;
-  var express = deps.express;
-  var theme = deps.theme;
-
-  var Thread = express.Router();
-  var thread = ctrlers.thread;
-  var board = ctrlers.board;
+export default function({ app, express, Thread, Board, theme}) {
+  var Route = express.Router()
 
   // => /thread
-  Thread.route('/')
+  Route.route('/')
     // API：创建话题
-    .post(function(req, res, next){
-      if (!res.locals.user) return next(new Error('signin required'));
-      if (!req.body.thread) return next(new Error('id required'));
-      thread.create(req.body.thread, function(err, baby) {
-        if (err) return next(err);
+    .post((req, res, next) => {
+      if (!res.locals.user) 
+        return next(new Error('signin required'))
+      if (!req.body.thread) 
+        return next(new Error('id required'))
+
+      Thread.create(req.body.thread)
+        .then(done)
+        .catch(next)
+
+      function(baby) {
         res.json({
           stat: 'ok',
           thread: baby
-        });
-      })
-    });
+        })
+      }
+    })
 
   // => /thread/new
   // PAGE: 查看话题页面
-  Thread.get('/new', function(req, res, next) {
-    if (!res.locals.user) return res.redirect('/sign');
-    board.read(req.query.bid, function(err, b) {
-      if (err) return next(err);
-      theme.render('/thread/new', {
-        board: b
-      }, function(err, html) {
-        if (err) return next(err);
-        return res.send(html);
-      });
-    });
-  });
+  Route.get('/new', (req, res, next) => {
+    if (!res.locals.user) 
+      return res.redirect('/sign')
+
+    Board.read(req.query.bid)
+      .then(done)
+      .catch(next)
+
+    function done(board) {
+      const locals = {
+        board
+      }
+
+      theme.render('/thread/new', locals)
+        .then(html => res.send(html))
+        .catch(next)
+    }
+  })
 
   // => /thread/:thread
-  Thread.route('/:thread')
+  Route.route('/:thread')
     // PAGE: 查看话题页面
-    .get(function(req, res, next){
-      if (!req.params.thread) return next(new Error('id required'));
-      if (!thread.checkId(req.params.thread)) return next(new Error('404'));
-      thread.read(req.params.thread, function(err, t) {
-        if (err) return next(err);
-        if (!t) return next(new Error('404'));
-        t.views = t.views + 1;
-        t.save(function(err) {
-          theme.render('/thread/index', {
-            thread: t,
-            marked: marked
-          }, function(err, html) {
-            if (err) return next(err);
-            return res.send(html);
-          });
-        });
-      });
+    .get((req, res, next) => {
+      if (!req.params.thread) 
+        return next(new Error('id required'))
+
+      if (!thread.checkId(req.params.thread)) 
+        return next(new Error('404'))
+
+      thread.read(req.params.thread)
+        .then(done)
+        .catch(next)
+
+      function done(err, thread) {
+        if (!thread) 
+          return next(new Error('404'))
+
+        thread.views += 1
+        thread.save(function(err) {
+          const locals = {
+            thread,
+            marked
+          }
+
+          theme.render('/thread/index', locals)
+            .then(html => res.send(html))
+            .catch(next)
+        })
+      }
     })
     // API：更新话题
-    .put(function(req, res, next){
-      if (!res.locals.user) return next(new Error('signin required'));
-      if (!req.params.thread) return next(new Error('id required'));
-      var tid = req.params.thread;
-      var user = res.locals.user;
-      thread.checkLz(tid, user._id, function(err, lz, th) {
-        if (err) return next(err);
-        if (!lz) return next(new Error('authed required'));
+    .put((req, res, next) => {
+      if (!res.locals.user) 
+        return next(new Error('signin required'))
+
+      if (!req.params.thread) 
+        return next(new Error('id required'))
+
+      var tid = req.params.thread
+      var user = res.locals.user
+
+      Thread.checkLz(tid, user._id)
+        .then(done)
+        .catch(next)
+
+      function done(lz, th) {
+        if (!lz) 
+          return next(new Error('authed required'))
+
         if (req.body.pin) {
-          if (user.type !== 'admin') return next(new Error('authed required'));
-          return thread.update(tid, {
+          if (user.type !== 'admin') 
+            return next(new Error('authed required'))
+
+          Thread.update(tid, {
             pined: req.body.pined,
             level: req.body.level || 0
-          }, function(err, thread) {
-            if (err) return next(err);
+          }, thread => {
             return res.json({
               stat: 'ok',
               thread: thread
             })
-          })
+          }).catch(next)
+
+          return
         }
+
         var updatedThread = {
           name: req.body.thread.name,
           content: req.body.thread.content,
@@ -98,51 +127,78 @@ function threadRouter(deps) {
           views: th.views,
           board: th.board,
           lz: th.lz
-        };
-        if (req.body.thread.media) updatedThread.media = req.body.thread.media;
-        thread.update(tid, updatedThread, function(err, thread) {
-          if (err) return next(err);
+        }
+
+        if (req.body.thread.media) 
+          updatedThread.media = req.body.thread.media
+
+        Thread.update(tid, updatedThread)
+          .then(done)
+          .catch(next)
+
+        function done(thread) {
           res.json({
             stat: 'ok',
-            thread: thread
-          });
-        });
-      })
+            thread
+          })
+        }
+      }
     })
     // API：删除话题
-    .delete(function(req, res, next){
-      if (!res.locals.user) return next(new Error('signin required'));
-      if (!req.params.thread) return next(new Error('id required'));
-      thread.checkLz(req.params.thread, res.locals.user._id, function(err, lz, th) {
-        if (err) return next(err);
-        if (!lz) return next(new Error('authed required'));
-        thread.remove(req.params.thread, function(err, tid) {
-          if (err) return next(err);
+    .delete((req, res, next) => {
+      if (!res.locals.user) 
+        return next(new Error('signin required'))
+
+      if (!req.params.thread) 
+        return next(new Error('id required'))
+
+      Thread.checkLz(req.params.thread, res.locals.user._id)
+        .then(done)
+        .catch(next)
+
+      function done(lz, th) {
+        if (!lz) 
+          return next(new Error('authed required'))
+
+        Thread.remove(req.params.thread)
+          .then(done)
+          .catch(next)
+
+        function done(tid) {
           res.json({
             stat: 'ok',
-            tid: tid
-          });
-        });
-      })
+            tid
+          })
+        }
+      }
     });
 
   // => /thread/:thread/edit
   // PAGE: 更新帖子页面
-  Thread.get('/:thread/edit', function(req, res, next){
-    if (!res.locals.user) return res.redirect('/sign');
-    if (!req.params.thread) return next(new Error('id required'));
-    thread.checkLz(req.params.thread, res.locals.user._id, function(err, lz, thread) {
-      if (err) return next(err);
-      if (!lz) return next(new Error('404'));
-      theme.render('/thread/edit', {
-        thread: thread
-      }, function(err, html) {
-        if (err) return next(err);
-        return res.send(html);
-      });
-    });
-  });
+  Route.get('/:thread/edit', (req, res, next) => {
+    if (!res.locals.user) 
+      return res.redirect('/sign')
 
-  return Thread;
+    if (!req.params.thread) 
+      return next(new Error('id required'))
 
+    Thread.checkLz(req.params.thread, res.locals.user._id)
+      .then(done)
+      .catch(next)
+
+    function done(lz, thread) {
+      if (!lz) 
+        return next(new Error('404'))
+
+      const locals = {
+        thread
+      }
+
+      theme.render('/thread/edit', locals)
+        .then(html => res.send(html))
+        .catch(next)
+    }
+  })
+
+  return Route
 }

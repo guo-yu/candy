@@ -1,13 +1,9 @@
-export default function(app) {
-  var ctrlers = deps.ctrlers
-  var express = deps.express
-
-  var Media = express.Router()
-  var media = ctrlers.media
+export default function({ app, express, Thread, Media }) {
+  var Route = express.Router()
 
   // => /media
   // API: create media file
-  Media.post('/', function(req, res, next) {
+  Route.post('/', (req, res, next) => {
     if (!res.locals.user) 
       return next(new Error('signin required'))
     if (!req.files.media) 
@@ -22,26 +18,25 @@ export default function(app) {
       url: file.path.substr(file.path.lastIndexOf('/uploads')),
       user: res.locals.user._id,
       size: file.size
-    }, function(err, baby) {
-      if (err) 
-        return next(err)
-
+    }).then(baby => {
       res.json({
         stat: 'ok',
         file: baby
       })
-    })
+    }).catch(next)
   })
 
   // => /media/:media
   // TODO: 这里还要控制一个如果保存在云上的话，要重定向到云，或者从云上拿下来返回
-  Media.get('/:media', function(req, res, next){
+  Route.get('/:media', (req, res, next) => {
     if (!req.params.media) 
       return next(new Error('404'))
 
-    media.findById(req.params.media, function(err, file) {
-      if (err) 
-        return next(err)
+    media.findByIdAsync(req.params.media)
+      .then(done)
+      .catch(next)
+
+    function done(file) {
       if (!file) 
         return next(new Error('404'))
 
@@ -49,14 +44,13 @@ export default function(app) {
       if (!isPublicFile) 
         return next(new Error('抱歉，此文件不公开...'))
 
-      media.countDownload(file, function(err) {
-        if (err) 
-          return next(err)
-
-        res.download(file.src, file.name)
-      })
-    })
+      media.countDownload(file)
+        .then(() => {
+          res.download(file.src, file.name)
+        })
+        .catch(next)
+    }
   })
 
-  return Media
+  return Route
 }

@@ -1,96 +1,73 @@
-/**
- *
- * Global Dependencies
- *
- **/
-var path = require('path')
-var Theme = require('theme')
-var moment = require('moment')
-var installer = require('express-installer')
+// Global Dependencies
+import path from 'path'
+import Theme from 'theme'
+import express from 'express'
 
-moment.lang('zh-cn')
+// Local Dependencies
+import pkg from '../package.json'
+import models from '../models'
 
-/**
- *
- * Local Dependencies
- *
- **/
-var routers = {};
-routers.home = require('./home');
-routers.sign = require('./sign');
-routers.media = require('./media');
-routers.board = require('./board');
-routers.thread = require('./thread');
-routers.member = require('./member');
-routers.admin = require('./admin');
+const home = path.resolve(__dirname, '../')
 
-var pkg = require('../package.json');
-var home = path.resolve(__dirname, '../');
+// routes
+const routes = [
+  'home',
+  'sign',
+  'media',
+  'board',
+  'thread',
+  'member',
+  'admin'
+]
 
-module.exports = Routers;
+routes.forEach(item => {
+  import item from `./${ item }`
+})
 
-function Routers(app, models, ctrlers, middlewares, express) {
-
-  var locals = {};
+// models, ctrlers, middlewares, express
+export default function(app) {
+  var locals = {}
 
   // Ensure res.render output correct `sys` locals
-  app.locals.sys = pkg;
+  app.locals.sys = pkg
   // Ensure theme.render output correct `sys` locals
-  locals.sys = pkg;
-  locals.moment = moment;
-  locals.site = app.locals.site;
+  locals.sys = pkg
+  locals.site = app.locals.site
   // This URL will be changed in different environment:
   // In Dev env , it will be http://localhost:[port]
   // In Production mode, It will be `app.locals.url`
-  locals.url = app.locals.url;
+  locals.url = app.locals.url
 
   // Init themeloader
-  var theme = new Theme(home, locals, app.locals.site.theme || 'flat');
+  var theme = new Theme(home, locals, app.locals.site.theme || 'flat')
 
-  // Init routes
-  var routes = initRoutes({
-    theme: theme,
-    express: express,
-    ctrlers: ctrlers,
-    locals: app.locals, // BUG: 这样多说ID就无法在Web后台进行变更
-    middlewares: middlewares
-  });
-
-  // Middlewares
-  app.use('*', installer(app, models.config, rewriteConfigs));
-  app.use('*', middlewares.passport.sign());
-  app.use('*', theme.local('user'));
-
-  // home
-  app.use('/', routes.home);
-  // signin && signout
-  app.use('/sign', routes.sign);
-  // board
-  app.use('/board', routes.board);
-  // thread
-  app.use('/thread', routes.thread);
-  // media
-  app.use('/media', routes.media);
-  // member
-  app.use('/member', routes.member);
-  // admin
-  app.use('/admin', routes.admin);
-
-  // Every time the app restart, this middleware checks configs once.
-  // When the very first time app.enable('configed') occurs,
-  // theme.locals will be rewited.
-  function rewriteConfigs(configsInDatabase) {
-    theme.locals.site = configsInDatabase;
-    // theme.defaultTheme = configsInDatabase.theme;
+  const deps = {
+    app,
+    express,
+    theme,
+    locals: app.locals
   }
 
-  // return single route
-  function initRoutes(deps) {
-    var routes = {};
-    Object.keys(routers).forEach(function(route) {
-      routes[route] = routers[route](deps);
-    });
-    return routes;
-  }
+  // Inject models dep
+  Object.keys(models).forEach(item =>
+    deps[item] = models[item])
 
+  // Init routers
+  const routers = initRoutes(routes, deps)
+
+  // APIs
+  routes.forEach(route => {
+    if (route === 'home')
+      return app.use('/', routers.home)
+
+    app.use(`/${route}`, routers[route])
+  })
+}
+
+function initRoutes(routes, deps) {
+  var ret = {}
+  routes.forEach(route => {
+    ret[route] = require(`./${ route }`)(deps)
+  })
+  return ret
 }

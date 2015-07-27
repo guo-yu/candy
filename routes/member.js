@@ -2,25 +2,21 @@ const roles = {
   admin: '(管理员)'
 }
 
-export default function(deps) {
-  var ctrlers = deps.ctrlers;
-  var express = deps.express;
-  var theme = deps.theme;
-  var locals = deps.locals;
-
-  var Member = express.Router();
-  var user = ctrlers.user;
+export default function({ app, express, Thread, theme, Member }) {
+  var Route = express.Router()
 
   // => /member/:member
-  Member.route('/:member')
+  Route.route('/:member')
     // PAGE: show a member's homepage
-    .get(function(req, res, next) {
+    .get((req, res, next) => {
       if (!req.params.member) 
-        return next(new Error('404'));
+        return next(new Error('404'))
 
-      user.read(req.params.member, function(err, u) {
-        if (err) 
-          return next(err)
+      Member.read(req.params.member)
+        .then(done)
+        .catch(next)
+
+      function done(u) {
         if (!u) 
           return next(new Error('404'))
 
@@ -40,66 +36,72 @@ export default function(deps) {
           member: u,
           isMe: isMe,
           freshman: freshman
-        }, function(err, html) {
-          if (err) 
-            return next(err)
-
-          return res.send(html)
-        })
-      })
+        }).then(html => {
+          res.send(html)
+        }).catch(next)
+      }
     })
     // API: remove a vaild user.
-    .delete(function(req, res, next) {
+    .delete((req, res, next) => {
       if (!res.locals.user) 
         return next(new Error('signin required'))
       if (res.locals.user.type !== 'admin') 
         return next(new Error('signin required'))
 
-      user.remove(req.params.member, function(err, uid) {
-        if (err) 
-          return next(err)
+      Member.remove(req.params.member)
+        .then(done)
+        .catch(next)
 
+      function done() {
         res.json({
-          stat: 'ok',
-          user: user.body
+          stat: 'ok'
         })
-      })
+      }
     })
 
   // => /member/sync
-  Member.post('/sync', function(req, res, next){
-    var uu = req.body.user
+  Route.post('/sync', function(req, res, next) {
+    var member = req.body.user
 
-    if (!(uu && typeof(uu) == 'object')) 
+    if (!(member && typeof(member) == 'object')) 
       return next(new Error('user required'))
 
-    user.findById(req.session.user._id, function(err, u) {
-      if (err) 
-        return next(err)
+    Member.findByIdAsync(req.session.user._id)
+      .then(done)
+      .catch(next)
 
-      u.nickname = uu.name
-      u.url = uu.url
-      u.avatar = uu.avatar
+    function done(user) {
+      user.nickname = member.name
+      user.url = member.url
+      user.avatar = member.avatar
 
-      u.save(function(err) {
+      user.save()
+        .then(done)
+        .catch(next)
+
+      function done(err) {
         if (err) 
           return next(err)
 
         // sync a member infomation to Duoshuo
-        user.sync(locals.site.duoshuo, u, function(err, result) {
+        Member.sync(locals.site.duoshuo, user)
+          .then(done)
+          .catch(next)
+
+        function done(result) {
           // just ignore the sync error for a while.
           // cause api 404.
           // var result = result.body;
           // if (result.code !== 0) return next(new Error('多说用户同步失败，请稍后再试，详细错误：' + result.errorMessage));
-          req.session.user = u;
+          req.session.user = user
           res.json({
             stat: 'ok',
-            user: u
+            user
           })
-        })
-      })
-    })
+        }
+      }
+    }
   })
 
-  return Member
+  return Route
 }

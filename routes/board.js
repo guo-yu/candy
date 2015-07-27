@@ -1,44 +1,38 @@
-import express from 'express'
-import { Board } from './models'
+import Promise from 'bluebird'
+import { isPage } from '../libs/utils'
 
-export default function(deps) {
-  var ctrlers = deps.ctrlers
-  var theme = deps.theme
-  var locals = deps.locals
-
+export default function({ app, express, Board, Thread, theme }) {
   var Route = express.Router()
-  var board = ctrlers.board
-
   var pagelimit = locals.site.pagelimit || 20
 
   // => /board
   Route.route('/')
     // API: list all public board
-    .get(function(req, res, next) {
-      board.list('name url', function(err, boards) {
-        if (err) 
-          return next(err)
-
-        return res.json({
-          stat: 'ok',
-          boards: boards
-        })
-      })
+    .get((req, res, next) => {
+      Board.list('name url')
+        .then(boards => {
+          res.json({
+            stat: 'ok',
+            boards
+          })
+      }).catch(next)
     })
     // API: create a baby board
-    .post(function(req, res, next) {
+    .post((req, res, next) => {
       if (!res.locals.user) 
         return next(new Error('signin required'))
 
-      board.create(res.locals.user._id, req.body.board, function(err, baby) {
-        if (err) 
-          return next(err)
+      Board
+        .create(res.locals.user._id, req.body.board)
+        .then(done)
+        .catch(next)
 
+      function done(baby) {
         res.json({
           stat: 'ok',
           board: baby
         })
-      })
+      }
     })
 
   // => /board/:board
@@ -46,51 +40,52 @@ export default function(deps) {
     // PAGE: show the query board
     .get(readBoard)
     // API: update board infomation
-    .put(function(req, res, next){
+    .put((req, res, next) => {
       if (!res.locals.user) 
         return next(new Error('signin required'))
 
-      board.update(req.params.board, req.body.board, function(err, board) {
-        if (err) 
-          return next(err)
+      Board
+        .update(req.params.board, req.body.board)
+        .then(done)
+        .catch(next)
 
+      function done(board) {
         res.json({
           stat: 'ok',
           board: board
         })
-      })
+      }
     })
     // API: remove target board
-    .delete(function(req, res, next){
+    .delete((req, res, next) => {
       if (!res.locals.user) 
         return next(new Error('signin required'))
 
-      board.remove(req.params.board, function(err, bid) {
-        if (err) 
-          return next(err)
+      Board.remove(req.params.board)
+        .then(done)
+        .catch(next)
 
+      function done(bid) {
         res.json({
           stat: 'ok',
           bid: bid
         })
-      })
+      }
     })
 
   // => /board/:board/page/:page
-  Route.get('/:board/page/:page', readBoard)
-
-  return Board
-
-  function readBoard(req, res, next) {
+  Route.get('/:board/page/:page', (req, res, next) => {
     var page = isPage(req.params.page) || 1
     // pager of board
     const query = {
       url: req.params.board
     }
 
-    board.fetch(page, pagelimit, query, function(err, result) {
-      if (err) 
-        return next(err)
+    Board.fetch(page, pagelimit, query)
+      .then(done)
+      .catch(next)
+
+    function done(result) {
       if (!result) 
         return next(new Error('404'))
       if (result.page.max > 1 && result.threads.length === 0) 
@@ -102,19 +97,8 @@ export default function(deps) {
 
         return res.send(html)
       })
-    })
-  }
+    }
+  })
 
-}
-
-function isPage(p) {
-  if (!p) 
-    return false
-
-  var n = parseInt(p)
-
-  if (isNaN(n)) 
-    return false
-
-  return n
+  return Board
 }
