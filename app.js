@@ -8,17 +8,17 @@
 // @brief  : a micro bbs system based on duoshuo.com apis
 // @author : 新浪微博@郭宇 [turing](http://guoyu.me)
 
-require("babel/register")
+require('babel/register')
 
 // Global dependencies
-import path from 'path'
-
-// Express core dependencies
 import express from 'express'
 import morgan from "morgan"
 import multer from 'multer'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
+
+// Local dependencies
+import routes from './routes'
 import { findPath } from './libs/utils' 
 
 // Local modules
@@ -45,6 +45,19 @@ app.use(express.static(findPath(process.cwd(), './public')))
 
 // Locals
 app.locals.URI = production ? 
-  (configs.url || configs.uri || 'http://127.0.0.1') :
-  'http://127.0.0.1:' + app.get('port');
+  (configs.URI || 'http://127.0.0.1') :
+  `http://127.0.0.1:${ app.get('port') }`;
 
+// Connect to database
+connect(configs.db)
+  .then(() => {
+    // Init routes
+    routes(app)
+
+    // Run 
+    app.listen(app.get('port'), () =>
+      console.log('Candy is running now'))
+  })
+  .catch(err => {
+    throw err
+  })
